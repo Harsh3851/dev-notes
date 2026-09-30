@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TypeScript Drill Set</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{--paper:#EEF0F2;--surface:#FFFFFF;--surface-2:#E4E8EB;--ink:#0E1626;--ink-2:#47566B;--ink-3:#77879B;--line:#D2D9DF;--line-2:#BFC9D2;--accent:#0B6E6A;--accent-soft:#DCEBE9;--amber:#9A6A05;--amber-soft:#F7EBCE;--amber-edge:#D9A62A;--code-bg:#0F1722;--code-ink:#D7E2EE;--code-dim:#7C93A8;--code-key:#7FD4C8;--code-str:#E3B778;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--sans:"IBM Plex Sans",system-ui,sans-serif;--display:"Archivo","IBM Plex Sans",sans-serif}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0B1017;--surface:#141B24;--surface-2:#1C242F;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--line-2:#334252;--accent:#4FC4B8;--accent-soft:#12332F;--amber:#E8B54A;--amber-soft:#2A2211;--amber-edge:#8A6A1E;--code-bg:#080D14}}
+  :root[data-theme="dark"]{--paper:#0B1017;--surface:#141B24;--surface-2:#1C242F;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--line-2:#334252;--accent:#4FC4B8;--accent-soft:#12332F;--amber:#E8B54A;--amber-soft:#2A2211;--amber-edge:#8A6A1E;--code-bg:#080D14}
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;margin:0;padding-inline:18px}
+  .wrap{max-width:760px;margin:0 auto;padding-block:30px 90px}
+  .crumb{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+  .crumb a{color:var(--accent);text-decoration:none}
+  h1{font-family:var(--display);font-size:28px;letter-spacing:-.02em;margin:0 0 4px;text-wrap:balance}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:62ch}
+  .protocol{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;padding:12px 15px;margin:0 0 14px}
+  .protocol b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
+  .protocol ol{margin:0;padding-left:18px;color:var(--ink-2)} .protocol li{margin:2px 0}
+  .progress{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 26px}
+  .bar{flex:1;height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+  .bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+  @media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+  .q{border-top:1px solid var(--line);padding:20px 0 4px}
+  .qhead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+  .num{font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink);min-width:26px;font-variant-numeric:tabular-nums}
+  .chip{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:2.5px 8px;border-radius:20px;border:1px solid var(--line-2);color:var(--ink-2)}
+  .chip.code{border-color:var(--accent);color:var(--accent)} .chip.out{border-color:var(--amber-edge);color:var(--amber)}
+  .dots{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.15em}
+  .done{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;user-select:none}
+  .done input{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
+  .task{margin:0 0 4px;color:var(--ink)} .q p{color:var(--ink-2);margin:6px 0} strong{color:var(--ink)}
+  code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:12.3px;line-height:1.6;padding:11px 13px;border-radius:8px;overflow-x:auto;margin:9px 0}
+  pre .c{color:var(--code-dim)} pre .k{color:var(--code-key)} pre .s{color:var(--code-str)}
+  .expect{font-family:var(--mono);font-size:12.3px;background:var(--accent-soft);border:1px dashed var(--accent);color:var(--ink);padding:8px 12px;border-radius:7px;margin:9px 0;overflow-x:auto;white-space:pre-wrap}
+  .expect b{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:2px;font-weight:600}
+  details{margin:8px 0 0}
+  summary{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border:1px dashed var(--line-2);border-radius:20px;color:var(--ink-3);cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  details[open] summary{color:var(--accent);border-color:var(--accent);border-style:solid}
+  details > div{padding:9px 0 2px}
+  .topic{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="crumb"><a href="index.html">← All notes</a></p>
+  <h1>TypeScript Drill Set</h1>
+  <p class="sub">Short drills for each TypeScript lesson. Grows as lessons complete. Predict → check with <code>tsc</code> → compare → only then reveal.</p>
+
+  <div class="protocol">
+    <b>The protocol</b>
+    <ol>
+      <li><strong>Predict</strong> what the checker will say (which line, which column, which message) — or what will print.</li>
+      <li><strong>Check</strong> with <code>npx tsc --noEmit --strict file.ts</code>, or ▷ in VS Code.</li>
+      <li><strong>Compare</strong>: did it point where you predicted?</li>
+      <li>Only then open Hint, and only after a real attempt, Solution.</li>
+    </ol>
+  </div>
+
+  <div class="progress"><span id="count">0 of 5 done</span><span class="bar"><span id="fill"></span></span></div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">1</span><span class="chip out">Predict</span><span class="dots">● ○ ○</span>
+      <label class="done" for="t1"><input type="checkbox" id="t1"> done</label></div>
+    <p class="task">Two tools, two answers. What does <code>npx tsc --noEmit</code> report for this file — and, separately, what does <code>npx tsx</code> print?</p>
+    <pre><span class="k">let</span> age: <span class="k">number</span> = 24;
+age = <span class="s">"twenty-four"</span>;
+console.log(age);</pre>
+    <details><summary>Hint</summary><div>One tool compares labels; the other strips them. Only one of them cares that a string went into a number-tagged suitcase.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · checker vs runner</p>
+      <pre>tsc: age.ts:2:7 - error TS2322: Type 'string' is not assignable to type 'number'.
+tsx: twenty-four</pre>
+      <p><code>tsc</code> reports the mismatch at line 2, column 7 (where <code>"twenty-four"</code> starts). <code>tsx</code> erases the label and runs the plain JS, so the string simply prints. Both behaviours are correct — they're different tools.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">2</span><span class="chip out">Predict</span><span class="dots">● ○ ○</span>
+      <label class="done" for="t2"><input type="checkbox" id="t2"> done</label></div>
+    <p class="task">Which of these lines does the checker reject, and why — one clause each?</p>
+    <pre><span class="k">interface</span> Book { title: <span class="k">string</span>; pages: <span class="k">number</span>; isbn?: <span class="k">string</span>; }
+
+<span class="k">const</span> a: Book = { title: <span class="s">"Dune"</span>, pages: 412 };
+<span class="k">const</span> b: Book = { title: <span class="s">"1984"</span>, pages: <span class="s">"328"</span> };
+<span class="k">const</span> c: Book = { title: <span class="s">"Emma"</span> };
+<span class="k">const</span> d: Book = { title: <span class="s">"Ulysses"</span>, pages: 730, year: 1922 };</pre>
+    <details><summary>Hint</summary><div>Three different kinds of mismatch: wrong type · missing required field · extra field not in the shape. One line is fine.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · interface as a contract</p>
+      <pre>a ✅  isbn is optional, everything else matches
+b ❌  pages: "328" is a string — Type 'string' is not assignable to type 'number'
+c ❌  Property 'pages' is missing — required fields must be present
+d ❌  Object literal may only specify known properties — 'year' is not in Book</pre></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">3</span><span class="chip code">Fix</span><span class="dots">● ● ○</span>
+      <label class="done" for="t3"><input type="checkbox" id="t3"> done</label></div>
+    <p class="task">This has three type errors. Find each from the <code>tsc</code> output (read line:col first), then fix so it checks clean and prints <code>Bill: 660</code>.</p>
+    <pre><span class="k">interface</span> Item { name: <span class="k">string</span>; price: <span class="k">number</span>; qty: <span class="k">number</span>; }
+
+<span class="k">function</span> lineTotal(item: Item): <span class="k">number</span> {
+  <span class="k">return</span> item.price * item.qtty;
+}
+
+<span class="k">const</span> cart: Item[] = [
+  { name: <span class="s">"Pen"</span>, price: 10, qty: <span class="s">"6"</span> },
+  { name: <span class="s">"Bag"</span>, price: 600 },
+];
+
+console.log(<span class="s">"Bill:"</span>, cart.reduce((sum, item) =&gt; sum + lineTotal(item), 0));</pre>
+    <details><summary>Hint</summary><div>A typo in a property name · a string where a number belongs · a missing required field. The checker names all three; your job is to trust its line numbers.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · reading errors, fixing shapes</p>
+      <pre>item.qtty  → item.qty          <span class="c">// Property 'qtty' does not exist on type 'Item'</span>
+qty: "6"   → qty: 6            <span class="c">// string not assignable to number</span>
+{ name: "Bag", price: 600 } → add qty: 1   <span class="c">// Property 'qty' is missing</span>
+// Bill: 660  (10*6 + 600*1)</pre>
+      <p>Note the first one: in plain JS <code>item.qtty</code> would be <code>undefined</code>, <code>price * undefined</code> would be <code>NaN</code>, and you'd debug a NaN. TS caught the typo before anything ran — this is your #1 bug class, solved.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">4</span><span class="chip out">Predict</span><span class="dots">● ● ○</span>
+      <label class="done" for="t4"><input type="checkbox" id="t4"> done</label></div>
+    <p class="task">Which of these five need an explicit label to be useful, and which are fine inferred? Then: what is the inferred type of each?</p>
+    <pre><span class="k">const</span> a = 42;
+<span class="k">const</span> b = [];
+<span class="k">const</span> c = [<span class="s">"x"</span>, <span class="s">"y"</span>];
+<span class="k">function</span> d(n) { <span class="k">return</span> n * 2; }
+<span class="k">let</span> e;</pre>
+    <details><summary>Hint</summary><div>TS infers from a value that's right there. When there's no value — an empty array, an unassigned <code>let</code>, a parameter — it has nothing to infer from.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · inference vs explicit labels</p>
+      <pre>a → number     fine inferred
+b → any[]      needs a label: const b: string[] = []   (empty array tells TS nothing)
+c → string[]   fine inferred
+d → n is any   needs a label: function d(n: number)   (parameters ALWAYS need labels;
+               with --strict this is an ERROR: "Parameter 'n' implicitly has an 'any' type")
+e → any        needs a label: let e: number            (no value → nothing to infer)</pre></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">5</span><span class="chip code">Code</span><span class="dots">● ● ○</span>
+      <label class="done" for="t5"><input type="checkbox" id="t5"> done</label></div>
+    <p class="task">Write it: an <code>interface Employee</code> with <code>id</code> (number), <code>name</code> (string), <code>salary</code> (number), optional <code>team</code> (string). Then <code>highestPaid(list: Employee[]): Employee</code>. Test with three employees, then add a deliberate call with an employee missing <code>salary</code> and read the error.</p>
+    <div class="expect"><b>Expected</b>tsc points at the bad call, naming the missing property; after removing it, the highest-paid name prints.</div>
+    <details><summary>Hint</summary><div>Your second-largest scan, or <code>reduce</code> keeping the bigger of two, or sort a copy descending and take [0]. The TS part is only the two labels.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · interface + typed function</p>
+      <pre><span class="k">interface</span> Employee { id: <span class="k">number</span>; name: <span class="k">string</span>; salary: <span class="k">number</span>; team?: <span class="k">string</span>; }
+
+<span class="k">function</span> highestPaid(list: Employee[]): Employee {
+  <span class="k">return</span> list.reduce((best, e) =&gt; e.salary &gt; best.salary ? e : best);
+}
+<span class="c">// (reduce with no seed is acceptable here because the result type is Employee itself —
+//  but it throws on an empty list; a guard is the professional touch.)</span></pre></div></details>
+  </div>
+</div>
+
+<script>
+(function () {
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.done input'));
+  var count = document.getElementById('count'), fill = document.getElementById('fill');
+  function save(){ try{ localStorage.setItem('tsDrillDone', JSON.stringify(boxes.filter(function(b){return b.checked}).map(function(b){return b.id}))); }catch(e){} }
+  function render(){ var d = boxes.filter(function(b){return b.checked}).length; count.textContent = d+' of '+boxes.length+' done'; fill.style.width = (d/boxes.length*100)+'%'; }
+  try{ var saved = JSON.parse(localStorage.getItem('tsDrillDone')||'[]'); boxes.forEach(function(b){ if(saved.indexOf(b.id)!==-1) b.checked=true; }); }catch(e){}
+  boxes.forEach(function(b){ b.addEventListener('change', function(){ save(); render(); }); });
+  render();
+})();
+</script>
+</body>
+</html>

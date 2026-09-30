@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TypeScript Recall Deck</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{--paper:#EEF0F2;--surface:#FFFFFF;--surface-2:#E4E8EB;--ink:#0E1626;--ink-2:#47566B;--ink-3:#77879B;--line:#D2D9DF;--line-2:#BFC9D2;--accent:#0B6E6A;--accent-soft:#DCEBE9;--amber:#9A6A05;--amber-soft:#F7EBCE;--amber-edge:#D9A62A;--code-bg:#0F1722;--code-ink:#D7E2EE;--code-dim:#7C93A8;--code-key:#7FD4C8;--code-str:#E3B778;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--sans:"IBM Plex Sans",system-ui,sans-serif;--display:"Archivo","IBM Plex Sans",sans-serif}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0B1017;--surface:#141B24;--surface-2:#1C242F;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--line-2:#334252;--accent:#4FC4B8;--accent-soft:#12332F;--amber:#E8B54A;--amber-soft:#2A2211;--amber-edge:#8A6A1E;--code-bg:#080D14}}
+  :root[data-theme="dark"]{--paper:#0B1017;--surface:#141B24;--surface-2:#1C242F;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--line-2:#334252;--accent:#4FC4B8;--accent-soft:#12332F;--amber:#E8B54A;--amber-soft:#2A2211;--amber-edge:#8A6A1E;--code-bg:#080D14}
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;margin:0;padding-inline:18px}
+  .wrap{max-width:780px;margin:0 auto;padding-block:30px 90px}
+  .crumb{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+  .crumb a{color:var(--accent);text-decoration:none}
+  h1{font-family:var(--display);font-size:29px;letter-spacing:-.02em;margin:0 0 4px;text-wrap:balance}
+  .sub{color:var(--ink-2);margin:0 0 8px;max-width:64ch}
+  .upd{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 26px}
+  h2{font-family:var(--display);font-size:18.5px;letter-spacing:-.01em;margin:34px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  h2 small{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-left:auto}
+  p{margin:7px 0;color:var(--ink-2)} strong{color:var(--ink)}
+  ul{margin:7px 0;padding-left:19px;color:var(--ink-2)} li{margin:4px 0}
+  code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:12.4px;line-height:1.6;padding:11px 13px;border-radius:8px;overflow-x:auto;margin:9px 0}
+  pre .c{color:var(--code-dim)} pre .k{color:var(--code-key)} pre .s{color:var(--code-str)}
+  .mine{background:var(--amber-soft);border-left:3px solid var(--amber-edge);padding:8px 12px;border-radius:0 7px 7px 0;margin:9px 0;color:var(--ink-2);font-size:14.2px}
+  .mine b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:1px}
+  .rule{border-left:3px solid var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:0 7px 7px 0;margin:9px 0;font-size:14.2px;color:var(--ink-2)}
+  .rule b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:1px}
+  .say{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface);padding:8px 12px;border-radius:0 7px 7px 0;margin:9px 0;font-size:14.2px;color:var(--ink-2)}
+  .say b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:1px}
+  .tw{overflow-x:auto;margin:9px 0}
+  table{border-collapse:collapse;width:100%;font-size:13.6px;min-width:420px}
+  th,td{text-align:left;padding:5px 11px 5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500;border-bottom-color:var(--line-2)}
+  td{color:var(--ink-2)} td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
+  .tracker td:first-child{white-space:normal}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="crumb"><a href="index.html">← All notes</a></p>
+  <h1>TypeScript Recall Deck</h1>
+  <p class="sub">Simple-terms notes on every TypeScript idea we've covered, plus the exact mistakes you made learning it and the sentence to say in an interview. Grows as lessons complete.</p>
+  <p class="upd">Living document · last update 30-09-2026 · Lessons 1–2</p>
+
+  <h2>1 · What TypeScript is <small>the luggage-tag model</small></h2>
+  <div class="rule"><b>One sentence</b>TypeScript is JavaScript plus <strong>labels</strong> saying what type each thing is. The labels are checked <strong>before</strong> the code runs, then thrown away. What actually runs is plain JavaScript.</div>
+  <p>Every variable is a suitcase. JavaScript lets you put anything in any suitcase. TypeScript puts a <strong>tag</strong> on each one — "numbers only" — and the checker stops you at the door if you try to put a string in it. The tag is checked at <em>check-in</em> (compile time). On the plane (runtime), tags are gone.</p>
+  <p>You already write it daily: every <code>name: string</code>, <code>interface</code> and <code>&lt;T&gt;</code> in an Angular component is TypeScript.</p>
+
+  <h2>2 · Two tools, not one <small>checker vs runner</small></h2>
+  <div class="tw"><table>
+    <tr><th>Tool</th><th>Job</th><th>Reports type errors?</th></tr>
+    <tr><td>tsc</td><td>the <strong>checker</strong> — reads labels, finds mistakes</td><td><strong>Yes</strong> — this is the whole point</td></tr>
+    <tr><td>tsx</td><td>the <strong>runner</strong> — strips labels, runs the JS</td><td><strong>No, never</strong></td></tr>
+    <tr><td>VS Code</td><td>runs the checker live in the background</td><td>Yes — red squiggles + the Problems count</td></tr>
+  </table></div>
+  <pre>npx tsc --noEmit --strict file.ts   <span class="c"># check only (no JS output)</span>
+npx tsx file.ts                     <span class="c"># run (no checking!)</span></pre>
+  <p>Your ▷ button is configured to do both in order: <code>tsc --noEmit --strict … &amp;&amp; tsx …</code> — the run happens <strong>only if the check passes</strong>. Type errors stop it at the door. That's the correct behaviour and what CI does later.</p>
+  <div class="mine"><b>Your past mistake (28-09)</b>Ran <code>tsx</code> on <code>count = "five"</code> and got "five" printed — then asked why there was no error. tsx doesn't check; the label was stripped and the string went through. That WAS the luggage-tag model, demonstrated live.</div>
+
+  <h2>3 · Labels and inference</h2>
+  <pre><span class="k">let</span> count: <span class="k">number</span> = 0;          <span class="c">// a colon, then the type — "count, which is a number"</span>
+<span class="k">let</span> name: <span class="k">string</span> = <span class="s">"Harsh"</span>;
+<span class="k">let</span> scores: <span class="k">number</span>[] = [10, 20];  <span class="c">// array of numbers</span>
+
+<span class="k">let</span> price = 10;                   <span class="c">// no label needed — TS INFERS number from the value</span>
+price = <span class="s">"ten"</span>;                    <span class="c">// ❌ still checked: the suitcase is tagged number</span></pre>
+  <div class="rule"><b>When to write the label</b>Let TS infer when the value is right there. Write the label when TS can't know: <strong>function parameters</strong> (always), empty arrays, things assigned later.</div>
+
+  <h2>4 · Reading a TypeScript error <small>the skill that matters most</small></h2>
+  <pre>basic.ts:11:10 - error TS2322: Type 'string' is not assignable to type 'number'.
+11   total([<span class="s">"a"</span>, <span class="s">"b"</span>]);
+            ~~~</pre>
+  <ul>
+    <li><code>11:10</code> = <strong>line 11, column 10</strong>. The <code>~~~</code> underlines the exact thing. Read the location <em>first</em> — it tells you WHERE the mismatch is.</li>
+    <li>"<strong>X is not assignable to Y</strong>" = you tried to put an X into a suitcase tagged Y. Almost every TS error is a variation of this sentence.</li>
+    <li>Here it points at the <strong>call</strong> — the argument <code>"a"</code> — not at <code>reduce</code>, not at the return. The parameter is tagged <code>number[]</code>; a string arrived.</li>
+  </ul>
+  <div class="rule"><b>TS never runs your code</b>The checker <strong>compares labels</strong>. It does not execute, simulate, or compute anything. No <code>reduce</code> ran, no <code>"10ab"</code> was built. If your explanation of a TS error describes what the code "would do at runtime", it's the wrong explanation.</div>
+  <div class="mine"><b>Your past mistakes (28-09)</b>Explained the error as "+ concatenates 10 + a + b into a string, so the return isn't a number" — a runtime story for a static check; the error pointed at the argument, not the return. Also pulled <code>price = 10</code> into the reasoning — a variable that never touches that function (reduce seeds from 0). Read the line:column; explain the label mismatch there.</div>
+
+  <h2>5 · Functions</h2>
+  <pre><span class="k">function</span> add(a: <span class="k">number</span>, b: <span class="k">number</span>): <span class="k">number</span> {   <span class="c">// params ALWAYS labelled; return often inferred</span>
+  <span class="k">return</span> a + b;
+}
+<span class="k">const</span> double = (n: <span class="k">number</span>): <span class="k">number</span> =&gt; n * 2;
+
+<span class="k">function</span> total(prices: <span class="k">number</span>[]): <span class="k">number</span> {
+  <span class="k">return</span> prices.reduce((sum, p) =&gt; sum + p, 0);   <span class="c">// TS knows p is a number — from the param label</span>
+}</pre>
+  <p>Parameters need labels because TS can't guess what callers will pass. Writing the return type on shared functions documents the contract and catches a wrong <code>return</code> early.</p>
+
+  <h2>6 · Objects: interface <small>the shape contract</small></h2>
+  <pre><span class="k">interface</span> User {
+  id: <span class="k">number</span>;
+  name: <span class="k">string</span>;
+  email?: <span class="k">string</span>;                 <span class="c">// ? = optional — may be missing</span>
+}
+
+<span class="k">const</span> u: User = { id: 1, name: <span class="s">"Harsh"</span> };          <span class="c">// ✅ email optional</span>
+<span class="k">const</span> v: User = { id: 2, name: <span class="s">"Priya"</span>, age: 24 }; <span class="c">// ❌ 'age' is not in the shape</span>
+<span class="k">const</span> w: User = { id: 3 };                         <span class="c">// ❌ 'name' is missing</span>
+
+<span class="k">function</span> greet(user: User): <span class="k">string</span> { <span class="k">return</span> <span class="s">`Hi ${user.name}`</span>; }
+<span class="k">const</span> users: User[] = [ { id: 1, name: <span class="s">"Harsh"</span> } ];
+users.map(u =&gt; u.nmae);                            <span class="c">// ❌ typo CAUGHT: Property 'nmae' does not exist</span></pre>
+  <div class="rule"><b>Why this matters for YOU</b>Your most frequent JS bug class was one-letter slips — <code>candidateS.city</code>, <code>citites</code>, <code>group.item</code>. Inside a typed shape, every one of those is caught before running. TypeScript is the fix for your #1 bug.</div>
+  <p><strong>type vs interface:</strong> both describe shapes; for plain objects they're interchangeable. Convention we use: <code>interface</code> for object shapes, <code>type</code> for everything else (unions — next lesson).</p>
+
+  <h2>7 · Say it in the interview</h2>
+  <div class="say"><b>30-second version</b>"TypeScript adds static types to JavaScript. The compiler checks them before the code runs and then erases them — the browser only ever sees plain JS. It catches mistakes at the call site, like passing a string where a number is expected, and it gives real autocomplete because the editor knows the shape of every object. Interfaces describe object shapes, and function parameters are always typed because the compiler can't guess what callers will pass."</div>
+  <div class="say"><b>If asked "does TS make code safer at runtime?"</b>"No — types are erased at runtime. It makes code safer <em>before</em> runtime. A wrong API response still needs validation at the boundary; that's what zod is for."</div>
+
+  <h2>8 · Setup on this machine <small>reference</small></h2>
+  <pre>~/Desktop/JS_learn/ts/            <span class="c"># practice folder</span>
+npm i -D typescript tsx           <span class="c"># per project</span>
+▷ (Code Runner, .ts)  →  cd $dir &amp;&amp; npx tsc --noEmit --strict --target es2022 $fileName &amp;&amp; npx tsx $fileName</pre>
+  <div class="mine"><b>Your past mistake (28-09)</b>Ran <code>npx tsx basics.ts</code> when the file was <code>basic.ts</code> → "Cannot find module". A full path in a "cannot find" error means the file isn't at that path — check spelling before suspecting the tool.</div>
+
+  <h2>9 · Tracker <small>TypeScript only</small></h2>
+  <div class="tw"><table class="tracker">
+    <tr><th>State</th><th>Concepts</th></tr>
+    <tr><td>🟡 Learned, needs reps</td><td>luggage-tag model · tsc vs tsx · labels &amp; inference · reading an error (line:col, "not assignable") · function param/return labels · interface + optional props</td></tr>
+    <tr><td>⚪ Next</td><td>union types &amp; narrowing · literal types · <code>unknown</code> vs <code>any</code> · generics · utility types (Partial/Pick/Omit/Record) · enums vs unions · type guards · <code>readonly</code></td></tr>
+  </table></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Full-Stack Roadmap</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{--paper:#EEF0F2;--surface:#FFFFFF;--surface-2:#E4E8EB;--ink:#0E1626;--ink-2:#47566B;--ink-3:#77879B;--line:#D2D9DF;--line-2:#BFC9D2;--accent:#0B6E6A;--accent-soft:#DCEBE9;--amber:#9A6A05;--amber-soft:#F7EBCE;--amber-edge:#D9A62A;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--sans:"IBM Plex Sans",system-ui,sans-serif;--display:"Archivo","IBM Plex Sans",sans-serif}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0B1017;--surface:#141B24;--surface-2:#1C242F;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--line-2:#334252;--accent:#4FC4B8;--accent-soft:#12332F;--amber:#E8B54A;--amber-soft:#2A2211;--amber-edge:#8A6A1E}}
+  :root[data-theme="dark"]{--paper:#0B1017;--surface:#141B24;--surface-2:#1C242F;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--line-2:#334252;--accent:#4FC4B8;--accent-soft:#12332F;--amber:#E8B54A;--amber-soft:#2A2211;--amber-edge:#8A6A1E}
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;margin:0;padding-inline:18px}
+  .wrap{max-width:820px;margin:0 auto;padding-block:30px 90px}
+  .crumb{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+  .crumb a{color:var(--accent);text-decoration:none}
+  h1{font-family:var(--display);font-size:29px;letter-spacing:-.02em;margin:0 0 4px;text-wrap:balance}
+  .sub{color:var(--ink-2);margin:0 0 8px;max-width:66ch}
+  .upd{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 26px}
+  h2{font-family:var(--display);font-size:18.5px;letter-spacing:-.01em;margin:34px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  h2 small{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-left:auto}
+  p{margin:7px 0;color:var(--ink-2)} strong{color:var(--ink)}
+  ul{margin:7px 0;padding-left:19px;color:var(--ink-2)} li{margin:4px 0}
+  code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  .rule{border-left:3px solid var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:0 7px 7px 0;margin:9px 0;font-size:14.2px;color:var(--ink-2)}
+  .rule b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:1px}
+  .now{border-left:3px solid var(--amber-edge);background:var(--amber-soft);padding:8px 12px;border-radius:0 7px 7px 0;margin:9px 0;font-size:14.2px;color:var(--ink-2)}
+  .now b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:1px}
+  .tw{overflow-x:auto;margin:9px 0}
+  table{border-collapse:collapse;width:100%;font-size:13.6px;min-width:520px}
+  th,td{text-align:left;padding:6px 11px 6px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500;border-bottom-color:var(--line-2)}
+  td{color:var(--ink-2)} td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
+  .dash td:first-child{white-space:normal}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="crumb"><a href="index.html">← All notes</a></p>
+  <h1>Full-Stack + AI Roadmap</h1>
+  <p class="sub">Sixteen weeks from "knows JavaScript" to "ships a full-stack, AI-enabled product and can defend every decision in an interview." Built around a 10–7 job: weekday evenings, weekend build days.</p>
+  <p class="upd">Living document · last update 30-09-2026 · week 1 restarted</p>
+
+  <h2>Target stack <small>decided from 2026 market research</small></h2>
+  <div class="tw"><table>
+    <tr><th>Layer</th><th>Choice</th><th>Why</th></tr>
+    <tr><td>Language</td><td>TypeScript everywhere</td><td>&gt;80% of new projects; expected, not a bonus</td></tr>
+    <tr><td>Frontend</td><td>React + Vite · React Router · TanStack Query · react-hook-form + zod</td><td>React in ~75% of frontend ads; shared zod schemas between API and UI</td></tr>
+    <tr><td>Backend</td><td>Node + Express (TS) · <code>pg</code> with hand-written SQL</td><td>"Weak SQL sinks more candidates than weak JS" — every query is interview practice</td></tr>
+    <tr><td>Auth</td><td>bcrypt · JWT access + refresh (httpOnly cookie) · RBAC middleware</td><td>the minimum expectation in every posting</td></tr>
+    <tr><td>Testing</td><td>Vitest + supertest · React Testing Library</td><td></td></tr>
+    <tr><td>Infra</td><td>Docker Compose · GitHub Actions · Render/Railway + Neon (pgvector) + Vercel</td><td>"knows how software runs after it leaves the laptop"</td></tr>
+    <tr><td>AI</td><td>Vercel AI SDK + Claude · pgvector embeddings · own chunking · golden-set evals</td><td>RAG is the dominant enterprise pattern; stays in TypeScript</td></tr>
+  </table></div>
+  <p><strong>Deliberately deprioritised:</strong> Next.js (awareness only, week 15), GraphQL, Kubernetes, microservices, Python, NestJS, Redux, LeetCode-hard.</p>
+
+  <h2>Flagship project: Hirelane <small>an ATS / hiring pipeline</small></h2>
+  <p>Jobs, candidates, applications moving through stages (applied → screening → interview → offer → hired/rejected), interviewer feedback. Roles: admin, recruiter, interviewer. Forces auth + RBAC, ~9 related tables, a state machine, file uploads, pagination/search, transactions.</p>
+  <p><strong>The AI layer is the same product:</strong> resume PDF → structured candidate profile (zod-validated) · job↔candidate matching via pgvector · RAG assistant over hiring docs with citations + streaming · tool calls that move a candidate to a stage, with confirmation · evals, prompt-injection defence for uploaded resumes, retries/fallbacks, cost + latency logging.</p>
+  <div class="rule"><b>Boundary</b>Fresh code, fresh data, personal GitHub. Nothing from any employer.</div>
+
+  <h2>Phases</h2>
+  <div class="tw"><table>
+    <tr><th>Phase</th><th>Weeks</th><th>Objective</th><th>Milestones</th></tr>
+    <tr><td>0 · Reset &amp; foundations</td><td>1</td><td>JS recovery · TypeScript essentials · Git flow · repo scaffold · SQL started</td><td>M0: monorepo runs, health endpoint, Postgres in Docker</td></tr>
+    <tr><td>1 · Backend + database</td><td>2–5</td><td>SQL &amp; schema · Express architecture · zod · auth + RBAC · stage state machine · tests · pagination · transactions</td><td>M1 schema · M2 CRUD · M3 auth/RBAC/stages · M4 tested API · <strong>Technical Test #1</strong></td></tr>
+    <tr><td>2 · React frontend</td><td>6–9</td><td>React in TS · TanStack Query · pipeline board · forms · role-based UI · RTL · performance</td><td>M5 usable app in Docker · <strong>Mock #2</strong> · React goes on the resume</td></tr>
+    <tr><td>3 · AI layer</td><td>10–13</td><td>structured outputs · embeddings + pgvector · RAG + streaming · tool calling · evals · guardrails · job queue</td><td>M6 AI shipped with evals · <strong>Technical Test #3</strong></td></tr>
+    <tr><td>4 · Production &amp; interviews</td><td>14–16</td><td>CI · Docker images · live deploy · README + architecture doc · security pass · 2 full mocks · project deep-dive</td><td>Live URL · <strong>Full Mock ×2</strong></td></tr>
+  </table></div>
+
+  <h2>This week <small>restarted Wed 30 Sep</small></h2>
+  <div class="now"><b>Now</b>Office day today (light), then a run of days off. The off days absorb Week 1's build work at ~5 h each with breaks. If a day has less, its last block rolls to the next day — nothing is dropped.</div>
+  <div class="tw"><table>
+    <tr><th>Day</th><th>Time</th><th>What</th></tr>
+    <tr><td>Wed 30 Sep</td><td>60–90 min, evening</td><td>drill → TS Lesson 2 (objects &amp; interfaces) → Task 2 <code>objects.ts</code></td></tr>
+    <tr><td>Thu 1 Oct — off</td><td>~5 h</td><td>drill → TS Lesson 3 (unions, narrowing, literal types, generics, utility types) with tasks → Git flow → <strong>scaffold the monorepo → M0</strong> (api: Node + TS + Express health endpoint; docker-compose with Postgres)</td></tr>
+    <tr><td>Fri 2 Oct — off</td><td>~5 h</td><td>drill → <strong>SQL day 1</strong> in <code>psql</code>: tables, inserts, SELECT/WHERE/ORDER, joins → <strong>SQL day 2</strong>: aggregates, GROUP BY, HAVING → finish DOM event delegation (1 h)</td></tr>
+    <tr><td>Sat 3 Oct — off</td><td>~5 h</td><td>drill → <strong>SQL day 3</strong>: constraints, indexes, transactions → Hirelane schema design on paper → migrations + seed → <strong>M1</strong></td></tr>
+    <tr><td>Sun 4 Oct</td><td>~3 h</td><td><strong>Technical Test #0</strong> (JS + TS baseline, 40 min) → Express architecture intro (Week 2 begins) → <strong>Weekly Review #1</strong></td></tr>
+    <tr><td>Mon 5 Oct →</td><td>90 min / weekday</td><td>weekday rhythm: drill first, then the day's block</td></tr>
+  </table></div>
+
+  <h2>The weekly rhythm</h2>
+  <ul>
+    <li><strong>Weekdays</strong> 8:00–9:30 pm · <strong>weekends</strong> ~3 h each (build days) · ≈ 14 h/week</li>
+    <li><strong>Sunday</strong> = technical test slot (30–45 min) · <strong>Friday</strong> = weekly review</li>
+    <li><strong>Every second week</strong> = mock interview · <strong>monthly</strong> = full mock</li>
+    <li>A missed day costs <strong>one day</strong>, never the week — re-plan, never dump the backlog</li>
+  </ul>
+
+  <h2>Daily drill <small>minimum viable session · 15 min</small></h2>
+  <p>Every session opens with it; on a bad day it <em>is</em> the session:</p>
+  <ul>
+    <li><strong>1 output prediction</strong> (JS now; React/Node later)</li>
+    <li><strong>1 theory question</strong>, answered out loud — the 30-second version</li>
+    <li><strong>1 micro coding problem</strong> (5–10 min)</li>
+    <li><strong>1 recall from the spaced queue</strong> — intervals 1 → 3 → 7 → 14 → 30 days; a miss resets to 1. <code>this</code> in callbacks is on the daily list until five clean hits in a row.</li>
+  </ul>
+
+  <h2>Dashboard <small>30-09-2026</small></h2>
+  <div class="tw"><table class="dash">
+    <tr><th>Area</th><th>Status</th><th>Note</th></tr>
+    <tr><td>JavaScript</td><td>🟡</td><td>knowledge good; retention 🟠, <code>this</code>-in-callbacks 🟠, careful reading 🟠, DOM 🔴</td></tr>
+    <tr><td>TypeScript</td><td>🟡</td><td>lessons 1–2 done; Angular exposure made the syntax familiar, the rules new</td></tr>
+    <tr><td>React</td><td>🔴</td><td>not started (phase 2)</td></tr>
+    <tr><td>Node / Express</td><td>🟠</td><td>crash-course level only</td></tr>
+    <tr><td>PostgreSQL / SQL</td><td>🔴</td><td>starts Fri 2 Oct</td></tr>
+    <tr><td>AI engineering</td><td>🔴</td><td>phase 3</td></tr>
+    <tr><td>Git</td><td>🟡</td><td>daily work use; personal-repo flow set up</td></tr>
+    <tr><td>Testing · Docker</td><td>🔴</td><td>phase 1 / week 1</td></tr>
+    <tr><td>Deployment</td><td>🟠</td><td>GitHub Pages only so far</td></tr>
+    <tr><td>Project</td><td>🔴</td><td>not started — M0 on Thu 1 Oct</td></tr>
+    <tr><td>Interview readiness</td><td>🟠</td><td>Mock 1: 29/60 (09-09); Mock 2 in week 9</td></tr>
+  </table></div>
+</div>
+</body>
+</html>

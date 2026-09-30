@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Harsh's Dev Notes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{--paper:#EEF0F2;--surface:#FFFFFF;--ink:#0E1626;--ink-2:#47566B;--ink-3:#77879B;--line:#D2D9DF;--accent:#0B6E6A;--accent-soft:#DCEBE9;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--sans:"IBM Plex Sans",system-ui,sans-serif;--display:"Archivo","IBM Plex Sans",sans-serif}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0B1017;--surface:#141B24;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--accent:#4FC4B8;--accent-soft:#12332F}}
+  :root[data-theme="dark"]{--paper:#0B1017;--surface:#141B24;--ink:#E7ECF2;--ink-2:#A3B0C0;--ink-3:#77879B;--line:#26313D;--accent:#4FC4B8;--accent-soft:#12332F}
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;margin:0;padding-inline:18px}
+  .wrap{max-width:720px;margin:0 auto;padding-block:40px 90px}
+  h1{font-family:var(--display);font-size:30px;letter-spacing:-.02em;margin:0 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 30px;max-width:60ch}
+  h2{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:28px 0 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+  a.card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  a.card:hover{border-color:var(--accent)}
+  a.card b{display:block;font-family:var(--display);font-size:16px;color:var(--ink);margin-bottom:3px}
+  a.card span{display:block;color:var(--ink-2);font-size:13.5px}
+  a.card em{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;font-style:normal}
+  .note{font-size:13.5px;color:var(--ink-3);margin-top:34px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Dev Notes</h1>
+  <p class="sub">Living study notes and drill sets from a 16-week Full-Stack + AI roadmap. Each deck holds the rules, the interview-ready phrasing, and the exact mistakes made along the way — because those are the notes worth re-reading.</p>
+
+  <h2>Plan</h2>
+  <div class="grid">
+    <a class="card" href="roadmap.html"><b>Roadmap</b><span>16 weeks, four phases, the flagship project, this week's schedule, and the daily drill system.</span><em>updated 30-09-2026</em></a>
+  </div>
+
+  <h2>JavaScript</h2>
+  <div class="grid">
+    <a class="card" href="js-recall-deck.html"><b>JS Recall Deck</b><span>15 sections — hoisting, this, closures, arrays, async, prototypes, class — with personal mistake logs and interview lines.</span><em>complete · maintained</em></a>
+    <a class="card" href="js-drill-set.html"><b>JS Drill Set</b><span>17 problems, easiest to hardest, with expected output, hints and revealable solutions.</span><em>17 drills</em></a>
+  </div>
+
+  <h2>TypeScript</h2>
+  <div class="grid">
+    <a class="card" href="ts-recall-deck.html"><b>TypeScript Recall Deck</b><span>The luggage-tag model, checker vs runner, reading errors, interfaces. Grows lesson by lesson.</span><em>lessons 1–2</em></a>
+    <a class="card" href="ts-drill-set.html"><b>TypeScript Drill Set</b><span>Predict-the-checker and fix-the-shape drills.</span><em>5 drills</em></a>
+  </div>
+
+  <h2>Coming as the roadmap progresses</h2>
+  <div class="grid">
+    <a class="card" href="#"><b>SQL &amp; PostgreSQL</b><span>Schema design, joins, aggregates, indexes, transactions.</span><em>week 1–2</em></a>
+    <a class="card" href="#"><b>Node &amp; Express</b><span>Runtime, middleware, auth, error handling, testing.</span><em>weeks 2–5</em></a>
+    <a class="card" href="#"><b>React</b><span>Components, hooks, data fetching, forms, performance.</span><em>weeks 6–9</em></a>
+    <a class="card" href="#"><b>AI Engineering</b><span>Structured outputs, embeddings, RAG, evals, guardrails.</span><em>weeks 10–13</em></a>
+  </div>
+
+  <p class="note">Personal learning material. Written in plain language on purpose.</p>
+</div>
+</body>
+</html>

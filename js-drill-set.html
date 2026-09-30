@@ -1,0 +1,543 @@
+<title>JS Drill Set</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#EEF0F2; --surface:#FFFFFF; --surface-2:#E4E8EB;
+    --ink:#0E1626; --ink-2:#47566B; --ink-3:#77879B;
+    --line:#D2D9DF; --line-2:#BFC9D2;
+    --accent:#0B6E6A; --accent-soft:#DCEBE9;
+    --amber:#9A6A05; --amber-soft:#F7EBCE; --amber-edge:#D9A62A;
+    --code-bg:#0F1722; --code-ink:#D7E2EE; --code-dim:#7C93A8; --code-key:#7FD4C8; --code-str:#E3B778;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --sans:"IBM Plex Sans",system-ui,sans-serif;
+    --display:"Archivo","IBM Plex Sans",sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0B1017; --surface:#141B24; --surface-2:#1C242F;
+      --ink:#E7ECF2; --ink-2:#A3B0C0; --ink-3:#77879B;
+      --line:#26313D; --line-2:#334252;
+      --accent:#4FC4B8; --accent-soft:#12332F;
+      --amber:#E8B54A; --amber-soft:#2A2211; --amber-edge:#8A6A1E;
+      --code-bg:#080D14;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0B1017; --surface:#141B24; --surface-2:#1C242F;
+    --ink:#E7ECF2; --ink-2:#A3B0C0; --ink-3:#77879B;
+    --line:#26313D; --line-2:#334252;
+    --accent:#4FC4B8; --accent-soft:#12332F;
+    --amber:#E8B54A; --amber-soft:#2A2211; --amber-edge:#8A6A1E;
+    --code-bg:#080D14;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;margin:0;padding-inline:18px}
+  .wrap{max-width:760px;margin:0 auto;padding-block:30px 90px}
+
+  h1{font-family:var(--display);font-size:28px;letter-spacing:-.02em;margin:0 0 4px;text-wrap:balance}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:62ch}
+
+  .protocol{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;padding:12px 15px;margin:0 0 14px}
+  .protocol b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
+  .protocol ol{margin:0;padding-left:18px;color:var(--ink-2)}
+  .protocol li{margin:2px 0}
+
+  .progress{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 26px}
+  .bar{flex:1;height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+  .bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+  @media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+
+  .q{border-top:1px solid var(--line);padding:20px 0 4px}
+  .qhead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+  .num{font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink);min-width:26px;font-variant-numeric:tabular-nums}
+  .chip{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:2.5px 8px;border-radius:20px;border:1px solid var(--line-2);color:var(--ink-2)}
+  .chip.code{border-color:var(--accent);color:var(--accent)}
+  .chip.out{border-color:var(--amber-edge);color:var(--amber)}
+  .dots{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.15em}
+  .done{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;user-select:none}
+  .done input{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
+
+  .task{margin:0 0 4px;color:var(--ink)}
+  .q p{color:var(--ink-2);margin:6px 0}
+  strong{color:var(--ink)}
+  code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:12.3px;line-height:1.6;padding:11px 13px;border-radius:8px;overflow-x:auto;margin:9px 0}
+  pre .c{color:var(--code-dim)} pre .k{color:var(--code-key)} pre .s{color:var(--code-str)}
+  pre code{background:none;padding:0;color:inherit;font-size:inherit}
+
+  .expect{font-family:var(--mono);font-size:12.3px;background:var(--accent-soft);border:1px dashed var(--accent);color:var(--ink);padding:8px 12px;border-radius:7px;margin:9px 0;overflow-x:auto;white-space:pre-wrap}
+  .expect b{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:2px;font-weight:600}
+
+  details{margin:8px 0 0}
+  summary{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border:1px dashed var(--line-2);border-radius:20px;color:var(--ink-3);cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary:hover{color:var(--ink-2);border-color:var(--ink-3)}
+  details[open] summary{color:var(--accent);border-color:var(--accent);border-style:solid}
+  details > div{padding:9px 0 2px}
+  .topic{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+  .sweep{border-top:1px solid var(--line);margin-top:34px;padding-top:18px}
+  .sweep h2{font-family:var(--display);font-size:17px;margin:0 0 8px}
+  .sweep ul{margin:0;padding-left:19px;color:var(--ink-2)}
+  .sweep li{margin:4px 0}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+</style>
+
+<div class="wrap">
+  <h1>JS Drill Set</h1>
+  <p class="sub">Seventeen problems over everything we've covered, ordered easiest to hardest. Two or three a day keeps the material warm — that's the point of this sheet.</p>
+
+  <div class="protocol">
+    <b>The protocol — it is being scored, not just the code</b>
+    <ol>
+      <li><strong>Predict</strong> the output before you write or run anything.</li>
+      <li><strong>Write</strong> it yourself. No copying from the deck.</li>
+      <li><strong>Run</strong> it.</li>
+      <li><strong>Compare</strong> every printed line against the expected block. Different? Diagnose before revealing.</li>
+      <li>Only then open <em>Hint</em>, and only after a real attempt, <em>Solution</em>.</li>
+    </ol>
+  </div>
+
+  <div class="progress"><span id="count">0 of 17 done</span><span class="bar"><span id="fill"></span></span></div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">1</span><span class="chip code">Code</span><span class="dots">● ○ ○</span>
+      <label class="done" for="d1"><input type="checkbox" id="d1"> done</label></div>
+    <p class="task">Write <code>totalSalary(employees)</code> — the sum of all salaries.</p>
+    <pre><span class="k">const</span> employees = [
+  { name: <span class="s">"Aman"</span>,  salary: 40000 },
+  { name: <span class="s">"Priya"</span>, salary: 65000 },
+  { name: <span class="s">"Ravi"</span>,  salary: 52000 }
+];</pre>
+    <div class="expect"><b>Expected</b>157000</div>
+    <details><summary>Hint</summary><div>One value out of many → <code>reduce</code>. Two arguments: the callback, then the seed.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · reduce, sum pattern</p>
+      <pre><span class="k">function</span> totalSalary(employees) {
+  <span class="k">return</span> employees.reduce((total, emp) =&gt; total + emp.salary, 0);
+}</pre>
+      <p>Never omit the <code>0</code>. Without it, reduce starts from element[0] — an object — and you get string garbage.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">2</span><span class="chip out">Output</span><span class="dots">● ○ ○</span>
+      <label class="done" for="d2"><input type="checkbox" id="d2"> done</label></div>
+    <p class="task">What do the four logs print?</p>
+    <pre><span class="k">const</span> nums = [1, 2, 3];
+
+<span class="k">const</span> a = nums.forEach(n =&gt; n * 10);
+<span class="k">const</span> b = nums.map(n =&gt; n * 10);
+<span class="k">const</span> c = nums.map(n =&gt; { n * 10; });
+
+console.log(a);
+console.log(b);
+console.log(c);
+console.log(nums);</pre>
+    <details><summary>Hint</summary><div>Two separate rules: what each method hands back, and what an arrow with <code>{ }</code> hands back.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · forEach vs map, block-body return</p>
+      <pre>undefined
+[ 10, 20, 30 ]
+[ undefined, undefined, undefined ]
+[ 1, 2, 3 ]</pre>
+      <p><code>forEach</code> always returns <code>undefined</code>. <code>map</code> collects each callback's <em>return value</em> — and an arrow with braces and no <code>return</code> returns <code>undefined</code>. Neither method touches the original.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">3</span><span class="chip code">Code</span><span class="dots">● ○ ○</span>
+      <label class="done" for="d3"><input type="checkbox" id="d3"> done</label></div>
+    <p class="task">Write <code>activeEmails(users)</code> — the emails of active users, in lowercase.</p>
+    <pre><span class="k">const</span> users = [
+  { name: <span class="s">"Aman"</span>,  active: <span class="k">true</span>,  email: <span class="s">"AMAN@Mail.com"</span>  },
+  { name: <span class="s">"Priya"</span>, active: <span class="k">false</span>, email: <span class="s">"Priya@Mail.com"</span> },
+  { name: <span class="s">"Ravi"</span>,  active: <span class="k">true</span>,  email: <span class="s">"RAVI@Mail.com"</span>  }
+];</pre>
+    <div class="expect"><b>Expected</b>[ 'aman@mail.com', 'ravi@mail.com' ]</div>
+    <details><summary>Hint</summary><div>Two steps, chained. Narrow first, reshape second — the other order throws away the field you filter on.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · filter + map chaining</p>
+      <pre><span class="k">function</span> activeEmails(users) {
+  <span class="k">return</span> users
+    .filter(user =&gt; user.active)
+    .map(user =&gt; user.email.toLowerCase());
+}</pre></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">4</span><span class="chip out">Output</span><span class="dots">● ● ○</span>
+      <label class="done" for="d4"><input type="checkbox" id="d4"> done</label></div>
+    <p class="task">Three logs. Two traps.</p>
+    <pre><span class="k">const</span> nums = [9, 80, 7, 100];
+<span class="k">const</span> sorted = nums.sort();
+
+console.log(sorted);
+console.log(nums);
+console.log(sorted === nums);</pre>
+    <details><summary>Hint</summary><div>What does <code>sort</code> compare elements <em>as</em>, with no comparator? And for arrays, what question does <code>===</code> actually ask?</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · default sort is lexicographic · sort mutates · === is identity</p>
+      <pre>[ 100, 7, 80, 9 ]
+[ 100, 7, 80, 9 ]
+true</pre>
+      <p>As strings: <code>"100" &lt; "7" &lt; "80" &lt; "9"</code> — first characters decide, so <code>1</code> beats <code>7</code>. <code>sort</code> rearranges the original and returns <strong>that same array</strong>, so both names point at one object and <code>===</code> is <code>true</code>. Fix: <code>[...nums].sort((a,b) =&gt; a - b)</code>.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">5</span><span class="chip code">Code</span><span class="dots">● ● ○</span>
+      <label class="done" for="d5"><input type="checkbox" id="d5"> done</label></div>
+    <p class="task">Write <code>countByStatus(tasks)</code> — how many tasks in each status.</p>
+    <pre><span class="k">const</span> tasks = [
+  { title: <span class="s">"Login page"</span>, status: <span class="s">"done"</span> },
+  { title: <span class="s">"Signup API"</span>, status: <span class="s">"pending"</span> },
+  { title: <span class="s">"Dark mode"</span>,  status: <span class="s">"done"</span> },
+  { title: <span class="s">"Unit tests"</span>, status: <span class="s">"in-progress"</span> },
+  { title: <span class="s">"Deploy"</span>,     status: <span class="s">"done"</span> }
+];</pre>
+    <div class="expect"><b>Expected</b>{ done: 3, pending: 1, 'in-progress': 1 }</div>
+    <details><summary>Hint</summary><div>The accumulator is an object. The key comes from a variable — so brackets, not a dot. First time a key appears, it has no value yet.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · reduce with an object accumulator (count-by)</p>
+      <pre><span class="k">function</span> countByStatus(tasks) {
+  <span class="k">return</span> tasks.reduce((counts, task) =&gt; {
+    counts[task.status] = (counts[task.status] || 0) + 1;
+    <span class="k">return</span> counts;
+  }, {});
+}</pre></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">6</span><span class="chip out">Debug</span><span class="dots">● ● ○</span>
+      <label class="done" for="d6"><input type="checkbox" id="d6"> done</label></div>
+    <p class="task">This should list products over 500. It prints <code>[]</code>. Find the bug, explain <em>why it produces exactly <code>[]</code> and not an error</em>, and fix it.</p>
+    <pre><span class="k">function</span> costly(products) {
+  <span class="k">return</span> products.filter(p =&gt; { p.price &gt; 500; });
+}
+
+console.log(costly([{ name: <span class="s">"TV"</span>, price: 30000 }, { name: <span class="s">"Pen"</span>, price: 10 }]));</pre>
+    <details><summary>Hint</summary><div>Look at the braces. What value does that callback hand back for <em>every</em> product — and is that value truthy?</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · arrow block body needs an explicit return</p>
+      <p>The braces make it a statement body, so the comparison is computed and thrown away; the callback returns <code>undefined</code> every time. <code>undefined</code> is falsy, so <code>filter</code> keeps nothing — legal at every step, hence no error. Fix either way:</p>
+      <pre>products.filter(p =&gt; p.price &gt; 500);            <span class="c">// drop the braces</span>
+products.filter(p =&gt; { <span class="k">return</span> p.price &gt; 500; }); <span class="c">// or keep them + return</span></pre></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">7</span><span class="chip code">Code</span><span class="dots">● ● ○</span>
+      <label class="done" for="d7"><input type="checkbox" id="d7"> done</label></div>
+    <p class="task">Write <code>groupByAuthor(books)</code> — the titles collected under each author.</p>
+    <pre><span class="k">const</span> books = [
+  { title: <span class="s">"The Hobbit"</span>,   author: <span class="s">"Tolkien"</span> },
+  { title: <span class="s">"1984"</span>,         author: <span class="s">"Orwell"</span> },
+  { title: <span class="s">"Silmarillion"</span>, author: <span class="s">"Tolkien"</span> },
+  { title: <span class="s">"Animal Farm"</span>,  author: <span class="s">"Orwell"</span> },
+  { title: <span class="s">"Dune"</span>,         author: <span class="s">"Herbert"</span> }
+];</pre>
+    <div class="expect"><b>Expected</b>{
+  Tolkien: [ 'The Hobbit', 'Silmarillion' ],
+  Orwell: [ '1984', 'Animal Farm' ],
+  Herbert: [ 'Dune' ]
+}</div>
+    <details><summary>Hint</summary><div>Count-by's sibling. A first-time key starts as <code>[]</code> instead of <code>0</code>, and you <code>push</code> instead of adding 1. Push stands alone on its line — never assign its return value.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · group-by (arrays as object values)</p>
+      <pre><span class="k">function</span> groupByAuthor(books) {
+  <span class="k">return</span> books.reduce((groups, book) =&gt; {
+    <span class="k">if</span> (!groups[book.author]) {
+      groups[book.author] = [];
+    }
+    groups[book.author].push(book.title);
+    <span class="k">return</span> groups;
+  }, {});
+}</pre></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">8</span><span class="chip out">Output</span><span class="dots">● ● ○</span>
+      <label class="done" for="d8"><input type="checkbox" id="d8"> done</label></div>
+    <p class="task">Print order, and one sentence on why <code>"2"</code> is last.</p>
+    <pre>console.log(<span class="s">"1"</span>);
+
+setTimeout(() =&gt; console.log(<span class="s">"2"</span>), 0);
+
+Promise.resolve()
+  .then(() =&gt; console.log(<span class="s">"3"</span>))
+  .then(() =&gt; console.log(<span class="s">"4"</span>));
+
+console.log(<span class="s">"5"</span>);</pre>
+    <details><summary>Hint</summary><div>Own list first. Then the urgent board — <em>completely</em>, including notes added while it's being cleared. Then one note from the normal board.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · event loop, microtasks vs macrotasks</p>
+      <pre>1
+5
+3
+4
+2</pre>
+      <p><code>1</code> and <code>5</code> are synchronous. <code>3</code> is a microtask; when it finishes, its <code>.then</code> queues <code>4</code> as a <em>new</em> microtask — and the whole microtask queue drains before any timer, so <code>4</code> still beats <code>2</code>. A <code>setTimeout(…, 0)</code> callback is a macrotask: eligible immediately, served last.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">9</span><span class="chip out">Output</span><span class="dots">● ● ○</span>
+      <label class="done" for="d9"><input type="checkbox" id="d9"> done</label></div>
+    <p class="task">Two logs — and explain the difference between them.</p>
+    <pre><span class="k">const</span> config = {
+  theme: <span class="s">"dark"</span>,
+  user: { name: <span class="s">"Harsh"</span>, role: <span class="s">"admin"</span> }
+};
+
+<span class="k">const</span> copy = { ...config };
+copy.theme = <span class="s">"light"</span>;
+copy.user.role = <span class="s">"editor"</span>;
+
+console.log(config.theme);
+console.log(config.user.role);</pre>
+    <details><summary>Hint</summary><div>Spread copies every top-level value. For <code>user</code>, what exactly <em>is</em> the stored value?</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · shallow vs deep copy</p>
+      <pre>dark
+editor</pre>
+      <p><code>theme</code> is a string — the copy owns its own. <code>user</code>'s stored value is a <strong>reference</strong>, so the copy points at the same nested object and edits are shared. A fully independent copy: <code>structuredClone(config)</code>.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">10</span><span class="chip out">Debug</span><span class="dots">● ● ○</span>
+      <label class="done" for="d10"><input type="checkbox" id="d10"> done</label></div>
+    <p class="task">Expected <code>6</code>. Prints something strange. Say what it prints, why, and fix it.</p>
+    <pre><span class="k">const</span> items = [{ n: 1 }, { n: 2 }, { n: 3 }];
+
+<span class="k">const</span> total = items.reduce((sum, item) =&gt; sum + item.n);
+console.log(total);</pre>
+    <details><summary>Hint</summary><div>Count reduce's arguments. What does reduce use as the first accumulator when you don't give it one?</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · reduce without an initial value</p>
+      <pre>[object Object]23</pre>
+      <p>With no seed, reduce uses <strong>element[0]</strong> as the first accumulator and starts at element[1]. So round 1 computes <code>{n:1} + 2</code> — the object hits <code>+</code>, gets stringified to <code>"[object Object]"</code>, and from then on it's string concatenation. Fix: pass the seed — <code>reduce((sum, item) =&gt; sum + item.n, 0)</code>. (On an empty array with no seed, reduce throws.)</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">11</span><span class="chip code">Code</span><span class="dots">● ● ○</span>
+      <label class="done" for="d11"><input type="checkbox" id="d11"> done</label></div>
+    <p class="task">Write <code>charCount(str)</code>, then <code>mostFrequent(str)</code> which reuses it and returns the most common character.</p>
+    <pre>charCount(<span class="s">"javascript"</span>);
+mostFrequent(<span class="s">"javascript"</span>);
+charCount(<span class="s">""</span>);</pre>
+    <div class="expect"><b>Expected</b>{ j: 1, a: 2, v: 1, s: 1, c: 1, r: 1, i: 1, p: 1, t: 1 }
+'a'
+{}</div>
+    <details><summary>Hint</summary><div>Count-by, but the "items" are characters — <code>for...of</code> walks a string directly. For the second function: <code>Object.entries(obj)</code> gives you <code>[key, value]</code> pairs you can sort.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · strings + count-by + Object.entries</p>
+      <pre><span class="k">function</span> charCount(str) {
+  <span class="k">return</span> [...str].reduce((counts, ch) =&gt; {
+    counts[ch] = (counts[ch] || 0) + 1;
+    <span class="k">return</span> counts;
+  }, {});
+}
+
+<span class="k">function</span> mostFrequent(str) {
+  <span class="k">const</span> counts = charCount(str);          <span class="c">// reuse — don't rewrite</span>
+  <span class="k">return</span> Object.entries(counts)
+    .sort((a, b) =&gt; b[1] - a[1])[0][0];   <span class="c">// highest count, take its key</span>
+}</pre></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">12</span><span class="chip code">Code</span><span class="dots">● ● ○</span>
+      <label class="done" for="d12"><input type="checkbox" id="d12"> done</label></div>
+    <p class="task">Write <code>secondLargest(nums)</code> — the second largest <strong>distinct</strong> value. Decide what it returns when there isn't one, and implement that.</p>
+    <pre>secondLargest([12, 45, 45, 3, 22]);
+secondLargest([5]);
+secondLargest([7, 7, 7]);</pre>
+    <div class="expect"><b>Expected</b>22
+null
+null</div>
+    <details><summary>Hint</summary><div>One pass, two variables. When a new maximum arrives, the old maximum is demoted. Duplicates of the maximum must not qualify.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · single-pass scan, O(n) time / O(1) space</p>
+      <pre><span class="k">function</span> secondLargest(nums) {
+  <span class="k">let</span> largest = -Infinity, second = -Infinity;
+  <span class="k">for</span> (<span class="k">const</span> n <span class="k">of</span> nums) {
+    <span class="k">if</span> (n &gt; largest) { second = largest; largest = n; }
+    <span class="k">else if</span> (n &gt; second &amp;&amp; n !== largest) { second = n; }
+  }
+  <span class="k">return</span> second === -Infinity ? <span class="k">null</span> : second;
+}</pre>
+      <p>Say the alternative too: <code>[...new Set(nums)].sort((a,b) =&gt; b-a)[1]</code> — shorter, but O(n log n) and it copies.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">13</span><span class="chip out">Output</span><span class="dots">● ● ●</span>
+      <label class="done" for="d13"><input type="checkbox" id="d13"> done</label></div>
+    <p class="task">Both logs — and for each, <strong>name what <code>this</code> is</strong>. Don't say "lost".</p>
+    <pre><span class="k">const</span> timer = {
+  label: <span class="s">"T1"</span>,
+
+  startRegular() {
+    setTimeout(<span class="k">function</span> () { console.log(<span class="s">"A:"</span>, <span class="k">this</span>.label); }, 0);
+  },
+
+  startArrow() {
+    setTimeout(() =&gt; { console.log(<span class="s">"B:"</span>, <span class="k">this</span>.label); }, 0);
+  }
+};
+
+timer.startRegular();
+timer.startArrow();</pre>
+    <details><summary>Hint</summary><div>For a regular function, ask who <em>calls</em> it — not where it sits. For the arrow, ask where it was <em>written</em>.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · this — caller decides vs lexical</p>
+      <pre>A: undefined
+B: T1</pre>
+      <p><strong>A:</strong> a regular function invoked by <code>setTimeout</code> with no owner — <code>this</code> is the global object in a browser (the Timeout object in Node); either way there's no <code>label</code>, so <code>undefined</code>. <strong>B:</strong> an arrow has no <code>this</code> of its own, so it borrows from where it was written — inside <code>startArrow</code>, called as <code>timer.startArrow()</code>, so <code>this</code> is <code>timer</code>.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">14</span><span class="chip code">Code</span><span class="chip out">Explain</span><span class="dots">● ● ●</span>
+      <label class="done" for="d14"><input type="checkbox" id="d14"> done</label></div>
+    <p class="task">Write <code>debounce(fn, delay)</code> from scratch. Then write <code>throttle(fn, limit)</code>. Test both with the harness, and say in one sentence which one you'd use on a search box and why.</p>
+    <pre><span class="k">const</span> d = debounce(() =&gt; console.log(<span class="s">"debounced"</span>), 300);
+d(); d(); d();                       <span class="c">// burst of 3</span>
+
+<span class="k">const</span> t = throttle(() =&gt; console.log(<span class="s">"throttled"</span>), 1000);
+t(); t(); t();
+setTimeout(t, 1500);</pre>
+    <div class="expect"><b>Expected</b>"throttled" immediately · "debounced" once ~300ms later · "throttled" again at ~1500ms
+(3 lines total)</div>
+    <details><summary>Hint</summary><div>Both keep state in a closure. Debounce: cancel the pending timer, schedule a new one — <code>fn</code> runs <em>inside</em> the timer. Throttle: a gate — <code>fn</code> runs <em>immediately</em>, and the timer's only job is reopening.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · closures in practice</p>
+      <pre><span class="k">function</span> debounce(fn, delay) {
+  <span class="k">let</span> timerId;
+  <span class="k">return function</span> (...args) {
+    clearTimeout(timerId);
+    timerId = setTimeout(() =&gt; fn.apply(<span class="k">this</span>, args), delay);
+  };
+}
+
+<span class="k">function</span> throttle(fn, limit) {
+  <span class="k">let</span> open = <span class="k">true</span>;
+  <span class="k">return function</span> (...args) {
+    <span class="k">if</span> (!open) <span class="k">return</span>;        <span class="c">// dropped, never queued</span>
+    fn.apply(<span class="k">this</span>, args);
+    open = <span class="k">false</span>;
+    setTimeout(() =&gt; { open = <span class="k">true</span>; }, limit);
+  };
+}</pre>
+      <p>Search box → <strong>debounce</strong>: only the final text matters, so wait until typing stops instead of firing a request per keystroke.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">15</span><span class="chip code">Code</span><span class="dots">● ● ●</span>
+      <label class="done" for="d15"><input type="checkbox" id="d15"> done</label></div>
+    <p class="task">Write <code>flattenDeep(arr)</code> without using <code>.flat()</code>. Then say which line is the base case.</p>
+    <pre>flattenDeep([1, [2, [3, [4, [5]]]], 6]);
+flattenDeep([]);</pre>
+    <div class="expect"><b>Expected</b>[ 1, 2, 3, 4, 5, 6 ]
+[]</div>
+    <details><summary>Hint</summary><div>Loop the items (horizontal). An item that is itself an array is the same problem, smaller — hand it to your own function and spread the result in (vertical). <code>Array.isArray(x)</code> does the test.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · recursion</p>
+      <pre><span class="k">function</span> flattenDeep(arr) {
+  <span class="k">const</span> basket = [];
+  <span class="k">for</span> (<span class="k">const</span> item <span class="k">of</span> arr) {
+    <span class="k">if</span> (Array.isArray(item)) {
+      basket.push(...flattenDeep(item));
+    } <span class="k">else</span> {
+      basket.push(item);          <span class="c">// ← BASE CASE: no self-call</span>
+    }
+  }
+  <span class="k">return</span> basket;
+}</pre>
+      <p>It terminates because every self-call goes one level deeper into a structure of finite depth. The empty array needs no special code — the loop simply runs zero times.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">16</span><span class="chip code">Code</span><span class="chip out">Output</span><span class="dots">● ● ●</span>
+      <label class="done" for="d16"><input type="checkbox" id="d16"> done</label></div>
+    <p class="task">Write <code>wait(ms)</code> — returns a promise that fulfils with <code>"done"</code> after <code>ms</code>. Then predict this, and run it.</p>
+    <pre><span class="k">async function</span> main() {
+  console.log(<span class="s">"start"</span>);
+  <span class="k">const</span> msg = <span class="k">await</span> wait(500);
+  console.log(msg);
+  console.log(<span class="s">"end of main"</span>);
+}
+
+main();
+console.log(<span class="s">"after main()"</span>);</pre>
+    <div class="expect"><b>Expected</b>start
+after main()
+done          ← ~500ms later (half a second)
+end of main</div>
+    <details><summary>Hint</summary><div>Wrap <code>new Promise((resolve) =&gt; …)</code> in a function and <strong>return</strong> it; pull the <code>resolve</code> lever inside the timer. For the order: <code>await</code> pauses only <em>that function</em>, so the caller's next line runs during the pause.</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · building a promise + async/await ordering</p>
+      <pre><span class="k">function</span> wait(ms) {
+  <span class="k">return new</span> Promise((resolve) =&gt; {
+    setTimeout(() =&gt; resolve(<span class="s">"done"</span>), ms);
+  });
+}</pre>
+      <p>Test your <code>wait</code> honestly: log something only the <code>await</code> could produce (like <code>"received: done"</code>). If you <code>console.log</code> inside the timer instead of calling <code>resolve</code>, the output looks right while the promise stays pending forever.</p></div></details>
+  </div>
+
+  <div class="q">
+    <div class="qhead"><span class="num">17</span><span class="chip code">Code</span><span class="dots">● ● ●</span>
+      <label class="done" for="d17"><input type="checkbox" id="d17"> done</label></div>
+    <p class="task">The boss. Write <code>topSpenders(orders, n)</code> — the top <em>n</em> customers by total <strong>paid</strong> spend, highest first.</p>
+    <pre><span class="k">const</span> orders = [
+  { customer: <span class="s">"Aman"</span>,  amount: 1200, status: <span class="s">"paid"</span> },
+  { customer: <span class="s">"Priya"</span>, amount: 800,  status: <span class="s">"paid"</span> },
+  { customer: <span class="s">"Aman"</span>,  amount: 2000, status: <span class="s">"cancelled"</span> },
+  { customer: <span class="s">"Ravi"</span>,  amount: 500,  status: <span class="s">"paid"</span> },
+  { customer: <span class="s">"Priya"</span>, amount: 1500, status: <span class="s">"paid"</span> },
+  { customer: <span class="s">"Aman"</span>,  amount: 300,  status: <span class="s">"paid"</span> }
+];
+
+topSpenders(orders, 2);</pre>
+    <div class="expect"><b>Expected</b>[ { customer: 'Priya', total: 2300 },
+  { customer: 'Aman', total: 1500 } ]</div>
+    <details><summary>Hint</summary><div>Four steps, each one you've already done: keep only paid → total per customer (object accumulator) → turn that object back into an array of objects (<code>Object.entries</code> + <code>map</code>) → sort descending and take the first <code>n</code> (<code>slice</code>).</div></details>
+    <details><summary>Solution</summary><div><p class="topic">Topic · full pipeline — filter, group-totals, entries, sort, slice</p>
+      <pre><span class="k">function</span> topSpenders(orders, n) {
+  <span class="k">const</span> totals = orders
+    .filter(order =&gt; order.status === <span class="s">"paid"</span>)
+    .reduce((sums, order) =&gt; {
+      sums[order.customer] = (sums[order.customer] || 0) + order.amount;
+      <span class="k">return</span> sums;
+    }, {});
+
+  <span class="k">return</span> Object.entries(totals)
+    .map(([customer, total]) =&gt; ({ customer, total }))   <span class="c">// parens: object, not a block</span>
+    .sort((a, b) =&gt; b.total - a.total)
+    .slice(0, n);
+}</pre>
+      <p>Two details interviewers probe: returning an object from an arrow needs wrapping parentheses, and <code>slice(0, n)</code> is safe even when there are fewer than <code>n</code> customers.</p></div></details>
+  </div>
+
+  <div class="sweep">
+    <h2>Before you call any answer finished</h2>
+    <ul>
+      <li>Re-read the task and tick <strong>every</strong> requirement — including the explain-in-one-sentence parts.</li>
+      <li>Did you actually <strong>run</strong> it, and does the code you're looking at match the output you're looking at?</li>
+      <li>Does each printed line match the expected block — including the ones testing "don't change the original"?</li>
+      <li>Names: singular for one item, no typos, <code>const</code> on loop variables, <code>===</code> not <code>==</code>.</li>
+      <li>Milliseconds: convert out loud. 1000 ms is one second.</li>
+      <li>Every function call has its arguments; every function that should give something back has a <code>return</code>.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function () {
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.done input'));
+  var count = document.getElementById('count');
+  var fill = document.getElementById('fill');
+
+  function save() {
+    try {
+      var state = boxes.filter(function (b) { return b.checked; }).map(function (b) { return b.id; });
+      localStorage.setItem('jsDrillDone', JSON.stringify(state));
+    } catch (e) { /* private mode — progress just won't persist */ }
+  }
+
+  function render() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    count.textContent = done + ' of ' + boxes.length + ' done';
+    fill.style.width = (done / boxes.length * 100) + '%';
+  }
+
+  try {
+    var saved = JSON.parse(localStorage.getItem('jsDrillDone') || '[]');
+    boxes.forEach(function (b) { if (saved.indexOf(b.id) !== -1) b.checked = true; });
+  } catch (e) { /* ignore */ }
+
+  boxes.forEach(function (b) {
+    b.addEventListener('change', function () { save(); render(); });
+  });
+
+  render();
+})();
+</script>
