@@ -69,7 +69,7 @@
 <div class="wrap">
   <h1>JS Recall Deck</h1>
   <p class="sub">Every topic we've covered, compressed to the rule + <em>your own</em> past mistakes + the sentence to say in an interview. Read the amber boxes twice — they're where you actually slipped. Practice problems live in the JS Drill Set.</p>
-  <p class="upd">Living document · last update 01-10-2026 · syntax cards added to every topic</p>
+  <p class="upd">Living document · last update 01-10-2026 · syntax cards + the object-accumulator family</p>
 
   <h2>1 · Hoisting &amp; TDZ <small>hotel model</small></h2>
   <p>Before running, JS scans the scope and "books a room" for every declaration:</p>
@@ -283,6 +283,16 @@ cart.reduce((total, line) =&gt; total + (line.price * line.qty), 0);
     <li>reduce law: <strong>the callback's return becomes acc for the next round</strong> (map's sibling law: the return becomes the new element — a block body needs an explicit <code>return</code>).</li>
     <li><strong>No seed?</strong> reduce uses element[0] as the first acc and starts at element[1] — on objects that gives <code>"[object Object]23"</code>; on an empty array it THROWS. Always pass the seed.</li>
     <li><strong>Count-by</strong>: <code>counts[c.city] = (counts[c.city] || 0) + 1;</code> with seed <code>{}</code> · <strong>Group-by</strong>: first-time key starts as <code>[]</code>, then <code>push</code> on its own line (never assign push's return — it's a length).</li>
+  </ul>
+  <div class="rule"><b>The object-accumulator family — one pattern, three goals</b>All three are <code>reduce</code> with a <code>{}</code> seed and the line <code>acc[key] = (acc[key] || default) + contribution</code>. Only the default and the contribution change.</div>
+  <div class="tw"><table>
+    <tr><th>Goal</th><th>First-time default</th><th>What you add</th><th>The line</th></tr>
+    <tr><td>count-by</td><td><code>0</code></td><td><code>+ 1</code></td><td><code>acc[o.city] = (acc[o.city] || 0) + 1;</code></td></tr>
+    <tr><td>sum-by</td><td><code>0</code></td><td><code>+ o.amount</code></td><td><code>acc[o.customer] = (acc[o.customer] || 0) + o.amount;</code></td></tr>
+    <tr><td>group-by</td><td><code>[]</code></td><td><code>.push(item)</code></td><td><code>(acc[o.type] ||= []).push(o.name);</code></td></tr>
+  </table></div>
+  <div class="rule"><b>Why <code>|| 0</code> is not optional</b>On the first round the key doesn't exist, so <code>acc[key]</code> is <code>undefined</code> — and <code>undefined + 1200</code> is <code>NaN</code>, which then poisons every later round (<code>{ Aman: NaN }</code>). The <code>|| 0</code> supplies the starting value, and only round one ever uses it. <code>??</code> is the more precise operator (falls back only for null/undefined) and is safer when <code>0</code> is a legitimate stored value.</div>
+  <ul style="margin-top:9px">
   </ul>
   <div class="mine"><b>Your past mistakes</b>Called <code>filter(...)</code> bare — it's a METHOD on the array; named the callback param plural (<code>products</code>) when it receives ONE item; map answered the practiced question (<code>price*2</code>) instead of the asked one; wrote <code>&gt; 18</code> for "18 or above" — always test AT the boundary; used the whole object as a key → <code>{'[object Object]': 5}</code>; blended map and reduce (map's params are (element, index) — there is no accumulator).</div>
   <div class="say"><b>Say it in the interview (your failed question)</b>"<code>forEach</code> runs a function per element and returns <code>undefined</code> — it's for side effects. <code>map</code> collects each callback's return into a new array of the same length — it's for transforming. Neither changes the original. If I need the result, <code>map</code>; otherwise <code>forEach</code>. <code>reduce</code> folds the whole array into one value — a total, or an object of counts."</div>
