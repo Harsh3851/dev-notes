@@ -69,7 +69,7 @@
 <div class="wrap">
   <h1>JS Recall Deck</h1>
   <p class="sub">Every topic we've covered, compressed to the rule + <em>your own</em> past mistakes + the sentence to say in an interview. Read the amber boxes twice — they're where you actually slipped. Practice problems live in the JS Drill Set.</p>
-  <p class="upd">Living document · last update 01-10-2026 · syntax cards + the object-accumulator family</p>
+  <p class="upd">Living document · last update 01-10-2026 · tool picker, Object.entries, max-with-reduce</p>
 
   <h2>1 · Hoisting &amp; TDZ <small>hotel model</small></h2>
   <p>Before running, JS scans the scope and "books a room" for every declaration:</p>
@@ -318,6 +318,23 @@ arr.flat(Infinity)                          <span class="c">// fully flat (flat(
   <span class="k">return</span> basket;
 }</pre>
   <div class="rule"><b>Recursion in one breath</b>A function calling itself on a strictly smaller piece, plus a floor. Loop = horizontal (this level); recursion = vertical (into a box). It stops because each self-call is one level SHALLOWER and depth is finite. The base case is the branch with NO self-call — not the loop ending.</div>
+  <div class="rule"><b>Picking the tool — the question decides it</b><code>filter</code> = keep some (judged on ONE item alone) · <code>map</code> = transform each (same count) · <code>reduce</code> = combine many into one · <code>sort</code> = order them. <strong>"Which one is biggest?" is a comparison</strong> — an item can't know it's the biggest by looking only at itself — so it's <code>reduce</code> (compare two, keep the winner) or <code>sort</code> then <code>[0]</code>. Never <code>filter</code>.</div>
+  <div class="rule"><b>Max with reduce — compare one thing, return another</b>The accumulator is the champion so far. Compare the <strong>values</strong> (<code>pair[1] &gt; best[1]</code>) but return the <strong>whole item</strong> (<code>pair</code> / <code>best</code>), so the name travels to the end. No seed: the first item is the starting champion, so the accumulator is always the same kind of thing. (On an empty array this throws — guard for it in real code.)</div>
+  <pre>// object → array of [key, value] pairs, so array tools work again
+const totals = { Aman: 2000, Ravi: 5000 };
+Object.entries(totals);   // [[&quot;Aman&quot;, 2000], [&quot;Ravi&quot;, 5000]]   pair[0] = key, pair[1] = value
+Object.keys(totals);      // [&quot;Aman&quot;, &quot;Ravi&quot;]
+Object.values(totals);    // [2000, 5000]
+
+// find the biggest: COMPARE the [1], RETURN the whole pair — no seed
+const top = Object.entries(totals)
+  .reduce((best, pair) =&gt; pair[1] &gt; best[1] ? pair : best);   // [&quot;Ravi&quot;, 5000]
+top[0];                                                       // &quot;Ravi&quot;
+
+// or: sort a copy descending and take the first
+Object.entries(totals).sort((a, b) =&gt; b[1] - a[1])[0][0];     // &quot;Ravi&quot;</pre>
+  <div class="rule"><b>Comparing non-numbers with &gt; or &lt;</b>Arrays and objects are converted to <strong>strings</strong> first: <code>["Ravi",2000] &gt; ["Aman",2000]</code> becomes <code>"Ravi,2000" &gt; "Aman,2000"</code> — alphabetical, true. A number vs an array becomes a number vs <code>NaN</code>, and every comparison with <code>NaN</code> is <code>false</code>. Same family as the default-sort trap.</div>
+  <div class="mine"><b>Your past mistakes (01-10, topCustomer)</b>Planned filter → map to find a maximum (filter can't compare items). Forgot to aggregate first — Aman appears twice, so total per customer before ranking. Compared whole pairs (<code>n &gt; acc</code>) → ranked alphabetically → Ravi won wrongly. Then <code>n[1] &gt; acc</code> with seed <code>0</code> → a number vs an array → NaN → always kept the first entry; it <em>passed only because of a tie</em>. Then returned <code>n[1]</code> instead of <code>n</code> → lost the name, and <code>0[1]</code> → undefined → TypeError next round. <strong>Test data must be able to tell working from broken</strong>: make one value clearly win (Ravi 5000) before trusting an output. Also: used GPT on problem 1; ask for a step-hint instead.</div>
   <div class="card"><b>Syntax card — type this out when revising</b><pre>const users = [{ name: &quot;Aman&quot;, age: 17 }, { name: &quot;Priya&quot;, age: 22 }];
 
 users.forEach((u, i) =&gt; console.log(i, u.name));   // side effects only — returns undefined
