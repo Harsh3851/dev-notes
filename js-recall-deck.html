@@ -61,12 +61,15 @@
   td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
   .tracker td:first-child{white-space:normal}
   a{color:var(--accent)}
+  .card{border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:10px 12px 4px;margin:14px 0 6px}
+  .card > b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block}
+  .card pre{margin:6px 0 8px}
 </style>
 
 <div class="wrap">
   <h1>JS Recall Deck</h1>
   <p class="sub">Every topic we've covered, compressed to the rule + <em>your own</em> past mistakes + the sentence to say in an interview. Read the amber boxes twice — they're where you actually slipped. Practice problems live in the JS Drill Set.</p>
-  <p class="upd">Living document · last update 20-09-2026 · class added — all roadmap topics now taught</p>
+  <p class="upd">Living document · last update 01-10-2026 · syntax cards added to every topic</p>
 
   <h2>1 · Hoisting &amp; TDZ <small>hotel model</small></h2>
   <p>Before running, JS scans the scope and "books a room" for every declaration:</p>
@@ -79,6 +82,18 @@
 console.log(b); <span class="k">let</span> b = 1;   <span class="c">// ReferenceError, script STOPS here</span></pre>
   <div class="mine"><b>Your past mistakes</b>Said "const is not hoisted" (it IS — hoisted but uninitialised); thought TDZ yields <code>undefined</code> (it throws); said the <code>var</code> version prints the future value 10; called hoisting "lexical scope". Scope = <em>where</em> visible; hoisting = <em>when</em> usable. Also: two function declarations with the same name — the LAST one wins.</div>
   <div class="say"><b>Say it in the interview</b>"Hoisting means JavaScript registers all declarations before running the code. <code>var</code> variables exist from the start holding <code>undefined</code>. <code>let</code> and <code>const</code> also exist from the start but can't be touched until their own line runs — that gap is the temporal dead zone, and access there throws a ReferenceError. Function declarations are hoisted with their body, so I can call them above where they're written."</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>greet();                        // ✅ works — function DECLARATION is hoisted with its body
+function greet() { console.log(&quot;hi&quot;); }
+
+console.log(x);                 // undefined — var is hoisted, the value isn&#x27;t yet
+var x = 5;
+
+// console.log(y);             // ❌ ReferenceError — let/const in the TDZ
+let y = 10;
+const z = 20;                   // const must be given a value on the same line
+
+// sayBye();                   // ❌ TypeError: sayBye is not a function (var holds undefined)
+var sayBye = function () {};    // function EXPRESSION follows var/let rules, not declaration rules</pre></div>
 
   <h2>2 · Errors <small>which one, and what dies</small></h2>
   <div class="tw"><table>
@@ -89,6 +104,24 @@ console.log(b); <span class="k">let</span> b = 1;   <span class="c">// Reference
     <tr><td>RangeError</td><td>Stack blown</td><td>recursion with no base case</td></tr>
   </table></div>
   <div class="rule"><b>Rules</b>An uncaught runtime error kills everything AFTER that line. "Prints <code>undefined</code>" and "throws" are different outcomes — if <code>x.y</code> prints undefined, <code>x</code> existed. "Cannot read properties of null" → the bug is in the lookup that produced null, not on that line. <code>NaN</code> → some operand was <code>undefined</code>. <code>[object Object]</code> anywhere → an object went where a string was expected.</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>try {
+  JSON.parse(&quot;{bad json}&quot;);                // throws a SyntaxError at runtime
+} catch (err) {
+  console.log(err.name, err.message);     // &quot;SyntaxError&quot; &quot;Unexpected token ...&quot;
+} finally {
+  console.log(&quot;always runs&quot;);             // cleanup — runs either way
+}
+
+function withdraw(balance, amount) {
+  if (typeof amount !== &quot;number&quot;) throw new TypeError(&quot;amount must be a number&quot;);
+  if (amount &gt; balance) throw new Error(&quot;Insufficient funds&quot;);
+  return balance - amount;
+}
+
+// recognise them (each line throws on its own):
+// notDeclared;                     ReferenceError: notDeclared is not defined
+// null.length;                     TypeError: Cannot read properties of null
+// (function f() { f(); })();       RangeError: Maximum call stack size exceeded</pre></div>
 
   <h2>3 · Coercion &amp; the + rule</h2>
   <div class="rule"><b>The rule</b><code>+</code> is the ONLY arithmetic operator with a second job: if either side is a string it CONCATENATES. Every other operator (<code>- * / %</code>) forces numbers.</div>
@@ -98,6 +131,18 @@ console.log(b); <span class="k">let</span> b = 1;   <span class="c">// Reference
   <p><code>textContent</code> always returns a string → <code>Number(x)</code> before maths. The 8 falsy values: <code>false 0 -0 0n "" null undefined NaN</code>. Use <code>===</code> always. Say "coerce", not "reduce".</p>
   <div class="mine"><b>Your past mistake</b>Said <code>"5" + 1</code> is 6 ("converts before any calculation") — the <code>+</code> exception IS the question.</div>
   <div class="say"><b>Say it in the interview</b>"<code>===</code> compares value and type with no conversion; <code>==</code> converts first, which gives surprises like <code>'1' == 1</code> being true — so I always use <code>===</code>. And <code>+</code> is the only maths operator that also joins strings, so if either side is a string it concatenates; every other operator converts strings to numbers."</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>&quot;5&quot; + 1              // &quot;51&quot;  — + with a string concatenates
+&quot;5&quot; - 1              // 4     — - * / % convert to numbers
+&quot;5&quot; * &quot;2&quot;            // 10
+Number(&quot;42&quot;)         // 42    — explicit conversion: preferred
+Number(&quot;abc&quot;)        // NaN
+parseInt(&quot;42px&quot;, 10) // 42
+String(42)           // &quot;42&quot;
+Boolean(&quot;&quot;)          // false — falsy: false 0 -0 0n &quot;&quot; null undefined NaN
+Boolean(&quot;0&quot;)         // true  — any non-empty string
+1 == &quot;1&quot;             // true  (converts)      1 === &quot;1&quot;   // false — always use ===
+null == undefined    // true                  null === undefined // false
+const qty = Number(input.value) || 0;   // safe number from a form field</pre></div>
 
   <h2>4 · this <small>the caller fills it in</small></h2>
   <div class="rule"><b>The two rules</b>Regular function: <code>this</code> = decided by the CALLER at call time ("who calls it — anything left of the dot?"). Arrow function: no own <code>this</code> — borrows from where it was WRITTEN, permanently. For a regular function, where it was written NEVER matters.</div>
@@ -113,6 +158,22 @@ console.log(b); <span class="k">let</span> b = 1;   <span class="c">// Reference
   </table></div>
   <div class="mine"><b>Your past mistakes (highest-priority re-read)</b>Believed <code>this</code> flows DOWN from a method into a nested regular function — it never does; each regular function's this is set at ITS OWN call. Wrote <code>this.value++</code> expecting a local variable — <code>this.x</code> is a PROPERTY on whatever this is, never a variable. Always NAME the value ("this is window"), never "this is lost".</div>
   <div class="say"><b>Say it in the interview</b>"In a regular function <code>this</code> depends on how the function is called — whatever is left of the dot at the call site. Called bare it's <code>window</code>, or <code>undefined</code> in strict mode. Arrow functions have no <code>this</code> of their own; they use the <code>this</code> of the place where they were written. That's why arrows fix a callback that loses <code>this</code>."</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>const user = {
+  name: &quot;Harsh&quot;,
+  hi() { return this.name; },                                   // regular method
+  later() {
+    setTimeout(function () { console.log(this.name); }, 0);     // undefined — passed = orphaned
+    setTimeout(() =&gt; console.log(this.name), 0);                // &quot;Harsh&quot; — arrow borrows later()&#x27;s this
+  }
+};
+
+user.hi();                    // &quot;Harsh&quot;   — left of the dot is user
+const f = user.hi;
+f();                          // undefined — called bare, no owner
+f.call(user);                 // &quot;Harsh&quot;   — this set by hand
+const bound = user.hi.bind(user);
+bound();                      // &quot;Harsh&quot;   — permanently fixed
+[1, 2].forEach(function () { console.log(this.name); }, user);   // &quot;Harsh&quot; ×2 — thisArg</pre></div>
 
   <h2>5 · DOM selection, fn vs fn(), events</h2>
   <div class="rule"><b>Two selector families</b><code>getElementById("btn")</code> / <code>getElementsByClassName("item")</code> — the method name says how it searches, so pass the BARE name. <code>querySelector("#btn")</code> / <code>querySelectorAll(".item")</code> — you write a CSS selector, symbols included. Use the querySelector family for everything.</div>
@@ -126,6 +187,28 @@ btn.addEventListener(<span class="s">"click"</span>, <span class="s">"handleClic
     <li><code>querySelectorAll</code> → static NodeList; <code>getElementsBy*</code> → live HTMLCollection. Neither is a real array.</li>
   </ul>
   <div class="mine"><b>Your past mistakes</b>Quoted the handler name as a string; invented an "onclick fires first" rule; forgot to select elements at all (the id→global accident); <code>querySelector("count")</code> without <code>#</code> = tag selector → null → TypeError at click time; confused <code>getElementById</code> with <code>querySelector</code> (they never combine).</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>const btn  = document.querySelector(&quot;#save&quot;);     // one element, CSS selector
+const rows = document.querySelectorAll(&quot;.row&quot;);   // static NodeList
+const list = document.getElementById(&quot;list&quot;);     // bare id, no #
+
+btn.textContent = &quot;Saving…&quot;;       // change text
+btn.classList.add(&quot;busy&quot;);         // add / remove / toggle a class
+btn.disabled = true;
+
+const li = document.createElement(&quot;li&quot;);   // 1. MAKE
+li.textContent = &quot;New task&quot;;               // 2. FILL
+list.appendChild(li);                      // 3. ATTACH — now it&#x27;s on screen
+li.remove();                               // take it off again
+
+btn.addEventListener(&quot;click&quot;, handleClick);        // reference — NOT handleClick()
+function handleClick(e) { console.log(e.target, e.currentTarget); }
+
+// delegation: one listener handles every item, including ones added later
+list.addEventListener(&quot;click&quot;, (e) =&gt; {
+  const item = e.target.closest(&quot;li&quot;);
+  if (!item) return;
+  item.classList.toggle(&quot;done&quot;);
+});</pre></div>
 
   <h2>6 · Closures</h2>
   <pre><span class="k">function</span> createCounter() {
@@ -137,6 +220,25 @@ c(); c();                     <span class="c">// 1, 2 — count survives the ret
   <p>A function keeps its birth-place variables alive after the outer function returns. It remembers the <strong>variable</strong>, not a snapshot. Each call of the outer function creates a <strong>fresh, independent</strong> backpack. This is the machinery behind debounce, throttle and private state.</p>
   <div class="mine"><b>Your past mistake</b>Explained closures via "heap memory" — say lexical environment kept alive. Scope = where visible; closure = how it survives.</div>
   <div class="say"><b>Say it in the interview</b>"A closure is a function that remembers the variables from where it was created, even after that outer function has finished. The classic example is a counter: an outer function holds <code>let count = 0</code> and returns an inner function that increments it — the count stays alive between calls and nothing outside can touch it."</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>function makeCounter() {
+  let count = 0;                     // private — nothing outside can touch it
+  return {
+    inc: () =&gt; ++count,
+    reset: () =&gt; { count = 0; }
+  };
+}
+const c = makeCounter();
+c.inc(); c.inc();                    // 2
+const d = makeCounter();             // a brand-new, independent backpack
+d.inc();                             // 1
+
+function once(fn) {                  // classic interview utility
+  let done = false, result;
+  return function (...args) {
+    if (!done) { done = true; result = fn.apply(this, args); }
+    return result;
+  };
+}</pre></div>
 
   <h2>7 · Arrays: loops &amp; the collect pattern</h2>
   <div class="rule"><b>for...IN vs for...OF</b>for...<strong>in</strong> → Indexes/keys (as strings!). for...<strong>of</strong> → the values. For arrays you almost always want <code>of</code>.</div>
@@ -151,6 +253,22 @@ c(); c();                     <span class="c">// 1, 2 — count survives the ret
 }</pre>
   <p>Sibling — the <strong>sum pattern</strong>: <code>let sum = 0</code> inside, <code>sum += …</code> in the loop, <code>return sum</code> after. Same skeleton, number instead of array.</p>
   <div class="mine"><b>Your past mistakes</b>Used for...in and treated the key as the object; <code>return</code>ed inside the loop → only the first match; declared the basket OUTSIDE → results doubled on a second call; forgot <code>return basket</code>; called the function with no argument, so the parameter shadowed the global and was undefined. Name the loop variable <code>product</code>, never <code>i</code>, and always <code>const</code>.</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>const a = [3, 1, 2];
+a.push(4);  a.pop();           // add / remove at the END     (mutates)
+a.unshift(0); a.shift();       // add / remove at the START   (mutates)
+a.length;                      // 3
+a.includes(2);                 // true
+a.indexOf(2);                  // 2   (-1 when missing)
+a.slice(0, 2);                 // [3, 1]  copy, end excluded — no mutation
+a.splice(1, 1);                // removes 1 item at index 1 — MUTATES → a is [3, 2]
+[...a, 9];                     // new array: copy + add
+a.join(&quot;-&quot;);                   // &quot;3-2&quot;
+a.find(x =&gt; x &gt; 2);            // 3          first match, or undefined
+a.findIndex(x =&gt; x &gt; 2);       // 0          its index, or -1
+a.some(x =&gt; x &gt; 2);            // true       any match?
+a.every(x =&gt; x &gt; 0);           // true       all match?
+for (const x of a) {}          // loop the VALUES
+for (let i = 0; i &lt; a.length; i++) {}   // loop with the index</pre></div>
 
   <h2>8 · filter · map · reduce <small>the interview trio</small></h2>
   <div class="rule"><b>The three questions</b><code>filter</code> — keep this one? (true/false) · <code>map</code> — what does each one BECOME? (same length, always) · <code>reduce</code> — fold everything into ONE value. <code>forEach</code> returns <strong>undefined</strong> — side effects only. None of them mutate the original.</div>
@@ -190,6 +308,26 @@ arr.flat(Infinity)                          <span class="c">// fully flat (flat(
   <span class="k">return</span> basket;
 }</pre>
   <div class="rule"><b>Recursion in one breath</b>A function calling itself on a strictly smaller piece, plus a floor. Loop = horizontal (this level); recursion = vertical (into a box). It stops because each self-call is one level SHALLOWER and depth is finite. The base case is the branch with NO self-call — not the loop ending.</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>const users = [{ name: &quot;Aman&quot;, age: 17 }, { name: &quot;Priya&quot;, age: 22 }];
+
+users.forEach((u, i) =&gt; console.log(i, u.name));   // side effects only — returns undefined
+users.map(u =&gt; u.name);                            // [&quot;Aman&quot;, &quot;Priya&quot;]
+users.map(u =&gt; ({ ...u, adult: u.age &gt;= 18 }));    // returning an OBJECT → wrap it in ( )
+users.filter(u =&gt; u.age &gt;= 18);                    // [{ name: &quot;Priya&quot;, age: 22 }]
+users.reduce((sum, u) =&gt; sum + u.age, 0);          // 39
+
+// object accumulator: count-by / sum-by / lookup
+users.reduce((acc, u) =&gt; { acc[u.name] = u.age; return acc; }, {});   // { Aman: 17, Priya: 22 }
+
+// group-by
+items.reduce((groups, it) =&gt; {
+  if (!groups[it.type]) groups[it.type] = [];
+  groups[it.type].push(it.name);
+  return groups;
+}, {});
+
+// a full pipeline: unique names of paid customers
+[...new Set(orders.filter(o =&gt; o.status === &quot;paid&quot;).map(o =&gt; o.customer))];</pre></div>
 
   <h2>9 · Debounce &amp; throttle <small>closures + timers</small></h2>
   <div class="rule"><b>One line</b>Debounce runs once AFTER the burst ends (wait for silence — the lift door resets on every new person). Throttle runs at most once per interval DURING the burst (the toll gate). Debounce for a search box; throttle for scroll, resize, button-spam.</div>
@@ -212,6 +350,12 @@ arr.flat(Infinity)                          <span class="c">// fully flat (flat(
 }</pre>
   <p>Both are a <strong>factory</strong> (runs ONCE — creates the closure state) returning a <strong>wrapper</strong> (runs on EVERY event — makes the per-call decision). Per-call decisions can only live in the wrapper. <code>...args</code> is <strong>rest</strong> (gathers); <code>fn.apply(this, args)</code> forwards both — note the <strong>comma</strong>, not a dot.</p>
   <div class="mine"><b>Your past mistakes</b>Put the gate check in the factory; put <code>fn</code> inside the reopen timer (that's "delay everything", not throttle) — and it cost you a failed cold rep; wrote <code>fn(this, args)</code> and <code>fn.apply(this.args)</code>; called dropped calls "waiting" (they're discarded); asked "is this correct?" instead of running the harness. Harness expectation: exactly TWO run lines.</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>// using them — the factories return a NEW function; attach that
+const onSearch = debounce((q) =&gt; fetch(`/api/search?q=${q}`), 300);
+input.addEventListener(&quot;input&quot;, (e) =&gt; onSearch(e.target.value));
+
+const onScroll = throttle(() =&gt; console.log(window.scrollY), 200);
+window.addEventListener(&quot;scroll&quot;, onScroll);</pre></div>
 
   <h2>10 · Copies, second largest &amp; strings</h2>
   <pre><span class="k">const</span> shallow = { ...user };            <span class="c">// one level — nested objects are SHARED</span>
@@ -232,6 +376,31 @@ JSON.parse(JSON.stringify(user))        <span class="c">// deep hack: loses func
 <span class="k">function</span> isPalindrome(str) { <span class="k">const</span> c = str.toLowerCase(); <span class="k">return</span> c === reverseString(c); }</pre>
   <p>Strings are immutable → go via an array (<code>split</code>/spread), work, <code>join</code> back. Return the comparison itself — never <code>if (x !== y) return false; return true;</code></p>
   <div class="mine"><b>Your past mistakes</b>Said nested objects are "passed by reference" (nothing is passed in a copy — the stored value IS a reference); returned -Infinity instead of deciding a contract; inlined split/reverse/join when the task said REUSE your own function (requirement-drift — re-read the ask AFTER writing); <code>count[count.item]</code> instead of <code>count[ch]</code> → <code>{undefined: NaN}</code>.</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>// ---- objects ----
+const user = { name: &quot;Harsh&quot;, age: 24 };
+user.city = &quot;Noida&quot;;                    // add a property
+delete user.age;                        // remove one
+&quot;name&quot; in user;                         // true
+Object.keys(user);                      // [&quot;name&quot;, &quot;city&quot;]
+Object.values(user);                    // [&quot;Harsh&quot;, &quot;Noida&quot;]
+Object.entries(user);                   // [[&quot;name&quot;,&quot;Harsh&quot;], [&quot;city&quot;,&quot;Noida&quot;]]
+for (const [key, value] of Object.entries(user)) console.log(key, value);
+const { name, city = &quot;?&quot; } = user;      // destructuring with a default
+const copy = { ...user, age: 25 };      // shallow copy + override
+const deep = structuredClone(user);     // deep copy
+
+// ---- strings ----
+const s = &quot;  Hello World  &quot;;
+s.trim();                     // &quot;Hello World&quot;
+s.length;                     // 15 — spaces count
+s.toLowerCase();              // &quot;  hello world  &quot;
+s.includes(&quot;World&quot;);          // true
+s.trim().split(&quot; &quot;);          // [&quot;Hello&quot;, &quot;World&quot;]
+s.trim().slice(0, 5);         // &quot;Hello&quot;
+s.replace(&quot;World&quot;, &quot;JS&quot;);     // first match only — replaceAll() for every match
+s.trim().startsWith(&quot;He&quot;);    // true
+[...&quot;hey&quot;];                   // [&quot;h&quot;, &quot;e&quot;, &quot;y&quot;]
+`Total: ${2 + 3}`;            // &quot;Total: 5&quot; — template literal</pre></div>
 
   <h2>11 · Event loop · promises · async/await <small>the one worker, two boards</small></h2>
   <div class="rule"><b>The model</b>ONE worker with a to-do list. Slow jobs go to an assistant; when they finish, the assistant posts a note on a board — it can never interrupt the worker. Two boards: ⭐ <strong>urgent</strong> (promise callbacks = microtasks) and 📋 <strong>normal</strong> (timers, clicks = macrotasks). The worker's rule: <strong>finish my list → clear the ENTIRE urgent board (including notes added while clearing) → take ONE note from the normal board → repeat.</strong></div>
@@ -262,6 +431,23 @@ Promise.race()        <span class="c">// first to SETTLE · Promise.any() — fi
   <div class="rule"><b>The pause</b>A pause button on the <em>recipe</em>, not on the kitchen. The rest of the program runs during it. An async function runs synchronously up to its first <code>await</code>; everything after it is a microtask. Two independent awaits in a row run SEQUENTIALLY — use <code>await Promise.all([a(), b()])</code> for parallel. <code>forEach(async …)</code> never waits.</div>
   <div class="mine"><b>Your past mistakes</b>Said "microtask queue of a microtask queue" (there is ONE queue; notes added while draining still go first); wrote <code>console.log("done")</code> instead of <code>resolve("done")</code> — the promise stayed pending forever while the output still LOOKED right (a test must be able to tell working from broken); units: 1000 ms is ONE SECOND — convert out loud (three slips so far).</div>
   <div class="say"><b>Say it in the interview</b>"JavaScript is single-threaded. Slow work is handed to the runtime, and finished callbacks queue up — promise callbacks as microtasks, timers and I/O as macrotasks. When the stack empties, the entire microtask queue drains before one macrotask runs, which is why a <code>.then</code> always beats <code>setTimeout(…, 0)</code>. <code>async</code> marks a function that can use <code>await</code> and returns a promise; <code>await</code> pauses that function, not the program."</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>async function getUser(id) {
+  try {
+    const res = await fetch(`/api/users/${id}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);   // fetch does NOT reject on 404/500
+    return await res.json();
+  } catch (err) {
+    console.error(&quot;getUser failed:&quot;, err.message);
+    return null;
+  }
+}
+
+getUser(1).then(u =&gt; console.log(u)).catch(console.error);   // .then style
+
+async function main() {
+  const [a, b] = await Promise.all([getUser(1), getUser(2)]); // run in PARALLEL
+  console.log(a, b);
+}</pre></div>
 
   <h2>12 · call · apply · bind <small>choosing this by hand</small></h2>
   <pre>greet.call(person, <span class="s">"Noida"</span>);        <span class="c">// runs NOW — Commas</span>
@@ -278,6 +464,16 @@ Array.from(arrayLike);                   <span class="c">// ✅ modern: handles 
 [...arrayLike];                          <span class="c">// ❌ TypeError: not iterable</span></pre>
   <div class="rule"><b>Iterable = has a "dispenser button"</b>Arrays, strings, Sets, Maps and NodeLists know how to hand out items one at a time (<code>Symbol.iterator</code>). Plain objects do NOT, even with a length. Spread and <code>for...of</code> only press the button; <code>Array.from</code> and <code>slice.call</code> instead reach in and read <code>length</code> + indexes — which is why <code>Array.from</code> works on everything and spread doesn't.</div>
   <div class="say"><b>Say it in the interview</b>"All three set <code>this</code> explicitly. <code>call</code> invokes immediately with comma-separated arguments, <code>apply</code> with an array, and <code>bind</code> doesn't invoke — it returns a new function with <code>this</code> fixed, and it can pre-fill arguments, which is partial application. To convert an array-like I'd use <code>Array.from</code>; the old trick was borrowing <code>Array.prototype.slice.call(obj)</code>."</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>function intro(greeting, city) { return `${greeting}, I&#x27;m ${this.name} from ${city}`; }
+const me = { name: &quot;Harsh&quot; };
+
+intro.call(me, &quot;Hi&quot;, &quot;Noida&quot;);        // runs now — arguments with commas
+intro.apply(me, [&quot;Hi&quot;, &quot;Noida&quot;]);     // runs now — arguments in an array
+const hiFromMe = intro.bind(me, &quot;Hi&quot;); // runs NOTHING — returns a new function
+hiFromMe(&quot;Delhi&quot;);                    // &quot;Hi, I&#x27;m Harsh from Delhi&quot;
+
+// borrowing a method for an array-like
+Array.prototype.slice.call({ 0: &quot;a&quot;, 1: &quot;b&quot;, length: 2 });   // [&quot;a&quot;, &quot;b&quot;]</pre></div>
 
   <h2>13 · Prototypes &amp; class <small>the ask-your-parent chain</small></h2>
   <div class="rule"><b>The model</b>Every object has a hidden link to a parent object — its <strong>prototype</strong>. Looking up a property: ask the object, then its parent, then the grandparent, until found or <code>null</code> (then <code>undefined</code>). That chain is why <code>[1,2,3].map(...)</code> works: your array doesn't own <code>map</code> — <code>Array.prototype</code> does, and every array shares that ONE copy instead of carrying its own.</div>
@@ -320,6 +516,24 @@ d.speak === e.speak;  <span class="c">// true  — literally ONE shared function
   <div class="rule"><b>Sugar, but not identical</b>A class IS a constructor function (<code>typeof</code> proves it) with methods on <code>.prototype</code>. Three real differences: classes sit in the <strong>TDZ</strong> (no using them above their definition, unlike function declarations) · <code>new</code> is <strong>mandatory</strong> (calling it bare throws a TypeError) · class bodies are always <strong>strict mode</strong>. Extras: <code>#field</code> = private, <code>static</code> = on the class not the instances, <code>get</code> = read like a property.</div>
   <div class="mine"><b>Your past mistakes (20-09)</b>Predicted <code>typeof Dog</code> would be "class" — the eight typeof answers never include "class", because no class type exists. Didn't see at first how <code>this.name = name</code> puts data on the object: <code>new</code> makes an empty object, runs the constructor with <code>this</code> = that object, so the line literally writes onto it. Constructor = per object; methods = once, shared.</div>
   <div class="say"><b>Say it in the interview</b>"Every object has an internal link to a prototype object, and property lookup walks that chain until it finds the property or hits null. It's how JavaScript shares behaviour: methods like <code>map</code> live once on <code>Array.prototype</code> rather than being copied into every array. <code>class</code> is syntax sugar over exactly that — the constructor sets per-instance data, methods go on the prototype, and <code>extends</code>/<code>super</code> wire up the chain."</div>
+  <div class="card"><b>Syntax card — type this out when revising</b><pre>class Account {
+  #balance = 0;                        // private field
+  static bank = &quot;HDFC&quot;;                // lives on the class, not instances
+
+  constructor(owner) { this.owner = owner; }
+
+  deposit(n) { this.#balance += n; return this; }   // return this → allows chaining
+  get balance() { return this.#balance; }           // getter: read like a property
+}
+
+class Savings extends Account {
+  constructor(owner, rate) { super(owner); this.rate = rate; }   // super() BEFORE this
+}
+
+const acc = new Savings(&quot;Harsh&quot;, 0.04).deposit(500).deposit(200);
+acc.balance;      // 700
+Account.bank;     // &quot;HDFC&quot;
+// acc.#balance   // ❌ SyntaxError — private from outside</pre></div>
 
   <h2>14 · Tracker <small>updated per session</small></h2>
   <div class="tw"><table class="tracker">
