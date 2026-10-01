@@ -39,7 +39,7 @@
   <p class="crumb"><a href="index.html">← All notes</a></p>
   <h1>Full-Stack + AI Roadmap</h1>
   <p class="sub">Sixteen weeks from "knows JavaScript" to "ships a full-stack, AI-enabled product and can defend every decision in an interview." Built around a 10–7 job: weekday evenings, weekend build days.</p>
-  <p class="upd">Living document · last update 30-09-2026 · JS damage-control week inserted</p>
+  <p class="upd">Living document · last update 01-10-2026 · calendar re-synced: long weekend 2–4 Oct</p>
 
   <h2>Target stack <small>decided from 2026 market research</small></h2>
   <div class="tw"><table>
@@ -69,17 +69,17 @@
     <tr><td>4 · Production &amp; interviews</td><td>14–16</td><td>CI · Docker images · live deploy · README + architecture doc · security pass · 2 full mocks · project deep-dive</td><td>Live URL · <strong>Full Mock ×2</strong></td></tr>
   </table></div>
 
-  <h2>This week <small>JS damage-control · Wed 30 Sep → Sun 4 Oct</small></h2>
-  <div class="now"><b>Now</b>Paused TypeScript for four days to rebuild JavaScript confidence <em>by writing</em>, not re-reading. Bounded: it ends with a timed JS confidence test on Sunday. Pass → TypeScript resumes Monday. The roadmap shifts about one week; phase 4 has the slack.</div>
+  <h2>This week <small>JS damage-control · Thu 1 → Mon 5 Oct</small></h2>
+  <div class="now"><b>Now</b>Thu 1 was an office day (arrays block done in the evening). Fri 2 (Gandhi Jayanti), Sat 3 and Sun 4 are a long weekend — the three remaining rebuild blocks land there. The exit test moves to Monday evening.</div>
   <div class="tw"><table>
-    <tr><th>Day</th><th>Time</th><th>Rebuild block (drill first, then 4–6 written &amp; run problems)</th></tr>
-    <tr><td>Wed 30 Sep</td><td>60–90 min</td><td><strong>Arrays &amp; array-of-objects</strong> — collect, sum, filter+map, count-by, group-by, chained pipelines</td></tr>
-    <tr><td>Thu 1 Oct — off</td><td>~4 h</td><td><strong>Functions</strong> — closures (counter, debounce, throttle cold), <code>this</code> in callbacks ("passed = orphaned"), call/apply/bind</td></tr>
-    <tr><td>Fri 2 Oct — off</td><td>~4 h</td><td><strong>Reading code</strong> — hoisting, coercion, output prediction · strings, sort, dedupe, flatten (recursion)</td></tr>
-    <tr><td>Sat 3 Oct — off</td><td>~4 h</td><td><strong>Async</strong> — event loop, promises, async/await, <code>wait()</code> rebuilt · prototypes &amp; class · the boss pipeline</td></tr>
-    <tr><td>Sun 4 Oct</td><td>~2 h</td><td><strong>JS Confidence Test</strong> (40 min, timed, mixed) → Weekly Review #1 → decision: TS resumes Mon 5</td></tr>
+    <tr><th>Day</th><th>Type</th><th>Rebuild block (drill first, then 4–6 written &amp; run problems)</th></tr>
+    <tr><td>Thu 1 Oct</td><td>office</td><td><strong>Arrays &amp; array-of-objects</strong> — ✅ done: paidCustomers, totalByCustomer, topCustomer</td></tr>
+    <tr><td>Fri 2 Oct</td><td>off · holiday</td><td><strong>Functions</strong> — closures, debounce/throttle from memory, <code>this</code> in callbacks, call/apply/bind</td></tr>
+    <tr><td>Sat 3 Oct</td><td>off</td><td><strong>Reading code</strong> — hoisting, coercion, output prediction · strings, sort, dedupe, flatten</td></tr>
+    <tr><td>Sun 4 Oct</td><td>off</td><td><strong>Async</strong> — event loop, promises, async/await · prototypes &amp; class · boss pipeline</td></tr>
+    <tr><td>Mon 5 Oct</td><td>office</td><td><strong>JS Confidence Test</strong> (40 min, timed) → Weekly Review #1 → decision: TypeScript resumes Tue 6</td></tr>
   </table></div>
-  <div class="rule"><b>Exit criterion</b>≥ 70% on the test <strong>and</strong> one unseen array-of-objects problem solved in under 15 minutes without notes. Then Week 1's original content (TS Lesson 3, Git, scaffold M0, SQL) runs the week of 5 Oct.</div>
+  <div class="rule"><b>Exit criterion</b>≥ 70% on the test <strong>and</strong> one unseen array-of-objects problem solved in under 15 minutes without notes.</div>
 
   <h2>Anti-decay system <small>so the 10-day gap never repeats</small></h2>
   <ul>
@@ -87,18 +87,19 @@
     <li><strong>Spaced recall</strong> — each topic returns at +1, +3, +7, +14, +30 days after rebuilding; a miss resets it to +1.</li>
     <li><strong>Sunday confidence check</strong> — 30–40 min, timed, no notes, always includes old topics.</li>
     <li><strong>Interleaving</strong> — every new-topic session opens with one old-JS question.</li>
+    <li><strong>Reminders</strong> — 7:00 daily briefing (date, office/off, today's task, streak) · off days 10:00 + 17:00 · office days 19:55 · 21:30 last call if not done · <code>studydone</code> to log.</li>
     <li><strong>Gap rule</strong> — miss 2+ days → first session back is recall only, no new content.</li>
     <li><strong>🟢 means</strong> solved cold, twice, at least a week apart. Familiar is not the same as confident.</li>
   </ul>
   <div class="tw"><table>
     <tr><th>Cluster</th><th>Rebuild</th><th>Recall dates</th></tr>
-    <tr><td>Arrays &amp; array-of-objects</td><td>Wed 30 Sep</td><td>Thu 1 · Sat 3 · Wed 7 · Wed 14 · Fri 30 Oct</td></tr>
-    <tr><td>Closures, debounce/throttle</td><td>Thu 1 Oct</td><td>Fri 2 · Sun 4 · Thu 8 · Thu 15 · Sat 31 Oct</td></tr>
-    <tr><td><code>this</code>, call/apply/bind</td><td>Thu 1 Oct</td><td><strong>daily</strong> until 5 clean hits in a row</td></tr>
-    <tr><td>Hoisting, coercion, output reading</td><td>Fri 2 Oct</td><td>Sat 3 · Mon 5 · Fri 9 · Fri 16 · Sun 1 Nov</td></tr>
-    <tr><td>Strings, sort, dedupe, flatten</td><td>Fri 2 Oct</td><td>Sat 3 · Mon 5 · Fri 9 · Fri 16 · Sun 1 Nov</td></tr>
-    <tr><td>Event loop, promises, async/await</td><td>Sat 3 Oct</td><td>Sun 4 · Tue 6 · Sat 10 · Sat 17 · Mon 2 Nov</td></tr>
-    <tr><td>Prototypes &amp; class</td><td>Sat 3 Oct</td><td>Sun 4 · Tue 6 · Sat 10 · Sat 17 · Mon 2 Nov</td></tr>
+    <tr><td>Arrays &amp; array-of-objects</td><td>Thu 1 Oct</td><td>Fri 2 · Sun 4 · Thu 8 · Thu 15 · Sat 31 Oct</td></tr>
+    <tr><td>Closures, debounce/throttle</td><td>Fri 2 Oct</td><td>Sat 3 · Mon 5 · Fri 9 · Fri 16 · Sun 1 Nov</td></tr>
+    <tr><td><code>this</code>, call/apply/bind</td><td>Fri 2 Oct</td><td><strong>daily</strong> until 5 clean hits in a row</td></tr>
+    <tr><td>Hoisting, coercion, output reading</td><td>Sat 3 Oct</td><td>Sun 4 · Tue 6 · Sat 10 · Sat 17 · Mon 2 Nov</td></tr>
+    <tr><td>Strings, sort, dedupe, flatten</td><td>Sat 3 Oct</td><td>Sun 4 · Tue 6 · Sat 10 · Sat 17 · Mon 2 Nov</td></tr>
+    <tr><td>Event loop, promises, async/await</td><td>Sun 4 Oct</td><td>Mon 5 · Wed 7 · Sun 11 · Sun 18 · Tue 3 Nov</td></tr>
+    <tr><td>Prototypes &amp; class</td><td>Sun 4 Oct</td><td>Mon 5 · Wed 7 · Sun 11 · Sun 18 · Tue 3 Nov</td></tr>
   </table></div>
 
   <h2>The weekly rhythm</h2>
