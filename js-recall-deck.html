@@ -83,7 +83,7 @@
 <div class="wrap">
   <h1>JS Recall Deck</h1>
   <p class="sub">Every topic we've covered, compressed to the rule + <em>your own</em> past mistakes + the sentence to say in an interview. Read the amber boxes twice — they're where you actually slipped. Practice problems live in the JS Drill Set.</p>
-  <p class="upd">Living document · last update 02-10-2026 · now a textbook: simple explanations, practice links, self-checks</p>
+  <p class="upd">Living document · last update 02-10-2026 · closures: scope vs closure, fn vs fn(), once, the loop trap</p>
 
   <div class="howto"><b>How to use this book</b><ol>
     <li><strong>After every session — 10 minutes:</strong> open the day's chapter, read <em>In simple words</em>, retype the syntax card from memory, then answer the three self-check questions <em>before</em> opening them.</li>
@@ -255,6 +255,34 @@ c(); c();                     <span class="c">// 1, 2 — count survives the ret
   <p>A function keeps its birth-place variables alive after the outer function returns. It remembers the <strong>variable</strong>, not a snapshot. Each call of the outer function creates a <strong>fresh, independent</strong> backpack. This is the machinery behind debounce, throttle and private state.</p>
   <div class="mine"><b>Your past mistake</b>Explained closures via "heap memory" — say lexical environment kept alive. Scope = where visible; closure = how it survives.</div>
   <div class="say"><b>Say it in the interview</b>"A closure is a function that remembers the variables from where it was created, even after that outer function has finished. The classic example is a counter: an outer function holds <code>let count = 0</code> and returns an inner function that increments it — the count stays alive between calls and nothing outside can touch it."</div>
+  <div class="rule"><b>Scope or closure? Ask: has the outer function finished?</b>Inner code reading an outer variable <em>while the outer function is still running</em> is ordinary <strong>scope</strong>. It's a <strong>closure</strong> when the inner function is handed out (<code>return second</code>, no brackets) and called <em>after</em> the outer function has finished — and it still has the variables.</div>
+  <div class="rule"><b>fn vs fn() — printing vs returning</b><code>fn</code> is the function itself; writing it runs nothing. <code>fn()</code> runs it <em>now</em>, and the whole expression is replaced by what it <strong>returns</strong> — <code>undefined</code> if there's no <code>return</code>. Printing (<code>console.log</code>) is not returning. Brackets written inside a function body don't run until that body runs.</div>
+  <pre>// scope vs closure — the brackets decide
+function first() { const a = 10; function second() { console.log(a); } return second(); }
+first();             // runs second WHILE first is running → just scope
+
+function first2() { const a = 10; function second() { console.log(a); } return second; }
+const fn = first2(); // first2 has FINISHED
+fn();                // 10 → second still remembers a: that&#x27;s the closure
+
+// one call to the outer function = one backpack. Assigning only shares it.
+const a = makeCounter();  const b = a;     // ONE counter, two names → a(); a(); b() gives 3
+const c = makeCounter();                   // a new call → a new, independent count
+
+// once(fn): state in the factory, decision in the wrapper
+function once(fn) {
+  let called = false;              // lives in once&#x27;s body: created once
+  return () =&gt; {
+    if (called) return;            // already ran → do nothing
+    called = true;
+    return fn();                   // brackets: actually RUN it
+  };
+}
+
+// the loop trap
+for (var i = 1; i &lt;= 3; i++) setTimeout(() =&gt; console.log(i));  // 4 4 4 — one shared i, read later
+for (let j = 1; j &lt;= 3; j++) setTimeout(() =&gt; console.log(j));  // 1 2 3 — a fresh j each round</pre>
+  <div class="mine"><b>Your past mistakes (02-10)</b>Defined a closure as "a method where a child function uses the parent's variable" and showed <code>return second()</code> — that's scope; the closure needs the inner function returned and called later. Predicted <code>b()</code> would print 1 after <code>const b = a</code> — functions are objects, so assignment shares the same function and backpack (prints 3); only another <code>makeCounter()</code> call makes a new one. In <code>once</code>: wrote <code>return fn</code> (no brackets, nothing ran), reset the flag inside the wrapper on every call, put <code>flag = true</code> after a <code>return</code> (never reached), then declared the flag inside the function passed in, where the wrapper can't see it (ReferenceError). Loop trap: answered 3 3 3 from memory when the code said <code>i &lt;= 3</code> from 1 — the loop leaves <code>i</code> at 4.</div>
   <div class="card"><b>Syntax card — type this out when revising</b><pre>function makeCounter() {
   let count = 0;                     // private — nothing outside can touch it
   return {
