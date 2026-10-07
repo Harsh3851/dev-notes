@@ -355,11 +355,12 @@ cart.reduce((total, line) =&gt; total + (line.price * line.qty), 0);
   </ul>
   <div class="rule"><b>The object-accumulator family — one pattern, three goals</b>All three are <code>reduce</code> with a <code>{}</code> seed and the line <code>acc[key] = (acc[key] || default) + contribution</code>. Only the default and the contribution change.</div>
   <div class="tw"><table>
-    <tr><th>Goal</th><th>First-time default</th><th>What you add</th><th>The line</th></tr>
-    <tr><td>count-by</td><td><code>0</code></td><td><code>+ 1</code></td><td><code>acc[o.city] = (acc[o.city] || 0) + 1;</code></td></tr>
-    <tr><td>sum-by</td><td><code>0</code></td><td><code>+ o.amount</code></td><td><code>acc[o.customer] = (acc[o.customer] || 0) + o.amount;</code></td></tr>
-    <tr><td>group-by</td><td><code>[]</code></td><td><code>.push(item)</code></td><td><code>(acc[o.type] ||= []).push(o.name);</code></td></tr>
+    <tr><th>Pattern</th><th>Start (seed)</th><th>The line inside reduce</th><th>Result shape</th></tr>
+    <tr><td>count-by</td><td><code>{}</code></td><td><code>counts[key] = (counts[key] || 0) + 1;</code></td><td><code>{ a: 3, b: 1 }</code></td></tr>
+    <tr><td>sum-by</td><td><code>{}</code></td><td><code>totals[key] = (totals[key] || 0) + item.amount;</code></td><td><code>{ Asha: 1600 }</code></td></tr>
+    <tr><td>group-by</td><td><code>{}</code></td><td><code>if (!groups[key]) groups[key] = [];</code><br><code>groups[key].push(item);</code></td><td><code>{ paid: [ … ] }</code></td></tr>
   </table></div>
+  <div class="rule"><b>Every one of them</b>ends the callback with <code>return counts;</code> (the inner return passes the object to the next round) and the function needs <code>return arr.reduce(…)</code> (the outer return hands the result to the caller). <code>|| 0</code> turns "no slot yet" (<code>undefined</code>) into 0. Never write <code>groups[key] = groups[key].push(x)</code>: <code>push</code> returns the new LENGTH.</div>
   <div class="rule"><b>Why <code>|| 0</code> is not optional</b>On the first round the key doesn't exist, so <code>acc[key]</code> is <code>undefined</code> — and <code>undefined + 1200</code> is <code>NaN</code>, which then poisons every later round (<code>{ Aman: NaN }</code>). The <code>|| 0</code> supplies the starting value, and only round one ever uses it. <code>??</code> is the more precise operator (falls back only for null/undefined) and is safer when <code>0</code> is a legitimate stored value.</div>
   <ul style="margin-top:9px">
   </ul>
