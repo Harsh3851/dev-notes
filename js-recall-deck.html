@@ -83,7 +83,7 @@
 <div class="wrap">
   <h1>JS Recall Deck</h1>
   <p class="sub">Every topic we've covered, compressed to the rule + <em>your own</em> past mistakes + the sentence to say in an interview. Read the amber boxes twice — they're where you actually slipped. Practice problems live in the JS Drill Set.</p>
-  <p class="upd">Living document · last update 08-10-2026 · chapters reordered: weakest + most-asked first</p>
+  <p class="upd">Living document · last update 08-10-2026 · chapters reordered (weakest first) · promises explained step by step</p>
 
   <div class="howto"><b>How to use this book</b><ol>
     <li><strong>After every session — 10 minutes:</strong> open the day's chapter, read <em>In simple words</em>, retype the syntax card from memory, then answer the three self-check questions <em>before</em> opening them.</li>
@@ -105,24 +105,117 @@ Promise.resolve().then(() =&gt; console.log(<span class="s">"3"</span>));
 console.log(<span class="s">"4"</span>);
 <span class="c">// 1 4 3 2  — own list, then urgent, then normal</span></pre>
   <p><code>setTimeout(fn, 0)</code> is not "now" — it means "post the note immediately", and the note is still read last. Node extra: <code>process.nextTick</code> is an even-more-urgent lane.</p>
-  <h3>Promises</h3>
-  <p>A promise is a <strong>token</strong> for a value that isn't ready. States: pending → fulfilled | rejected; it settles <strong>once</strong>. <code>.then</code> returns a NEW token, and your callback's return value rides forward — the same law as map (becomes the element) and reduce (becomes the acc).</p>
+  <h3>Promises — what problem they solve</h3>
+  <p>Slow work (a timer, a network call) can't give you its answer on the spot. The old fix was to pass a callback in — and when one slow step needed the result of another, callbacks nested inside callbacks ("callback hell"). A <strong>promise</strong> fixes this: the slow function hands you an object <em>straight away</em>, and that object will hold the answer later.</p>
+  <div class="rule"><b>The model — a restaurant buzzer</b>You order food (start the slow work) and the counter hands you a <strong>buzzer</strong> at once (the promise). You don't stand at the counter — you go and sit (the rest of your code keeps running). Later the buzzer either says <strong>"food ready"</strong> (fulfilled, with a value) or <strong>"sorry, sold out"</strong> (rejected, with a reason). It buzzes <strong>once</strong>; it never changes its mind.</div>
+  <div class="tw"><table>
+    <tr><th>State</th><th>Means</th><th>Carries</th></tr>
+    <tr><td>pending</td><td>still working — the starting state</td><td>nothing yet</td></tr>
+    <tr><td>fulfilled</td><td>finished successfully</td><td>a <strong>value</strong> → goes to <code>.then</code></td></tr>
+    <tr><td>rejected</td><td>failed</td><td>a <strong>reason</strong> (usually an Error) → goes to <code>.catch</code></td></tr>
+  </table></div>
+  <p>Fulfilled or rejected = <strong>settled</strong>. Once settled, it is final.</p>
+
+  <h3>Step 1 · Making a promise</h3>
+  <p><code>new Promise(fn)</code> takes a function (the <em>executor</em>). JavaScript calls it <strong>immediately</strong> and hands it two levers: <code>resolve(value)</code> for success and <code>reject(reason)</code> for failure. Your job inside it: start the slow work, then pull <strong>one</strong> lever when it's done.</p>
   <pre><span class="k">function</span> wait(ms) {
-  <span class="k">return new</span> Promise((resolve, reject) =&gt; {   <span class="c">// resolve/reject are the two levers</span>
-    setTimeout(() =&gt; resolve(<span class="s">"done"</span>), ms);      <span class="c">// pull ONE, once</span>
+  <span class="k">return new</span> Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; resolve(<span class="s">"done"</span>), ms);   <span class="c">// after ms → fulfilled with "done"</span>
   });
 }
+wait(1000);   <span class="c">// returns a pending promise right now; fulfilled 1 second later</span></pre>
+  <p>Only the first lever pulled counts — later calls are ignored:</p>
+  <pre><span class="k">new</span> Promise((resolve, reject) =&gt; {
+  resolve(<span class="s">"first"</span>);
+  resolve(<span class="s">"second"</span>);          <span class="c">// ignored</span>
+  reject(<span class="k">new</span> Error(<span class="s">"x"</span>));     <span class="c">// ignored</span>
+}).then(v =&gt; console.log(v));  <span class="c">// first</span></pre>
+  <p>If you never pull a lever, the promise stays <strong>pending forever</strong> and every <code>.then</code> on it silently never runs.</p>
 
-Promise.all([a, b])   <span class="c">// all fulfil, or fail fast on the first rejection</span>
-Promise.allSettled()  <span class="c">// never rejects — status objects</span>
-Promise.race()        <span class="c">// first to SETTLE · Promise.any() — first to FULFIL</span></pre>
-  <h3>async / await</h3>
-  <pre><span class="k">async function</span> main() {          <span class="c">// async = permission slip; always returns a promise</span>
+  <h3>Step 2 · Reading the result: .then / .catch / .finally</h3>
+  <p>You don't "take" the value out of a promise — you <strong>register a callback</strong> that receives it. <code>.then(cb)</code> runs on success, <code>.catch(cb)</code> on failure, <code>.finally(cb)</code> either way (for clean-up such as hiding a loader). These callbacks are <strong>microtasks</strong>: they always wait until the current synchronous code is finished — even when the promise is already settled.</p>
+  <pre>console.log(<span class="s">"1"</span>);
+<span class="k">const</span> p = <span class="k">new</span> Promise(resolve =&gt; {
+  console.log(<span class="s">"2"</span>);            <span class="c">// the executor runs NOW, synchronously</span>
+  resolve(<span class="s">"4"</span>);                <span class="c">// settled already…</span>
+});
+p.then(v =&gt; console.log(v));   <span class="c">// …but .then still waits for the sync code</span>
+console.log(<span class="s">"3"</span>);
+<span class="c">// 1 2 3 4</span></pre>
+
+  <h3>Step 3 · Chaining — the return value rides forward</h3>
+  <p><code>.then</code> returns a <strong>new promise</strong>, so you can call <code>.then</code> again. Whatever your callback <strong>returns</strong> becomes the value the next <code>.then</code> receives — the same law as <code>map</code> (return = the new element) and <code>reduce</code> (return = the next acc). Forget the <code>return</code> and the next step gets <code>undefined</code>.</p>
+  <pre>wait(500)
+  .then(msg =&gt; { console.log(msg); <span class="k">return</span> 2; }) <span class="c">// prints done, passes 2</span>
+  .then(n =&gt; n * 2)              <span class="c">// no braces = auto return → passes 4</span>
+  .then(n =&gt; console.log(n))     <span class="c">// prints 4, passes undefined</span>
+  .then(x =&gt; console.log(x));    <span class="c">// prints undefined</span></pre>
+  <p>If a callback returns <strong>another promise</strong>, the chain <strong>waits</strong> for it and passes on its value. That is how slow steps run one after another without nesting:</p>
+  <pre>wait(500)
+  .then(() =&gt; wait(1000))        <span class="c">// returns a promise → chain waits for it</span>
+  .then(msg =&gt; console.log(msg)); <span class="c">// "done", after 1.5 s in total</span></pre>
+
+  <h3>Step 4 · Errors jump to the next .catch</h3>
+  <p>A <code>reject(...)</code> or a <code>throw</code> inside any callback makes that step's promise rejected. The chain then <strong>skips every <code>.then</code></strong> until it reaches a <code>.catch</code>. The <code>.catch</code> handles it, and whatever it returns lets the chain carry on as normal — like <code>try/catch</code>.</p>
+  <pre>Promise.resolve(1)
+  .then(n =&gt; { <span class="k">throw new</span> Error(<span class="s">"boom"</span>); })
+  .then(n =&gt; console.log(<span class="s">"skipped"</span>))          <span class="c">// never runs</span>
+  .catch(err =&gt; { console.log(<span class="s">"caught:"</span>, err.message); <span class="k">return</span> 0; })
+  .then(n =&gt; console.log(<span class="s">"after catch:"</span>, n));
+<span class="c">// caught: boom</span>
+<span class="c">// after catch: 0</span></pre>
+  <p>Shortcuts: <code>Promise.resolve(x)</code> = an already-fulfilled promise; <code>Promise.reject(err)</code> = an already-rejected one.</p>
+
+  <h3>Step 5 · Waiting for several promises</h3>
+  <p>Each helper takes an <strong>array of promises</strong> and returns <strong>one</strong> promise. The difference is <em>when</em> it settles and <em>with what</em>. Examples use <code>fast</code> (fulfils "fast" at 100 ms), <code>bad</code> (rejects "bad" at 200 ms), <code>slow</code> (fulfils "slow" at 300 ms).</p>
+  <div class="tw"><table>
+    <tr><th>Helper</th><th>Settles when</th><th>Example → result</th><th>Use it for</th></tr>
+    <tr><td><code>Promise.all</code></td><td>ALL fulfil → array of values in <strong>input order</strong>. ANY rejects → rejects at once with that reason</td><td><code>all([slow, fast])</code> → <code>["slow","fast"]</code> at 300 ms<br><code>all([fast, bad, slow])</code> → rejects "bad" at 200 ms</td><td>you need every result (load user + orders)</td></tr>
+    <tr><td><code>Promise.allSettled</code></td><td>all have settled; <strong>never rejects</strong></td><td><code>allSettled([fast, bad])</code> → <code>[{status:"fulfilled", value:"fast"}, {status:"rejected", reason: Error("bad")}]</code></td><td>a report of each — some may fail</td></tr>
+    <tr><td><code>Promise.race</code></td><td>the first to <strong>settle</strong> — win or fail</td><td><code>race([slow, bad])</code> → rejects "bad"</td><td>timeouts: race the request against a timer</td></tr>
+    <tr><td><code>Promise.any</code></td><td>the first to <strong>fulfil</strong>; ignores rejections (rejects only if all fail)</td><td><code>any([bad, slow])</code> → "slow"</td><td>the fastest working mirror/server</td></tr>
+  </table></div>
+
+  <h3>async / await — the same promises, written like normal code</h3>
+  <p>Nothing new happens underneath; it is a nicer way to <em>write</em> the <code>.then</code> chain. Two rules:</p>
+  <ul>
+    <li><strong><code>async</code></strong> before a function means it <strong>always returns a promise</strong>. <code>return 5</code> → a promise fulfilled with 5; <code>throw</code> → a rejected promise. It also lets you use <code>await</code> inside.</li>
+    <li><strong><code>await promise</code></strong> pauses <em>this function</em> until the promise settles. Fulfilled → <code>await</code> gives you the value. Rejected → <code>await</code> <strong>throws</strong> the reason, so you catch it with <code>try/catch</code>.</li>
+  </ul>
+  <pre><span class="k">async function</span> five() { <span class="k">return</span> 5; }
+console.log(five());                 <span class="c">// Promise { 5 }  — NOT 5</span>
+five().then(n =&gt; console.log(n));    <span class="c">// 5</span>
+
+<span class="k">async function</span> oops() { <span class="k">throw new</span> Error(<span class="s">"no"</span>); }
+oops().catch(e =&gt; console.log(e.message));   <span class="c">// no</span></pre>
+  <p>The same task both ways — read them side by side:</p>
+  <pre><span class="c">// .then style</span>
+<span class="k">function</span> show() {
+  <span class="k">return</span> wait(500)
+    .then(msg =&gt; console.log(msg))
+    .catch(err =&gt; console.log(<span class="s">"failed"</span>, err));
+}
+
+<span class="c">// async/await style — identical behaviour</span>
+<span class="k">async function</span> show() {
   <span class="k">try</span> {
-    <span class="k">const</span> msg = <span class="k">await</span> wait(1000);  <span class="c">// await = unwrap the token; PAUSES THIS FUNCTION only</span>
+    <span class="k">const</span> msg = <span class="k">await</span> wait(500);   <span class="c">// value comes out of the promise</span>
     console.log(msg);
-  } <span class="k">catch</span> (err) { ... }           <span class="c">// a rejection behaves like a throw here</span>
+  } <span class="k">catch</span> (err) {                   <span class="c">// a rejection lands here like a throw</span>
+    console.log(<span class="s">"failed"</span>, err);
+  }
 }</pre>
+  <p>Order check — the function runs normally up to its first <code>await</code>; the rest waits as a microtask while the outside code continues:</p>
+  <pre><span class="k">async function</span> f() {
+  console.log(<span class="s">"B"</span>);
+  <span class="k">await</span> <span class="k">null</span>;            <span class="c">// pause f here; give control back</span>
+  console.log(<span class="s">"D"</span>);
+}
+console.log(<span class="s">"A"</span>);
+f();
+console.log(<span class="s">"C"</span>);
+<span class="c">// A B C D</span></pre>
+  <p>Sequential vs parallel (measured): two <code>await wait(500)</code> one after the other take ~1000 ms; <code>await Promise.all([wait(500), wait(500)])</code> takes ~500 ms.</p>
   <div class="rule"><b>The pause</b>A pause button on the <em>recipe</em>, not on the kitchen. The rest of the program runs during it. An async function runs synchronously up to its first <code>await</code>; everything after it is a microtask. Two independent awaits in a row run SEQUENTIALLY — use <code>await Promise.all([a(), b()])</code> for parallel. <code>forEach(async …)</code> never waits.</div>
   <div class="mine"><b>Your past mistakes</b>Said "microtask queue of a microtask queue" (there is ONE queue; notes added while draining still go first); wrote <code>console.log("done")</code> instead of <code>resolve("done")</code> — the promise stayed pending forever while the output still LOOKED right (a test must be able to tell working from broken); units: 1000 ms is ONE SECOND — convert out loud (three slips so far). <strong>05–06 Oct:</strong> test answer A C D B (the answer is A D C B): a resolved promise still waits for ALL sync code. Believed a <code>setTimeout</code> created inside <code>.then</code> becomes a microtask. It doesn't: the <code>.then</code> only ADDS a timer, and a timer's place in line = the moment it was added.</div>
   <div class="say"><b>Say it in the interview</b>"JavaScript is single-threaded. Slow work is handed to the runtime, and finished callbacks queue up — promise callbacks as microtasks, timers and I/O as macrotasks. When the stack empties, the entire microtask queue drains before one macrotask runs, which is why a <code>.then</code> always beats <code>setTimeout(…, 0)</code>. <code>async</code> marks a function that can use <code>await</code> and returns a promise; <code>await</code> pauses that function, not the program."</div>
@@ -144,7 +237,7 @@ async function main() {
   console.log(a, b);
 }</pre></div>
   <div class="practice"><b>Practice — try these after reading</b><ul><li><a href="https://javascript.info/event-loop" target="_blank" rel="noopener">javascript.info — Event loop (task: what will be the output?)</a> <span class="lvl medium">medium</span></li><li><a href="https://javascript.info/promise-basics" target="_blank" rel="noopener">javascript.info — Promise (tasks: re-resolve a promise, delay with a promise)</a> <span class="lvl easy">easy</span></li><li><a href="https://javascript.info/async-await" target="_blank" rel="noopener">javascript.info — Async/await (tasks: rewrite using async/await)</a> <span class="lvl medium">medium</span></li><li><a href="https://leetcode.com/problems/sleep/" target="_blank" rel="noopener">LeetCode 2621 — Sleep</a> <span class="lvl easy">easy</span></li><li><a href="https://leetcode.com/problems/add-two-promises/" target="_blank" rel="noopener">LeetCode 2723 — Add Two Promises</a> <span class="lvl easy">easy</span></li><li><a href="https://leetcode.com/problems/promise-time-limit/" target="_blank" rel="noopener">LeetCode 2637 — Promise Time Limit</a> <span class="lvl medium">medium</span></li><li>JS Drill Set Q8, Q16 <span class="lvl local">drill set</span></li></ul></div>
-  <div class="selfcheck"><b>Self-check — answer before opening</b><details><summary>Order of output: <code>log("A"); setTimeout(() =&gt; log("B")); Promise.resolve().then(() =&gt; log("C")); log("D");</code></summary><p>A, D, C, B — synchronous first, then the microtask, then the timer.</p></details><details><summary>Does the function you pass to <code>new Promise(...)</code> run immediately?</summary><p>Yes, synchronously. Only the <code>.then</code> callbacks wait.</p></details><details><summary>Two <code>await</code>s in a row for independent requests — what's the problem?</summary><p>They run one after the other. <code>await Promise.all([...])</code> runs them at the same time.</p></details></div>
+  <div class="selfcheck"><b>Self-check — answer before opening</b><details><summary>Order of output: <code>log("A"); setTimeout(() =&gt; log("B")); Promise.resolve().then(() =&gt; log("C")); log("D");</code></summary><p>A, D, C, B — synchronous first, then the microtask, then the timer.</p></details><details><summary>Does the function you pass to <code>new Promise(...)</code> run immediately?</summary><p>Yes, synchronously. Only the <code>.then</code> callbacks wait.</p></details><details><summary>Two <code>await</code>s in a row for independent requests — what's the problem?</summary><p>They run one after the other. <code>await Promise.all([...])</code> runs them at the same time.</p></details><details><summary><code>Promise.resolve(2).then(n =&gt; { n * 2 }).then(x =&gt; console.log(x))</code> — what prints, and why?</summary><p><code>undefined</code>. With braces the arrow needs an explicit <code>return</code>; the next <code>.then</code> receives whatever the previous callback returned.</p></details><details><summary>A <code>.then</code> throws. What happens to the <code>.then</code>s after it, and to the one after the <code>.catch</code>?</summary><p>The following <code>.then</code>s are skipped until a <code>.catch</code>; after the <code>.catch</code> the chain continues normally with whatever the catch returned.</p></details><details><summary><code>Promise.race</code> vs <code>Promise.any</code>?</summary><p><code>race</code> = first to SETTLE (a rejection can win). <code>any</code> = first to FULFIL; it ignores rejections unless all fail.</p></details></div>
 
   <h2>2 · filter · map · reduce <small>the interview trio</small></h2>
   <div class="simple"><b>In simple words</b><p>Three questions. <strong>filter</strong>: keep this item? (same items, fewer of them). <strong>map</strong>: what does each item become? (same count, new values). <strong>reduce</strong>: combine everything into one result — a number, a string, or an object. All three return something new; the original array isn't changed. Chain them: filter first, then map or reduce.</p></div>
