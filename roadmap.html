@@ -38,102 +38,110 @@
 <div class="wrap">
   <p class="crumb"><a href="index.html">← All notes</a></p>
   <h1>Full-Stack + AI Roadmap</h1>
-  <p class="sub">Sixteen weeks from "knows JavaScript" to "ships a full-stack, AI-enabled product and can defend every decision in an interview." Built around a 10–7 job: weekday evenings, weekend build days.</p>
-  <p class="upd">Living document · last update 01-10-2026 · calendar re-synced: long weekend 2–4 Oct</p>
+  <p class="sub">Eleven weeks from "knows JavaScript" to "ships a full-stack, AI-enabled product and can defend every decision in an interview." Deadline <strong>01-01-2027</strong>. Built around a 10–7 job: a 06:00–07:30 morning slot, a 20:45 evening slot, weekend build days.</p>
+  <p class="upd">Living document · last update 09-10-2026 · re-planned to the 01-01-2027 deadline: Node first, TypeScript in week 5, Saturday exit tests</p>
 
   <h2>Target stack <small>decided from 2026 market research</small></h2>
   <div class="tw"><table>
     <tr><th>Layer</th><th>Choice</th><th>Why</th></tr>
-    <tr><td>Language</td><td>TypeScript everywhere</td><td>&gt;80% of new projects; expected, not a bonus</td></tr>
+    <tr><td>Language</td><td>JavaScript first, then TypeScript everywhere from week 5</td><td>&gt;80% of new projects use TS; learned by migrating the real API, not by exercises</td></tr>
     <tr><td>Frontend</td><td>React + Vite · React Router · TanStack Query · react-hook-form + zod</td><td>React in ~75% of frontend ads; shared zod schemas between API and UI</td></tr>
-    <tr><td>Backend</td><td>Node + Express (TS) · <code>pg</code> with hand-written SQL</td><td>"Weak SQL sinks more candidates than weak JS" — every query is interview practice</td></tr>
+    <tr><td>Backend</td><td>Node + Express · <code>pg</code> with hand-written SQL</td><td>"Weak SQL sinks more candidates than weak JS" — every query is interview practice</td></tr>
     <tr><td>Auth</td><td>bcrypt · JWT access + refresh (httpOnly cookie) · RBAC middleware</td><td>the minimum expectation in every posting</td></tr>
-    <tr><td>Testing</td><td>Vitest + supertest · React Testing Library</td><td></td></tr>
-    <tr><td>Infra</td><td>Docker Compose · GitHub Actions · Render/Railway + Neon (pgvector) + Vercel</td><td>"knows how software runs after it leaves the laptop"</td></tr>
+    <tr><td>Testing</td><td>Vitest + supertest · React Testing Library</td><td>every endpoint and component ships with its test in the same session</td></tr>
+    <tr><td>Infra</td><td>Docker Compose · GitHub Actions · Render + Neon (pgvector) + Vercel</td><td>"knows how software runs after it leaves the laptop"</td></tr>
     <tr><td>AI</td><td>Vercel AI SDK + Claude · pgvector embeddings · own chunking · golden-set evals</td><td>RAG is the dominant enterprise pattern; stays in TypeScript</td></tr>
   </table></div>
-  <p><strong>Deliberately deprioritised:</strong> Next.js (awareness only, week 15), GraphQL, Kubernetes, microservices, Python, NestJS, Redux, LeetCode-hard.</p>
+  <p><strong>Deliberately deprioritised:</strong> Next.js (awareness only, week 11), GraphQL, Kubernetes, microservices, Python, NestJS, Redux, LeetCode-hard.</p>
 
   <h2>Flagship project: Hirelane <small>an ATS / hiring pipeline</small></h2>
   <p>Jobs, candidates, applications moving through stages (applied → screening → interview → offer → hired/rejected), interviewer feedback. Roles: admin, recruiter, interviewer. Forces auth + RBAC, ~9 related tables, a state machine, file uploads, pagination/search, transactions.</p>
   <p><strong>The AI layer is the same product:</strong> resume PDF → structured candidate profile (zod-validated) · job↔candidate matching via pgvector · RAG assistant over hiring docs with citations + streaming · tool calls that move a candidate to a stage, with confirmation · evals, prompt-injection defence for uploaded resumes, retries/fallbacks, cost + latency logging.</p>
   <div class="rule"><b>Boundary</b>Fresh code, fresh data, personal GitHub. Nothing from any employer.</div>
 
-  <h2>Phases</h2>
+  <h2>Now <small>Sat 10 → Sun 18 Oct</small></h2>
+  <div class="now"><b>This weekend</b><strong>Sat 10-10, 10:30: JS Confidence Test #2</strong> (45 min, no notes; pass = ≥70% + an unseen array-of-objects problem in under 15 min). Test #1 on 05-10 was 53/100. Whatever the result, <strong>Node.js starts right after it</strong>; failed areas go into the daily drill. Sunday: Node basics + the JS loose ends (class rebuild, strings/sort/dedupe/flatten, DOM delegation).</div>
   <div class="tw"><table>
-    <tr><th>Phase</th><th>Weeks</th><th>Objective</th><th>Milestones</th></tr>
-    <tr><td>0 · Reset &amp; foundations</td><td>1</td><td>JS recovery · TypeScript essentials · Git flow · repo scaffold · SQL started</td><td>M0: monorepo runs, health endpoint, Postgres in Docker</td></tr>
-    <tr><td>1 · Backend + database</td><td>2–5</td><td>SQL &amp; schema · Express architecture · zod · auth + RBAC · stage state machine · tests · pagination · transactions</td><td>M1 schema · M2 CRUD · M3 auth/RBAC/stages · M4 tested API · <strong>Technical Test #1</strong></td></tr>
-    <tr><td>2 · React frontend</td><td>6–9</td><td>React in TS · TanStack Query · pipeline board · forms · role-based UI · RTL · performance</td><td>M5 usable app in Docker · <strong>Mock #2</strong> · React goes on the resume</td></tr>
-    <tr><td>3 · AI layer</td><td>10–13</td><td>structured outputs · embeddings + pgvector · RAG + streaming · tool calling · evals · guardrails · job queue</td><td>M6 AI shipped with evals · <strong>Technical Test #3</strong></td></tr>
-    <tr><td>4 · Production &amp; interviews</td><td>14–16</td><td>CI · Docker images · live deploy · README + architecture doc · security pass · 2 full mocks · project deep-dive</td><td>Live URL · <strong>Full Mock ×2</strong></td></tr>
+    <tr><th>Day</th><th>Type</th><th>Block</th></tr>
+    <tr><td>Sat 10 Oct</td><td>off</td><td><strong>Test #2</strong> → Node basics: runtime vs browser, CommonJS/ESM, npm, fs/path, event loop in Node</td></tr>
+    <tr><td>Sun 11 Oct</td><td>off</td><td>Node basics continued · JS loose ends · recall: async, class</td></tr>
+    <tr><td>Mon 12 – Fri 16</td><td>office</td><td><strong>Week 1: Node + Express in JS</strong> — http → Express, routing, middleware, route → service → repo, zod, error middleware, supertest from day one · Git flow · <strong>M0</strong>: monorepo, <code>docker compose up</code> gives Postgres, <code>/health</code> 200</td></tr>
+    <tr><td>Sat 17 Oct</td><td>off</td><td><strong>Week 1 exit test</strong> (endpoint + zod + supertest in 30 min; M0 from a fresh clone) → build</td></tr>
+    <tr><td>Sun 18 Oct</td><td>off</td><td>Build day: retest anything failed, M0 done</td></tr>
   </table></div>
 
-  <h2>This week <small>JS damage-control · Thu 1 → Mon 5 Oct</small></h2>
-  <div class="now"><b>Now</b>Thu 1 was an office day (arrays block done in the evening). Fri 2 (Gandhi Jayanti), Sat 3 and Sun 4 are a long weekend — the three remaining rebuild blocks land there. The exit test moves to Monday evening.</div>
+  <h2>Week by week <small>11 weeks + finish line</small></h2>
   <div class="tw"><table>
-    <tr><th>Day</th><th>Type</th><th>Rebuild block (drill first, then 4–6 written &amp; run problems)</th></tr>
-    <tr><td>Thu 1 Oct</td><td>office</td><td><strong>Arrays &amp; array-of-objects</strong> — ✅ done: paidCustomers, totalByCustomer, topCustomer</td></tr>
-    <tr><td>Fri 2 Oct</td><td>off · holiday</td><td><strong>Functions</strong> — closures, debounce/throttle from memory, <code>this</code> in callbacks, call/apply/bind</td></tr>
-    <tr><td>Sat 3 Oct</td><td>off</td><td><strong>Reading code</strong> — hoisting, coercion, output prediction · strings, sort, dedupe, flatten</td></tr>
-    <tr><td>Sun 4 Oct</td><td>off</td><td><strong>Async</strong> — event loop, promises, async/await · prototypes &amp; class · boss pipeline</td></tr>
-    <tr><td>Mon 5 Oct</td><td>office</td><td><strong>JS Confidence Test</strong> (40 min, timed) → Weekly Review #1 → decision: TypeScript resumes Tue 6</td></tr>
+    <tr><th>Wk</th><th>Dates</th><th>Learn</th><th>Hirelane</th><th>Saturday exit test</th></tr>
+    <tr><td>0</td><td>10–11 Oct</td><td>JS Test #2 · Node basics · JS loose ends</td><td>—</td><td>Test #2 (Sat 10:30)</td></tr>
+    <tr><td>1</td><td>12–18 Oct</td><td>Node + Express in JS, zod, error middleware, supertest, Git flow</td><td><strong>M0</strong> monorepo + Docker Postgres + <code>/health</code></td><td>Endpoint + test in 30 min; M0 from a fresh clone</td></tr>
+    <tr><td>2</td><td>19–25 Oct</td><td>SQL in psql: DDL, constraints, joins, GROUP BY/HAVING, subqueries, indexes (Dussehra Tue 20 = +4 h)</td><td><strong>M1</strong> schema, migrations, seed</td><td>10 unseen queries in 40 min</td></tr>
+    <tr><td>3</td><td>26 Oct – 1 Nov</td><td><code>pg</code> in Express: pool, parameterised queries, CRUD, pagination</td><td><strong>M2</strong> CRUD · <strong>first deploy</strong> Neon + Render</td><td>Unseen endpoint + validation + test, 40 min; live URL</td></tr>
+    <tr><td>4</td><td>2–8 Nov</td><td>Auth: bcrypt, JWT + refresh cookie, RBAC, stage state machine in a transaction (Diwali Sun 8 = light day)</td><td><strong>M3</strong></td><td><strong>Technical Test #1</strong> (JS/SQL/Node, 60 min) + role guard cold</td></tr>
+    <tr><td>5</td><td>9–15 Nov</td><td><strong>TypeScript</strong>: types, unions/narrowing, generics, utility types → migrate the API · GitHub Actions CI · transactions, EXPLAIN, N+1 (Govardhan Mon 9 = +4 h)</td><td><strong>M4</strong> tested TS API, CI green, live</td><td>TS: unseen API response + generic + narrowing, 30 min; CI green</td></tr>
+    <tr><td>6</td><td>16–22 Nov</td><td>React in TS: components, state, effects, lists, forms, Router, Vite</td><td>M5 start: login + jobs list</td><td>Component from scratch in 30 min + render order</td></tr>
+    <tr><td>7</td><td>23–29 Nov</td><td>TanStack Query, react-hook-form + shared zod, role-based UI, RTL</td><td>M5: pipeline board · <strong>web live on Vercel</strong></td><td>Optimistic mutation + RTL test · <strong>Mock #2</strong></td></tr>
+    <tr><td>8</td><td>30 Nov – 6 Dec</td><td>Candidate detail, interviews, uploads, performance, a11y, full Docker Compose</td><td><strong>M5 done</strong> — React on the resume</td><td>Unseen feature end to end in 90 min</td></tr>
+    <tr><td>9</td><td>7–13 Dec</td><td>AI 1: structured outputs (resume → zod profile), embeddings + pgvector matching</td><td>M6 start</td><td>Extraction with a failure path, cold</td></tr>
+    <tr><td>10</td><td>14–20 Dec</td><td>AI 2: RAG with citations, streaming, tool calling, prompt-injection defence, golden-set evals in CI</td><td><strong>M6 shipped</strong> · no new features after Sun 20</td><td>Cited answer + injection test + eval run</td></tr>
+    <tr><td>11</td><td>21–27 Dec</td><td>Production pass, README + architecture doc, Next.js awareness · slip absorber (Christmas Fri 25 = +4 h)</td><td>Fix-list only</td><td><strong>Full Mock #1</strong></td></tr>
+    <tr><td>—</td><td>28–31 Dec</td><td>Finish line</td><td>Live URL · CI green · README</td><td><strong>Full Mock #2</strong> (Mon) · <strong>final exit exam</strong> (Wed) · sign-off Thu 31</td></tr>
   </table></div>
-  <div class="rule"><b>Exit criterion</b>≥ 70% on the test <strong>and</strong> one unseen array-of-objects problem solved in under 15 minutes without notes.</div>
+  <div class="rule"><b>Rules</b>Pass = ≥70%, timed, no notes, plus the unseen build in its time limit; assisted = not passed. A failed Saturday test is retested on Sunday (failed parts only) while the next week goes ahead. No buffer week: week 11 absorbs slip first; beyond that, scope is cut in a fixed order, never the core (SQL, auth/RBAC, tests, deploy, React + Query, structured outputs, pgvector, RAG with citations, evals, injection defence). No new features after Sun 20-12. A personal Anthropic API key with a spend cap is needed by 30-11.</div>
 
   <h2>Anti-decay system <small>so the 10-day gap never repeats</small></h2>
   <ul>
-    <li><strong>After-session revision (10 min)</strong> — every session ends with the day's chapter: read <em>In simple words</em>, retype the syntax card, answer the self-check, solve one practice link. <code>studydone</code> asks for it before logging.</li>
+    <li><strong>25-min sprints</strong> with 5-min breaks (every 4th break 15 min), phone in another room, one written line per sprint, last sprint = revision.</li>
+    <li><strong>After-session revision (10 min)</strong> — every session ends with the day's chapter: read <em>In simple words</em>, retype the syntax card, answer the self-check. <code>studydone</code> asks for it before logging. <strong>A day without <code>studydone</code> is a zero day.</strong></li>
     <li><strong>Daily 15-min drill</strong> — non-negotiable, every day, whatever the phase.</li>
-    <li><strong>Spaced recall</strong> — each topic returns at +1, +3, +7, +14, +30 days after rebuilding; a miss resets it to +1.</li>
-    <li><strong>Sunday confidence check</strong> — 30–40 min, timed, no notes, always includes old topics.</li>
+    <li><strong>Spaced recall</strong> — each topic returns at +1, +3, +7, +14, +30 days after it's taught; a miss resets it to +1.</li>
+    <li><strong>Saturday exit test</strong> — timed, no notes, about 30% old topics; Sunday retests the failed parts.</li>
     <li><strong>Interleaving</strong> — every new-topic session opens with one old-JS question.</li>
-    <li><strong>Reminders</strong> — 7:00 daily briefing (date, office/off, today's task, streak) · off days 10:00 + 17:00 · office days 19:55 · 21:30 last call if not done · <code>studydone</code> to log.</li>
+    <li><strong>Reminders</strong> — office days: 05:55 briefing, 06:00 morning slot, 07:30 hard stop, 20:45 evening nudge, 22:15 last call · off days: 10:00 + 17:00, 21:30 last call · <code>studydone</code> to log.</li>
     <li><strong>Gap rule</strong> — miss 2+ days → first session back is recall only, no new content.</li>
     <li><strong>🟢 means</strong> solved cold, twice, at least a week apart. Familiar is not the same as confident.</li>
   </ul>
   <div class="tw"><table>
-    <tr><th>Cluster</th><th>Rebuild</th><th>Recall dates</th></tr>
-    <tr><td>Arrays &amp; array-of-objects</td><td>Thu 1 Oct</td><td>Fri 2 · Sun 4 · Thu 8 · Thu 15 · Sat 31 Oct</td></tr>
-    <tr><td>Closures, debounce/throttle</td><td>Fri 2 Oct</td><td>Sat 3 · Mon 5 · Fri 9 · Fri 16 · Sun 1 Nov</td></tr>
-    <tr><td><code>this</code>, call/apply/bind</td><td>Fri 2 Oct</td><td><strong>daily</strong> until 5 clean hits in a row</td></tr>
-    <tr><td>Hoisting, coercion, output reading</td><td>Sat 3 Oct</td><td>Sun 4 · Tue 6 · Sat 10 · Sat 17 · Mon 2 Nov</td></tr>
-    <tr><td>Strings, sort, dedupe, flatten</td><td>Sat 3 Oct</td><td>Sun 4 · Tue 6 · Sat 10 · Sat 17 · Mon 2 Nov</td></tr>
-    <tr><td>Event loop, promises, async/await</td><td>Sun 4 Oct</td><td>Mon 5 · Wed 7 · Sun 11 · Sun 18 · Tue 3 Nov</td></tr>
-    <tr><td>Prototypes &amp; class</td><td>Sun 4 Oct</td><td>Mon 5 · Wed 7 · Sun 11 · Sun 18 · Tue 3 Nov</td></tr>
+    <tr><th>JS cluster (recall deck ch.)</th><th>State 09-10</th><th>Next recall dates</th></tr>
+    <tr><td>Event loop, promises, async/await (ch.1)</td><td>🔴 A C D B written twice; N/U/T method given 09-10</td><td>Sun 11 · Sun 18 · Tue 3 Nov · then in every exit test</td></tr>
+    <tr><td>filter / map / reduce, top-n (ch.2)</td><td>🟡 ladder done to rung 6; top-n guided 7/10</td><td>Thu 15 · Sat 31 Oct</td></tr>
+    <tr><td>call / apply / bind, <code>this</code> (ch.3, 6)</td><td>🟡 9/10 on 06-10 (was 3 in the test)</td><td><strong>daily</strong> until 5 clean hits in a row</td></tr>
+    <tr><td>Closures, loop trap, debounce/throttle (ch.4, 5)</td><td>🟡 throttle cold 10; loop trap 8</td><td>Fri 16 · Sun 1 Nov</td></tr>
+    <tr><td>Prototypes &amp; class (ch.7)</td><td>🔴 re-taught 08-10, never typed</td><td>Sun 11 (build) · Sun 18 · Tue 3 Nov</td></tr>
+    <tr><td>Hoisting, coercion, strings (ch.8, 11, 12)</td><td>🟢 hoisting 10, coercion 9 in the test · strings reps pending</td><td>Sat 17 · Mon 2 Nov</td></tr>
   </table></div>
 
   <h2>The weekly rhythm</h2>
   <ul>
-    <li><strong>Weekdays</strong> 8:00–9:30 pm · <strong>weekends</strong> ~3 h each (build days) · ≈ 14 h/week</li>
-    <li><strong>Sunday</strong> = technical test slot (30–45 min) · <strong>Friday</strong> = weekly review</li>
-    <li><strong>Every second week</strong> = mock interview · <strong>monthly</strong> = full mock</li>
-    <li>A missed day costs <strong>one day</strong>, never the week — re-plan, never dump the backlog</li>
+    <li><strong>Office days</strong> 06:00–07:30 (learn/build, fresh brain) + 20:45 onwards for 60–90 min (drill, recall, revision) · <strong>days off</strong> ~4 h (build days) · ≈ 15.5 h/week, planned on what actually happens, not on the cap</li>
+    <li><strong>Saturday</strong> = exit test first, then build · <strong>Sunday</strong> = build day + retest · <strong>Monday</strong> = weekly review opens the new week</li>
+    <li><strong>Mock interviews</strong> on 28-11, 26-12, 28-12 · <strong>final exit exam</strong> 30-12</li>
+    <li>A missed day costs <strong>one day</strong>, never the week — the piece moves to the next Saturday (max +1 h); the backlog is never stacked</li>
   </ul>
 
   <h2>Daily drill <small>minimum viable session · 15 min</small></h2>
   <p>Every session opens with it; on a bad day it <em>is</em> the session:</p>
   <ul>
-    <li><strong>1 output prediction</strong> (JS now; React/Node later)</li>
+    <li><strong>1 output prediction</strong> (JS now; Node/React later) — tag every line N / U / T before answering</li>
     <li><strong>1 theory question</strong>, answered out loud — the 30-second version</li>
     <li><strong>1 micro coding problem</strong> (5–10 min)</li>
-    <li><strong>1 recall from the spaced queue</strong> — intervals 1 → 3 → 7 → 14 → 30 days; a miss resets to 1. <code>this</code> in callbacks is on the daily list until five clean hits in a row.</li>
+    <li><strong>1 recall from the spaced queue</strong> — intervals 1 → 3 → 7 → 14 → 30 days; a miss resets to 1. <code>this</code> in callbacks stays on the daily list until five clean hits in a row.</li>
   </ul>
 
-  <h2>Dashboard <small>30-09-2026</small></h2>
+  <h2>Dashboard <small>09-10-2026</small></h2>
   <div class="tw"><table class="dash">
     <tr><th>Area</th><th>Status</th><th>Note</th></tr>
-    <tr><td>JavaScript</td><td>🟡</td><td>knowledge good; retention 🟠, <code>this</code>-in-callbacks 🟠, careful reading 🟠, DOM 🔴</td></tr>
-    <tr><td>TypeScript</td><td>🟡</td><td>lessons 1–2 done; Angular exposure made the syntax familiar, the rules new</td></tr>
-    <tr><td>React</td><td>🔴</td><td>not started (phase 2)</td></tr>
-    <tr><td>Node / Express</td><td>🟠</td><td>crash-course level only</td></tr>
-    <tr><td>PostgreSQL / SQL</td><td>🔴</td><td>starts Fri 2 Oct</td></tr>
-    <tr><td>AI engineering</td><td>🔴</td><td>phase 3</td></tr>
-    <tr><td>Git</td><td>🟡</td><td>daily work use; personal-repo flow set up</td></tr>
-    <tr><td>Testing · Docker</td><td>🔴</td><td>phase 1 / week 1</td></tr>
-    <tr><td>Deployment</td><td>🟠</td><td>GitHub Pages only so far</td></tr>
-    <tr><td>Project</td><td>🔴</td><td>not started — M0 on Thu 1 Oct</td></tr>
-    <tr><td>Interview readiness</td><td>🟠</td><td>Mock 1: 29/60 (09-09); Mock 2 in week 9</td></tr>
+    <tr><td>JavaScript</td><td>🟡</td><td>Test #1 53/100 (05-10); rebuilt event loop, FMR ladder, call/apply/bind, debounce/throttle, promises; <strong>Test #2 Sat 10-10 10:30</strong>; still open: class rebuild, strings reps, DOM delegation</td></tr>
+    <tr><td>Node / Express</td><td>🟠</td><td>crash-course level; starts Sat 10-10 (week 0–1)</td></tr>
+    <tr><td>PostgreSQL / SQL</td><td>🔴</td><td>week 2</td></tr>
+    <tr><td>TypeScript</td><td>🟡</td><td>lessons 1–2 done; paused; week 5 by migrating the API</td></tr>
+    <tr><td>React</td><td>🔴</td><td>week 6</td></tr>
+    <tr><td>AI engineering</td><td>🔴</td><td>weeks 9–10</td></tr>
+    <tr><td>Git</td><td>🟡</td><td>daily work use; personal-repo flow set up; exit test in week 1</td></tr>
+    <tr><td>Testing · Docker · CI</td><td>🔴</td><td>supertest from week 1 · Docker week 1 · CI week 5</td></tr>
+    <tr><td>Deployment</td><td>🟠</td><td>GitHub Pages only; API live in week 3, web in week 7</td></tr>
+    <tr><td>Project</td><td>🔴</td><td>not started — M0 in week 1</td></tr>
+    <tr><td>Interview readiness</td><td>🟠</td><td>Mock 1: 29/60 (09-09); Mock 2 on 28-11</td></tr>
   </table></div>
 </div>
 </body>
