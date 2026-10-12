@@ -34,12 +34,12 @@
   }
   *{box-sizing:border-box}
   html{scroll-snap-type:y proximity;scroll-padding-top:58px}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
-  body.big{font-size:19px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5}
+  body.big{font-size:18px}
   .bar{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .bar h1{font-family:var(--display);font-size:17px;margin:0 6px 0 0;letter-spacing:-.01em;white-space:nowrap}
   .chips{display:flex;gap:5px;flex-wrap:wrap;flex:1}
-  .chips a{font-family:var(--mono);font-size:12.5px;font-weight:600;text-decoration:none;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;line-height:1.5;position:relative}
+  .chips a{font-family:var(--mono);font-size:11.5px;font-weight:600;text-decoration:none;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;line-height:1.5;position:relative}
   .chips a:hover{border-color:var(--accent);color:var(--accent)}
   .chips a.done::after{content:"";position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--ok)}
   .tools{display:flex;gap:6px;align-items:center}
@@ -50,27 +50,33 @@
   .intro h2{font-family:var(--display);font-size:26px;margin:0 0 6px;letter-spacing:-.02em}
   .intro p{margin:4px 0;color:var(--ink-2);max-width:70ch}
   .intro .upd{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:10px}
-  .card{scroll-snap-align:start;min-height:100dvh;max-width:1040px;margin:0 auto;padding:22px 16px 30px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line)}
+  .card{scroll-snap-align:start;min-height:100dvh;max-width:1040px;margin:0 auto;padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--line)}
   .card header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   .card header .n{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
-  .card h2{font-family:var(--display);font-size:25px;margin:0;letter-spacing:-.02em}
+  .card h2{font-family:var(--display);font-size:23px;margin:0;letter-spacing:-.02em}
   .card header button{margin-left:auto}
   .card header button.done{border-color:var(--ok);color:var(--ok)}
-  .idea{background:var(--accent-soft);border-left:4px solid var(--accent);padding:9px 14px;border-radius:0 8px 8px 0;font-size:1.03em;color:var(--ink)}
-  .cols{display:grid;grid-template-columns:1.05fr 1fr;gap:16px;align-items:start}
+  .idea{background:var(--accent-soft);border-left:4px solid var(--accent);padding:7px 12px;border-radius:0 8px 8px 0;font-size:1.03em;color:var(--ink)}
+  .cols{display:grid;grid-template-columns:0.95fr 1.05fr;gap:14px;align-items:start}
   @media (max-width:860px){.cols{grid-template-columns:1fr}}
   ol.rules{margin:0;padding-left:22px;color:var(--ink)}
-  ol.rules li{margin:6px 0;color:var(--ink)}
+  ol.rules li{margin:4px 0;color:var(--ink)}
   ol.rules b{color:var(--ink)}
   code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)}
-  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:14.2px;line-height:1.6;padding:12px 14px;border-radius:9px;overflow-x:auto;margin:0}
-  body.big pre{font-size:15.5px}
-  .qs{border-top:1px solid var(--line);padding-top:8px}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:13.4px;line-height:1.55;padding:10px 12px;border-radius:9px;overflow-x:auto;margin:0}
+  body.big pre{font-size:14.8px}
+  .qs{border-top:1px solid var(--line);padding-top:6px}
   .qs > b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:2px}
-  .qs details{border-bottom:1px solid var(--line);padding:6px 0}
-  .qs summary{cursor:pointer;color:var(--ink);font-weight:500}
-  .qs details p{margin:5px 0 2px 16px;color:var(--ink-2)}
+  .qs .grid{display:flex;flex-direction:column;gap:6px}
+  .qs .q{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--surface)}
+  .qs .q pre{flex:0 0 58%;font-size:12.6px;line-height:1.45;padding:6px 10px;margin:0}
+  .qs .q details{flex:1;min-width:0}
+  body.big .qs .q pre{font-size:14px}
+  @media (max-width:860px){.qs .q{flex-direction:column}.qs .q pre{flex:none;width:100%}}
+  .qs summary{cursor:pointer;color:var(--ink);font-weight:600}
+  .qs details p{margin:6px 0 2px 0;color:var(--ink-2)}
   .qs details p b{color:var(--ink)}
+  .qs details p code{font-size:.85em}
   .foot{max-width:1040px;margin:0 auto;padding:20px 16px 60px;color:var(--ink-3);font-size:14px;border-top:1px solid var(--line)}
   .foot a{color:var(--accent)}
 </style>
@@ -80,7 +86,7 @@
 <div class="bar">
   <h1>JS Cards</h1>
   <nav class="chips" id="chips">
-    <a href="#c0" data-card="c0">0 N/U/T</a><a href="#c1" data-card="c1">1 Promises</a><a href="#c2" data-card="c2">2 FMR</a><a href="#c3" data-card="c3">3 call/apply/bind</a><a href="#c4" data-card="c4">4 Closures</a><a href="#c5" data-card="c5">5 Debounce</a><a href="#c6" data-card="c6">6 this</a><a href="#c7" data-card="c7">7 Class</a><a href="#c8" data-card="c8">8 Copies/strings</a><a href="#c9" data-card="c9">9 Arrays</a><a href="#c10" data-card="c10">10 DOM</a><a href="#c11" data-card="c11">11 Hoisting</a><a href="#c12" data-card="c12">12 Coercion</a><a href="#c13" data-card="c13">13 Errors</a>
+    <a href="#c0" data-card="c0">0 N/U/T</a><a href="#c1" data-card="c1">1 Promises</a><a href="#c2" data-card="c2">2 FMR</a><a href="#c3" data-card="c3">3 call/bind</a><a href="#c4" data-card="c4">4 Closures</a><a href="#c5" data-card="c5">5 Debounce</a><a href="#c6" data-card="c6">6 this</a><a href="#c7" data-card="c7">7 Class</a><a href="#c8" data-card="c8">8 Strings</a><a href="#c9" data-card="c9">9 Arrays</a><a href="#c10" data-card="c10">10 DOM</a><a href="#c11" data-card="c11">11 Hoisting</a><a href="#c12" data-card="c12">12 Coercion</a><a href="#c13" data-card="c13">13 Errors</a>
   </nav>
   <div class="tools">
     <span class="count" id="count"></span>
@@ -93,7 +99,7 @@
   <h2>One card per topic. One screen each.</h2>
   <p>Five rules, one snippet, three questions. Nothing else. The order is the revision order: weakest and most-asked first. Answer the three questions <strong>before</strong> opening them, then press <strong>Revised today</strong>. Arrow keys move between cards.</p>
   <p>The full explanations, your mistake log and the practice links stay in the <a href="js-recall-deck.html">JS Recall Deck</a>. This page is only for revising.</p>
-  <p class="upd">Last update 12-10-2026 · 14 cards</p>
+  <p class="upd">Last update 12-10-2026 · 14 cards · questions now show the code</p>
 </div>
 
 <section class="card" id="c0">
@@ -115,11 +121,19 @@ console.log("D");                                // N
 // N: A D   U: C   T: B
 // output: A D C B</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>setTimeout(one, 100) · Promise.resolve().then(two) · (async () => { three; await null; four })() · setTimeout(five, 0) · six. Output?</summary><p><b>three six two four five one.</b> "three" is N (before the first await). "five" has 0 ms, so it beats "one" at 100 ms.</p></details>
-    <details><summary>A .then on an already-resolved promise is written above a console.log. Which prints first?</summary><p><b>The console.log.</b> Every N line finishes before the first U line.</p></details>
-    <details><summary>.then(() => { log("C"); setTimeout(() => log("D"), 0) }) with an earlier setTimeout(B, 0). Order of B and D?</summary><p><b>B then D.</b> D is a timer added later, so it waits behind B.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>setTimeout(() =&gt; log("one"), 100);
+Promise.resolve().then(() =&gt; log("two"));
+(async () =&gt; { log("three"); await null; log("four"); })();
+setTimeout(() =&gt; log("five"), 0);
+log("six");</pre><details><summary>log = console.log. Tag each line, then write the output.</summary><p><b>three six two four five one.</b> "three" is N: it is before the first await. "five" (0 ms) beats "one" (100 ms).</p></details></div>
+    <div class="q"><pre>Promise.resolve().then(() =&gt; console.log("X"));
+console.log("Y");</pre><details><summary>Which prints first?</summary><p><b>Y.</b> Every N line finishes before the first U line, even when the promise is already resolved.</p></details></div>
+    <div class="q"><pre>setTimeout(() =&gt; log("B"), 0);
+Promise.resolve().then(() =&gt; {
+  log("C"); setTimeout(() =&gt; log("D"), 0);
+});</pre><details><summary>Output?</summary><p><b>C B D.</b> D is a timer added later, so it waits behind B, which was already in line.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c1">
@@ -134,22 +148,31 @@ console.log("D");                                // N
       <li><code>async function</code> always returns a promise. Two awaits in a row run one after the other; <code>await Promise.all([a, b])</code> runs them together.</li>
     </ol>
 <pre>function wait(ms) {
-  return new Promise(resolve => setTimeout(() => resolve("done"), ms));
+  return new Promise(resolve => {
+    setTimeout(() => resolve("done"), ms);
+  });
 }
 async function steps() {
   console.log("start");
-  await wait(1000);          // pauses steps, not the file
+  await wait(1000);          // pauses steps only
   console.log("after 1 s");
 }
 steps();
-console.log("file end");
-// start · file end · after 1 s</pre>
+console.log("file end");     // start · file end · after 1 s</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>Two await wait(500) in a row. Total time, and the fix?</summary><p><b>About 1000 ms.</b> The second timer starts only after the first finishes. Fix: <code>const [a, b] = await Promise.all([wait(500), wait(500)])</code>, about 500 ms.</p></details>
-    <details><summary>Promise.resolve(2).then(n => { n * 2 }).then(x => console.log(x)) prints?</summary><p><b>undefined.</b> The braces need an explicit <code>return</code>; the next .then receives whatever the previous callback returned.</p></details>
-    <details><summary>Promise.race vs Promise.any?</summary><p><b>race</b> = the first to settle, so a rejection can win. <b>any</b> = the first to fulfil; rejections are ignored unless all fail.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>async function load() {
+  const a = await wait(500);
+  const b = await wait(500);
+  return a + b;
+}</pre><details><summary>How long until load() finishes? How do you make it about 500 ms?</summary><p><b>About 1000 ms:</b> the second timer starts only after the first finishes. Fix: start both first, then wait for both:<br><code>const [a, b] = await Promise.all([wait(500), wait(500)]);</code></p></details></div>
+    <div class="q"><pre>Promise.resolve(2)
+  .then(n =&gt; { n * 2 })
+  .then(x =&gt; console.log(x));</pre><details><summary>What prints?</summary><p><b>undefined.</b> The first callback has braces and no <code>return</code>, so it passes nothing on. The next .then receives whatever the previous one returned.</p></details></div>
+    <div class="q"><pre>async function five() { return 5; }
+console.log(five());
+five().then(n =&gt; console.log(n));</pre><details><summary>What do the two lines print?</summary><p><b>Promise { 5 }</b>, then <b>5</b>. An async function always returns a promise; the value is inside it, and .then (or await) takes it out.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c2">
@@ -170,16 +193,19 @@ console.log("file end");
     return acc;
   }, {});
 
-Object.entries(totals)            // [["Aman", 2000], ["Ravi", 5000]]
-  .sort((a, b) => b[1] - a[1])    // biggest first
+Object.entries(totals)      // [["Aman",2000],["Ravi",5000]]
+  .sort((a, b) => b[1] - a[1])  // biggest first
   .slice(0, 2)
   .map(pair => pair[0]);          // ["Ravi", "Aman"]</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>What does forEach return?</summary><p><b>undefined.</b> It is for side effects only.</p></details>
-    <details><summary>Why (acc[key] || 0) in a sum-by?</summary><p>The first time, <code>acc[key]</code> is undefined, and <code>undefined + n</code> is NaN. <code>|| 0</code> gives the starting value.</p></details>
-    <details><summary>[10, 1, 5].sort() gives?</summary><p><b>[1, 10, 5].</b> The default sort compares as strings. Use <code>sort((a, b) => a - b)</code> for numbers, on a copy.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><details><summary>What does forEach return?</summary><p><b>undefined.</b> It is for side effects only.</p></details></div>
+    <div class="q"><pre>const totals = orders.reduce((acc, o) =&gt; {
+  acc[o.customer] = (acc[o.customer] || 0) + o.amount;
+  return acc;
+}, {});</pre><details><summary>Why the || 0?</summary><p>The first time a customer appears, <code>acc[o.customer]</code> is undefined, and <code>undefined + 2000</code> is NaN. <code>|| 0</code> supplies the starting value.</p></details></div>
+    <div class="q"><pre>[10, 1, 5].sort();</pre><details><summary>Result?</summary><p><b>[1, 10, 5].</b> The default sort compares as strings. For numbers: <code>[...nums].sort((a, b) => a - b)</code>.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c3">
@@ -201,13 +227,18 @@ const me = { name: "Harsh" };
 intro.call(me, "Hi", "Noida");        // runs now
 intro.apply(me, ["Hi", "Noida"]);     // runs now
 const hi = intro.bind(me, "Hi");      // nothing runs yet
-hi("Delhi");                          // "Hi, I'm Harsh from Delhi"</pre>
+hi("Delhi");                  // "Hi, I'm Harsh from Delhi"</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>Difference between call and apply?</summary><p>Only how the arguments are passed: commas vs an array. <b>Both run the function immediately.</b></p></details>
-    <details><summary>Does bind run the function?</summary><p><b>No.</b> It returns a new function.</p></details>
-    <details><summary>total(tax, discount) returns `${this.owner}: ${100 + tax - discount}`. cart.total.bind(guest, 10)(20) with guest.owner = "Guest"?</summary><p><b>"Guest: 90".</b> tax = 10 was stored by bind, discount = 20 came at call time.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><details><summary>Difference between call and apply?</summary><p>Only how the arguments are passed: commas vs an array. <b>Both run the function immediately.</b></p></details></div>
+    <div class="q"><details><summary>Does bind run the function?</summary><p><b>No.</b> It returns a new function.</p></details></div>
+    <div class="q"><pre>const cart = {
+  owner: "Asha",
+  total(tax, discount) { return `${this.owner}: ${100 + tax - discount}`; }
+};
+const guest = { owner: "Guest" };
+cart.total.bind(guest, 10)(20);</pre><details><summary>Result?</summary><p><b>"Guest: 90".</b> this = guest, tax = 10 stored by bind, discount = 20 added at call time: 100 + 10 - 20.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c4">
@@ -227,16 +258,20 @@ hi("Delhi");                          // "Hi, I'm Harsh from Delhi"</pre>
 }
 const a = makeCounter(), b = makeCounter();
 a.inc(); a.inc(); b.inc();
-a.get(); b.get();                     // 2, 1 — separate backpacks
+a.get(); b.get();             // 2, 1: separate backpacks
 
-for (var i = 1; i &lt;= 3; i++) setTimeout(() => console.log(i));  // 4 4 4
-for (let j = 1; j &lt;= 3; j++) setTimeout(() => console.log(j));  // 1 2 3</pre>
+for (var i = 1; i &lt;= 3; i++)
+  setTimeout(() => console.log(i));   // 4 4 4
+for (let j = 1; j &lt;= 3; j++)
+  setTimeout(() => console.log(j));   // 1 2 3</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>Two counters from makeCounter(). Do they share count?</summary><p><b>No.</b> Each call creates its own count.</p></details>
-    <details><summary>const a = makeCounter(); const b = a; a(); a(); b() prints?</summary><p><b>3.</b> Assignment shares the same function and the same backpack. Only another makeCounter() call makes a new one.</p></details>
-    <details><summary>for (var i = 0; i &lt; 3; i++) setTimeout(() => console.log(i)) prints?</summary><p><b>3 3 3.</b> One shared i, read after the loop ends. With let: 0 1 2.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><details><summary>Two counters from makeCounter(). Do they share count?</summary><p><b>No.</b> Each call creates its own count.</p></details></div>
+    <div class="q"><pre>const a = makeCounter();   // returns () =&gt; ++count
+const b = a;
+a(); a(); b();</pre><details><summary>What does b() return?</summary><p><b>3.</b> <code>b = a</code> shares the same function and the same backpack. Only another makeCounter() call makes a new one.</p></details></div>
+    <div class="q"><pre>for (var i = 0; i &lt; 3; i++) setTimeout(() =&gt; console.log(i));</pre><details><summary>Prints?</summary><p><b>3 3 3.</b> One shared i, read after the loop ends. With <code>let</code>: 0 1 2.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c5">
@@ -266,11 +301,11 @@ function throttle(fn, limit) {
   };
 }</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>10 letters typed quickly into a box debounced at 300 ms. How many calls?</summary><p><b>One</b>, 300 ms after the last keystroke.</p></details>
-    <details><summary>In throttle, what happens to calls during the cooldown?</summary><p><b>Dropped.</b> Not queued, arguments lost.</p></details>
-    <details><summary>Where does fn run in debounce vs throttle?</summary><p>Debounce: inside the timer, after the quiet period. Throttle: immediately; the timer only reopens the gate.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><details><summary>10 letters typed quickly into a box debounced at 300 ms. How many calls?</summary><p><b>One</b>, 300 ms after the last keystroke.</p></details></div>
+    <div class="q"><details><summary>In throttle, what happens to calls during the cooldown?</summary><p><b>Dropped.</b> Not queued, arguments lost.</p></details></div>
+    <div class="q"><details><summary>Where does fn run in debounce vs throttle?</summary><p>Debounce: inside the timer, after the quiet period. Throttle: immediately; the timer only reopens the gate.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c6">
@@ -288,19 +323,22 @@ function throttle(fn, limit) {
   name: "Harsh",
   hi() { return this.name; },
   later() {
-    setTimeout(function () { console.log(this.name); }, 0); // undefined: the timer calls it bare
-    setTimeout(() => console.log(this.name), 0);            // "Harsh": arrow borrows later()'s this
+    // regular: the timer calls it bare → undefined
+    setTimeout(function () { console.log(this.name); }, 0);
+    // arrow: borrows later()'s this → "Harsh"
+    setTimeout(() => console.log(this.name), 0);
   }
 };
-user.hi();                 // "Harsh"   left of the dot is user
-const f = user.hi; f();    // undefined no owner
-f.call(user);              // "Harsh"   set by hand</pre>
+user.hi();                // "Harsh": left of the dot is user
+const f = user.hi; f();   // undefined: no owner
+f.call(user);             // "Harsh": set by hand</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>const f = obj.greet; f(); What is this inside?</summary><p><b>Not obj.</b> f is called bare: undefined in strict mode, the global object otherwise.</p></details>
-    <details><summary>A regular function passed to setTimeout inside a method. What is this?</summary><p><b>Not the object.</b> The timer calls it with no owner: window in a browser, the Timeout object in Node.</p></details>
-    <details><summary>Two ways to keep the object's this inside a callback?</summary><p>An arrow function, or <code>.bind(this)</code> on the regular function.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>const f = obj.greet;
+f();</pre><details><summary>What is this inside greet?</summary><p><b>Not obj.</b> f is called bare: undefined in strict mode, the global object otherwise.</p></details></div>
+    <div class="q"><details><summary>A regular function passed to setTimeout inside a method. What is this?</summary><p><b>Not the object.</b> The timer calls it with no owner: window in a browser, the Timeout object in Node.</p></details></div>
+    <div class="q"><details><summary>Two ways to keep the object's this inside a callback?</summary><p>An arrow function, or <code>.bind(this)</code> on the regular function.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c7">
@@ -315,22 +353,22 @@ f.call(user);              // "Harsh"   set by hand</pre>
       <li>Classes sit in the TDZ, need <code>new</code>, run in strict mode. Extras: <code>#field</code> private, <code>static</code> on the class, <code>get</code> read like a property.</li>
     </ol>
 <pre>class Animal {
-  constructor(name) { this.name = name; }            // own data
-  speak() { return `${this.name} makes a sound`; }   // on Animal.prototype
+  constructor(name) { this.name = name; } // own data
+  speak() { return this.name + " speaks"; } // prototype
 }
 class Dog extends Animal {
-  constructor(name) { super(name); }                 // super before this
-  speak() { return super.speak() + ", woof"; }       // override + parent call
+  constructor(name) { super(name); } // super before this
+  speak() { return super.speak() + ", woof"; } // override
 }
 const d = new Dog("Rex");
-d.speak();                     // "Rex makes a sound, woof"
-d.hasOwnProperty("speak");     // false: found on the prototype</pre>
+d.speak();                    // "Rex speaks, woof"
+d.hasOwnProperty("speak");    // false: found on the prototype</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>typeof a class?</summary><p><b>"function".</b> A class is a constructor function underneath.</p></details>
-    <details><summary>Where do class methods live?</summary><p>On <code>ClassName.prototype</code>, shared by every instance.</p></details>
-    <details><summary>In a subclass constructor, what must come before you use this?</summary><p><b>super(...)</b>.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><details><summary>typeof a class?</summary><p><b>"function".</b> A class is a constructor function underneath.</p></details></div>
+    <div class="q"><details><summary>Where do class methods live?</summary><p>On <code>ClassName.prototype</code>, shared by every instance.</p></details></div>
+    <div class="q"><details><summary>In a subclass constructor, what must come before you use this?</summary><p><b>super(...)</b>.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c8">
@@ -344,23 +382,25 @@ d.hasOwnProperty("speak");     // false: found on the prototype</pre>
       <li>Sort a <b>copy</b>: <code>[...nums].sort((a, b) => b - a)</code>. sort, reverse, splice and push mutate; map, filter and reduce never do.</li>
       <li>Dedupe: <code>[...new Set(arr)]</code>, first-seen order. Second largest: track largest and second, skip duplicates with <code>!==</code>.</li>
     </ol>
-<pre>const titleCase = s =>
-  s.split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" ");
-titleCase("the quick fox");                        // "The Quick Fox"
+<pre>const titleCase = s => s.split(" ")
+  .map(w => w[0].toUpperCase() + w.slice(1))
+  .join(" ");
+titleCase("the quick fox");                 // "The Quick Fox"
 
-const countVowels = s =>
-  [...s.toLowerCase()].filter(ch => "aeiou".includes(ch)).length;
+const countVowels = s => [...s.toLowerCase()]
+  .filter(ch => "aeiou".includes(ch)).length;
 
-const dedupe = arr => [...new Set(arr)];          // [3,1,3,2,1] → [3,1,2]
+const dedupe = arr => [...new Set(arr)]; // → [3,1,2]
 
-const copy = { ...user };            // shallow: copy.address === user.address
+const copy = { ...user };           // shallow: nested shared
 const deep = structuredClone(user);  // independent</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>const b = { ...a }; b.inner.x = 1; Does a.inner.x change?</summary><p><b>Yes.</b> inner is shared, because spread is shallow.</p></details>
-    <details><summary>Does name.toUpperCase() change name?</summary><p><b>No.</b> It returns a new string. Strings are immutable.</p></details>
-    <details><summary>Second largest distinct value of [5, 5, 3]?</summary><p><b>3.</b> Duplicates of the largest are skipped.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>const b = { ...a };
+b.inner.x = 1;</pre><details><summary>Does a.inner.x change?</summary><p><b>Yes.</b> inner is shared, because spread copies one level only.</p></details></div>
+    <div class="q"><details><summary>Does name.toUpperCase() change name?</summary><p><b>No.</b> It returns a new string. Strings are immutable.</p></details></div>
+    <div class="q"><pre>secondLargest([5, 5, 3]);</pre><details><summary>Returns?</summary><p><b>3.</b> Duplicates of the largest are skipped.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c9">
@@ -375,11 +415,11 @@ const deep = structuredClone(user);  // independent</pre>
       <li><code>slice(start, end)</code> copies, end excluded. <code>splice(index, count)</code> removes in place.</li>
     </ol>
 <pre>function cheapNames(products) {
-  const basket = [];                             // fresh per call
-  for (const p of products) {                    // values, not indexes
+  const basket = [];                    // fresh per call
+  for (const p of products) {           // values, not indexes
     if (p.inStock &amp;&amp; p.price &lt; 500) basket.push(p.name);
   }
-  return basket;                                 // after the loop
+  return basket;                        // after the loop
 }
 
 const a = [3, 1, 2];
@@ -387,11 +427,12 @@ a.slice(0, 2);       // [3, 1]  a copy
 a.splice(1, 1);      // removes index 1: a is now [3, 2]
 a.find(x => x > 2);  // 3</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>What goes wrong if you return inside the loop of a collect function?</summary><p>It exits on the <b>first match</b>, so you return one item instead of all of them.</p></details>
-    <details><summary>for...of vs for...in on ["a", "b"]?</summary><p>of gives "a", "b". in gives "0", "1", index strings.</p></details>
-    <details><summary>Why declare the basket inside the function?</summary><p>So every call starts empty. Declared outside, results pile up across calls.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><details><summary>What goes wrong if you return inside the loop of a collect function?</summary><p>It exits on the <b>first match</b>, so you return one item instead of all of them.</p></details></div>
+    <div class="q"><pre>for (const v of ["a", "b"]) console.log(v);
+for (const k in ["a", "b"]) console.log(k);</pre><details><summary>What does each loop print?</summary><p>of: <b>a, b</b> (the values). in: <b>"0", "1"</b> (index strings).</p></details></div>
+    <div class="q"><details><summary>Why declare the basket inside the function?</summary><p>So every call starts empty. Declared outside, results pile up across calls.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c10">
@@ -417,11 +458,11 @@ list.addEventListener("click", (e) => {     // delegation
   item.classList.toggle("done");
 });</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>querySelector vs querySelectorAll?</summary><p>The first match (or null) vs a static NodeList of every match.</p></details>
-    <details><summary>Why does btn.addEventListener("click", handle()) break?</summary><p><code>handle()</code> runs immediately, and its return value (undefined) gets registered instead of the function.</p></details>
-    <details><summary>event.target vs event.currentTarget?</summary><p>target is the element actually clicked; currentTarget is the element whose listener is running.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><details><summary>querySelector vs querySelectorAll?</summary><p>The first match (or null) vs a static NodeList of every match.</p></details></div>
+    <div class="q"><pre>btn.addEventListener("click", handle());</pre><details><summary>Why does this break?</summary><p><code>handle()</code> runs immediately, and its return value (undefined) gets registered instead of the function.</p></details></div>
+    <div class="q"><details><summary>event.target vs event.currentTarget?</summary><p>target is the element actually clicked; currentTarget is the element whose listener is running.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c11">
@@ -435,20 +476,26 @@ list.addEventListener("click", (e) => {     // delegation
       <li>A function <b>expression</b> (<code>var f = function () {}</code>) follows var rules: calling it early is a TypeError, not a function.</li>
       <li>Scope = where a name is visible. Hoisting = when it is usable. Two declarations with the same name: the last one wins.</li>
     </ol>
-<pre>greet();                    // works: declaration hoisted with its body
+<pre>greet();               // works: hoisted with its body
 function greet() { console.log("hi"); }
 
-console.log(x);             // undefined: var exists, value not yet
+console.log(x);        // undefined: var exists, value not yet
 var x = 5;
 
-console.log(y);             // ReferenceError: TDZ, script stops here
+console.log(y);        // ReferenceError: TDZ, script stops
 let y = 10;</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>console.log(a); var a = 3; prints?</summary><p><b>undefined.</b> var is hoisted and set to undefined; the assignment happens on its own line.</p></details>
-    <details><summary>console.log(b); let b = 3;</summary><p><b>ReferenceError.</b> b is hoisted but uninitialised (TDZ) until its line runs, and the script stops there.</p></details>
-    <details><summary>Why can you call a function declaration above its definition, but not const f = function () {}?</summary><p>Declarations are hoisted with their body. A function stored in a const follows const rules: TDZ, ReferenceError.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>console.log(a);
+var a = 3;</pre><details><summary>Prints?</summary><p><b>undefined.</b> var is hoisted and set to undefined; the assignment happens on its own line.</p></details></div>
+    <div class="q"><pre>console.log(b);
+let b = 3;</pre><details><summary>Prints?</summary><p><b>ReferenceError.</b> b is hoisted but uninitialised (TDZ) until its line runs, and the script stops there.</p></details></div>
+    <div class="q"><pre>greet();
+function greet() {}
+
+hi();
+const hi = function () {};</pre><details><summary>Which call works, which throws?</summary><p><b>greet() works</b>: a declaration is hoisted with its body. <b>hi() throws a ReferenceError</b>: hi is a const in the TDZ.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c12">
@@ -470,11 +517,11 @@ Boolean("0")     // true  (any non-empty string)
 Boolean([])      // true  (every object)
 Number("abc")    // NaN</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>"3" + 4 + 5?</summary><p><b>"345".</b> "3" + 4 is "34", then "34" + 5 is "345".</p></details>
-    <details><summary>3 + 4 + "5"?</summary><p><b>"75".</b> 3 + 4 is 7 first (both numbers), then 7 + "5" is "75".</p></details>
-    <details><summary>Is an empty array [] truthy or falsy?</summary><p><b>Truthy.</b> Every object, including an empty array or empty object, is truthy.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>"3" + 4 + 5</pre><details><summary>Result?</summary><p><b>"345".</b> "3" + 4 is "34", then "34" + 5 is "345".</p></details></div>
+    <div class="q"><pre>3 + 4 + "5"</pre><details><summary>Result?</summary><p><b>"75".</b> 3 + 4 is 7 first (both numbers), then 7 + "5" is "75".</p></details></div>
+    <div class="q"><pre>if ([]) console.log("truthy");</pre><details><summary>Does it print?</summary><p><b>Yes.</b> Every object, including an empty array or empty object, is truthy.</p></details></div>
+  </div></div>
 </section>
 
 <section class="card" id="c13">
@@ -489,9 +536,9 @@ Number("abc")    // NaN</pre>
       <li>"Cannot read properties of null" means the bug is in the lookup that produced null. NaN means an operand was undefined. "[object Object]" means an object went where a string was expected.</li>
     </ol>
 <pre>try {
-  JSON.parse("{bad json}");               // throws a SyntaxError at runtime
+  JSON.parse("{bad json}");            // throws SyntaxError
 } catch (err) {
-  console.log(err.name, err.message);    // "SyntaxError" "Unexpected token ..."
+  console.log(err.name, err.message); // SyntaxError ...
 } finally {
   console.log("always runs");
 }
@@ -501,11 +548,11 @@ function withdraw(balance, amount) {
   return balance - amount;
 }</pre>
   </div>
-  <div class="qs"><b>Answer before opening</b>
-    <details><summary>null.length throws which error?</summary><p><b>TypeError.</b> null exists, but you cannot read properties from it.</p></details>
-    <details><summary>After an uncaught error, what still runs?</summary><p>Nothing after that line in the same script. Callbacks already scheduled (timers, events) can still run later.</p></details>
-    <details><summary>When does finally run?</summary><p><b>Always.</b> After try, or after catch if something threw, even if try contains a return.</p></details>
-  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>null.length;</pre><details><summary>Which error?</summary><p><b>TypeError.</b> null exists, but you cannot read properties from it.</p></details></div>
+    <div class="q"><details><summary>After an uncaught error, what still runs?</summary><p>Nothing after that line in the same script. Callbacks already scheduled (timers, events) can still run later.</p></details></div>
+    <div class="q"><details><summary>When does finally run?</summary><p><b>Always.</b> After try, or after catch if something threw, even if try contains a return.</p></details></div>
+  </div></div>
 </section>
 
 <p class="foot">Full chapters, mistake log and practice links: <a href="js-recall-deck.html">JS Recall Deck</a> · problems: <a href="js-drill-set.html">JS Drill Set</a> · <a href="index.html">all notes</a></p>
