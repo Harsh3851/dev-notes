@@ -86,7 +86,7 @@
 <div class="bar">
   <h1>JS Cards</h1>
   <nav class="chips" id="chips">
-    <a href="#c0" data-card="c0">0 N/U/T</a><a href="#c1" data-card="c1">1 Promises</a><a href="#c2" data-card="c2">2 FMR</a><a href="#c3" data-card="c3">3 call/bind</a><a href="#c4" data-card="c4">4 Closures</a><a href="#c5" data-card="c5">5 Debounce</a><a href="#c6" data-card="c6">6 this</a><a href="#c7" data-card="c7">7 Class</a><a href="#c8" data-card="c8">8 Strings</a><a href="#c9" data-card="c9">9 Arrays</a><a href="#c10" data-card="c10">10 DOM</a><a href="#c11" data-card="c11">11 Hoisting</a><a href="#c12" data-card="c12">12 Coercion</a><a href="#c13" data-card="c13">13 Errors</a>
+    <a href="#c0" data-card="c0">0 N/U/T</a><a href="#c1" data-card="c1">1 Promises</a><a href="#c1b" data-card="c1b">1b Helpers</a><a href="#c2" data-card="c2">2 FMR</a><a href="#c3" data-card="c3">3 call/bind</a><a href="#c4" data-card="c4">4 Closures</a><a href="#c5" data-card="c5">5 Debounce</a><a href="#c6" data-card="c6">6 this</a><a href="#c7" data-card="c7">7 Class</a><a href="#c8" data-card="c8">8 Strings</a><a href="#c9" data-card="c9">9 Arrays</a><a href="#c10" data-card="c10">10 DOM</a><a href="#c11" data-card="c11">11 Hoisting</a><a href="#c12" data-card="c12">12 Coercion</a><a href="#c13" data-card="c13">13 Errors</a>
   </nav>
   <div class="tools">
     <span class="count" id="count"></span>
@@ -99,7 +99,7 @@
   <h2>One card per topic. One screen each.</h2>
   <p>Five rules, one snippet, three questions. Nothing else. The order is the revision order: weakest and most-asked first. Answer the three questions <strong>before</strong> opening them, then press <strong>Revised today</strong>. Arrow keys move between cards.</p>
   <p>The full explanations, your mistake log and the practice links stay in the <a href="js-recall-deck.html">JS Recall Deck</a>. This page is only for revising.</p>
-  <p class="upd">Last update 12-10-2026 · 14 cards · questions now show the code</p>
+  <p class="upd">Last update 12-10-2026 · 15 cards · card 1b Promise helpers added</p>
 </div>
 
 <section class="card" id="c0">
@@ -172,6 +172,41 @@ console.log("file end");     // start · file end · after 1 s</pre>
     <div class="q"><pre>async function five() { return 5; }
 console.log(five());
 five().then(n =&gt; console.log(n));</pre><details><summary>What do the two lines print?</summary><p><b>Promise { 5 }</b>, then <b>5</b>. An async function always returns a promise; the value is inside it, and .then (or await) takes it out.</p></details></div>
+  </div></div>
+</section>
+
+<section class="card" id="c1b">
+  <header><span class="n">Card 1b</span><h2>Promise helpers: all · allSettled · race · any</h2><button data-done="c1b">Revised today</button></header>
+  <div class="idea">Each helper takes an <b>array of promises</b> and gives back <b>one</b> promise. They differ only in <b>when</b> it settles and <b>with what</b>.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>Promise.all([a, b])</code> waits for <b>all</b>. Fulfils with an array of values in <b>input order</b>. If any one rejects, it rejects at once with that reason. Use: you need every result.</li>
+      <li><code>Promise.allSettled([a, b])</code> waits for all and <b>never rejects</b>. Gives <code>{status: "fulfilled", value}</code> or <code>{status: "rejected", reason}</code> per item. Use: a report where some may fail.</li>
+      <li><code>Promise.race([a, b])</code>: the <b>first to settle</b> wins, success or failure. Use: a timeout (race the request against a timer).</li>
+      <li><code>Promise.any([a, b])</code>: the <b>first to fulfil</b> wins. Rejections are ignored unless all fail. Use: the fastest working mirror.</li>
+      <li>Start the promises <b>first</b>, then hand the array to the helper. The helper's promise is awaited like any other: <code>const [u, o] = await Promise.all([getUser(), getOrders()])</code>.</li>
+    </ol>
+<pre>// inside an async function
+const wait = ms =&gt; new Promise(r =&gt; setTimeout(r, ms));
+const fast = () =&gt; wait(100).then(() =&gt; "fast");
+const slow = () =&gt; wait(300).then(() =&gt; "slow");
+const bad  = () =&gt;
+  wait(200).then(() =&gt; { throw new Error("bad"); });
+
+await Promise.all([slow(), fast()]); // ["slow","fast"] 300 ms
+await Promise.all([fast(), bad()]);  // throws "bad" 200 ms
+await Promise.allSettled([fast(), bad()]);
+// [{status,value:"fast"},{status,reason:Error}]  300 ms
+await Promise.race([slow(), bad()]); // throws "bad" 200 ms
+await Promise.any([bad(), slow()]);  // "slow" 300 ms</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b><div class="grid">
+    <div class="q"><pre>const r = await Promise.all([wait(500), wait(500)]);</pre><details><summary>How long does this take, and what shape is r?</summary><p><b>About 500 ms</b>, both timers run together. <b>r is an array</b> with one result per input, in input order.</p></details></div>
+    <div class="q"><details><summary>One promise in the array rejects. Promise.all vs Promise.allSettled?</summary><p><b>all</b> rejects immediately with that reason; the other results are lost. <b>allSettled</b> waits for every one and reports each as fulfilled or rejected.</p></details></div>
+    <div class="q"><pre>const bad  = wait(200).then(() =&gt; { throw new Error("bad"); });
+const slow = wait(300).then(() =&gt; "slow");
+await Promise.race([bad, slow]);
+await Promise.any([bad, slow]);</pre><details><summary>What does each line give, and when?</summary><p><b>race</b> throws "bad" at 200 ms: the first to settle wins, even a failure. <b>any</b> gives "slow" at 300 ms: the first to fulfil wins, the rejection is ignored.</p></details></div>
   </div></div>
 </section>
 
@@ -573,7 +608,7 @@ function withdraw(balance, amount) {
       if (chip) chip.classList.toggle("done", ok);
       if (ok) n++;
     });
-    document.getElementById("count").textContent = n + " / 14 revised today";
+    document.getElementById("count").textContent = n + " / 15 revised today";
   }
   document.querySelectorAll("[data-done]").forEach(function (btn) {
     btn.addEventListener("click", function () {
