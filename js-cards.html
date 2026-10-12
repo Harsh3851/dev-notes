@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JS Revision Cards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F2F4F6; --surface:#FFFFFF; --surface-2:#E6EAEE;
+    --ink:#0B1220; --ink-2:#2E3B4E; --ink-3:#5B6B80;
+    --line:#CBD3DB; --accent:#0A6B67; --accent-soft:#D8EBE9;
+    --code-bg:#0A1220; --code-ink:#F4F7FA;
+    --ok:#1E7A45;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --sans:"IBM Plex Sans",system-ui,sans-serif;
+    --display:"Archivo","IBM Plex Sans",sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0B1017; --surface:#151D27; --surface-2:#202B38;
+      --ink:#F1F4F8; --ink-2:#C9D2DD; --ink-3:#9AA8B8;
+      --line:#2C3946; --accent:#5FD3C6; --accent-soft:#143632;
+      --code-bg:#05090F; --code-ink:#F4F7FA;
+      --ok:#5CCB8A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0B1017; --surface:#151D27; --surface-2:#202B38;
+    --ink:#F1F4F8; --ink-2:#C9D2DD; --ink-3:#9AA8B8;
+    --line:#2C3946; --accent:#5FD3C6; --accent-soft:#143632;
+    --code-bg:#05090F; --code-ink:#F4F7FA;
+    --ok:#5CCB8A;
+  }
+  *{box-sizing:border-box}
+  html{scroll-snap-type:y proximity;scroll-padding-top:58px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
+  body.big{font-size:19px}
+  .bar{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .bar h1{font-family:var(--display);font-size:17px;margin:0 6px 0 0;letter-spacing:-.01em;white-space:nowrap}
+  .chips{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+  .chips a{font-family:var(--mono);font-size:12.5px;font-weight:600;text-decoration:none;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;line-height:1.5;position:relative}
+  .chips a:hover{border-color:var(--accent);color:var(--accent)}
+  .chips a.done::after{content:"";position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--ok)}
+  .tools{display:flex;gap:6px;align-items:center}
+  .tools button,.card button{font-family:var(--mono);font-size:12.5px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+  .tools button:hover,.card button:hover{border-color:var(--accent);color:var(--accent)}
+  .tools .count{font-family:var(--mono);font-size:12px;color:var(--ink-3);white-space:nowrap}
+  .intro{max-width:1040px;margin:0 auto;padding:26px 16px 10px}
+  .intro h2{font-family:var(--display);font-size:26px;margin:0 0 6px;letter-spacing:-.02em}
+  .intro p{margin:4px 0;color:var(--ink-2);max-width:70ch}
+  .intro .upd{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:10px}
+  .card{scroll-snap-align:start;min-height:100dvh;max-width:1040px;margin:0 auto;padding:22px 16px 30px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line)}
+  .card header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .card header .n{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .card h2{font-family:var(--display);font-size:25px;margin:0;letter-spacing:-.02em}
+  .card header button{margin-left:auto}
+  .card header button.done{border-color:var(--ok);color:var(--ok)}
+  .idea{background:var(--accent-soft);border-left:4px solid var(--accent);padding:9px 14px;border-radius:0 8px 8px 0;font-size:1.03em;color:var(--ink)}
+  .cols{display:grid;grid-template-columns:1.05fr 1fr;gap:16px;align-items:start}
+  @media (max-width:860px){.cols{grid-template-columns:1fr}}
+  ol.rules{margin:0;padding-left:22px;color:var(--ink)}
+  ol.rules li{margin:6px 0;color:var(--ink)}
+  ol.rules b{color:var(--ink)}
+  code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:14.2px;line-height:1.6;padding:12px 14px;border-radius:9px;overflow-x:auto;margin:0}
+  body.big pre{font-size:15.5px}
+  .qs{border-top:1px solid var(--line);padding-top:8px}
+  .qs > b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:2px}
+  .qs details{border-bottom:1px solid var(--line);padding:6px 0}
+  .qs summary{cursor:pointer;color:var(--ink);font-weight:500}
+  .qs details p{margin:5px 0 2px 16px;color:var(--ink-2)}
+  .qs details p b{color:var(--ink)}
+  .foot{max-width:1040px;margin:0 auto;padding:20px 16px 60px;color:var(--ink-3);font-size:14px;border-top:1px solid var(--line)}
+  .foot a{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1>JS Cards</h1>
+  <nav class="chips" id="chips">
+    <a href="#c0" data-card="c0">0 N/U/T</a><a href="#c1" data-card="c1">1 Promises</a><a href="#c2" data-card="c2">2 FMR</a><a href="#c3" data-card="c3">3 call/apply/bind</a><a href="#c4" data-card="c4">4 Closures</a><a href="#c5" data-card="c5">5 Debounce</a><a href="#c6" data-card="c6">6 this</a><a href="#c7" data-card="c7">7 Class</a><a href="#c8" data-card="c8">8 Copies/strings</a><a href="#c9" data-card="c9">9 Arrays</a><a href="#c10" data-card="c10">10 DOM</a><a href="#c11" data-card="c11">11 Hoisting</a><a href="#c12" data-card="c12">12 Coercion</a><a href="#c13" data-card="c13">13 Errors</a>
+  </nav>
+  <div class="tools">
+    <span class="count" id="count"></span>
+    <button id="big" title="Bigger text">A+</button>
+    <button id="theme" title="Light / dark">Theme</button>
+  </div>
+</div>
+
+<div class="intro">
+  <h2>One card per topic. One screen each.</h2>
+  <p>Five rules, one snippet, three questions. Nothing else. The order is the revision order: weakest and most-asked first. Answer the three questions <strong>before</strong> opening them, then press <strong>Revised today</strong>. Arrow keys move between cards.</p>
+  <p>The full explanations, your mistake log and the practice links stay in the <a href="js-recall-deck.html">JS Recall Deck</a>. This page is only for revising.</p>
+  <p class="upd">Last update 12-10-2026 · 14 cards</p>
+</div>
+
+<section class="card" id="c0">
+  <header><span class="n">Card 0</span><h2>Output order: the N/U/T method</h2><button data-done="c0">Revised today</button></header>
+  <div class="idea">Tag every line that prints with one letter, then write the output in three passes. Never "feel" the order.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><b>N = now.</b> A plain line, and anything inside an <code>async</code> function <b>before</b> its first <code>await</code>.</li>
+      <li><b>U = urgent.</b> Anything inside <code>.then</code> / <code>.catch</code> / <code>.finally</code>, and everything <b>after</b> an <code>await</code>.</li>
+      <li><b>T = timer.</b> Anything inside a <code>setTimeout</code> callback. Shortest delay first; equal delays in the order they were added.</li>
+      <li><b>Three passes:</b> all N in code order, then all U in the order they were queued, then all T by delay.</li>
+      <li>A timer added from inside a U or T callback is still a T, and it queues <b>behind</b> the timers already waiting.</li>
+    </ol>
+<pre>console.log("A");                                // N
+setTimeout(() => console.log("B"), 0);           // T
+Promise.resolve().then(() => console.log("C"));  // U
+console.log("D");                                // N
+
+// N: A D   U: C   T: B
+// output: A D C B</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>setTimeout(one, 100) · Promise.resolve().then(two) · (async () => { three; await null; four })() · setTimeout(five, 0) · six. Output?</summary><p><b>three six two four five one.</b> "three" is N (before the first await). "five" has 0 ms, so it beats "one" at 100 ms.</p></details>
+    <details><summary>A .then on an already-resolved promise is written above a console.log. Which prints first?</summary><p><b>The console.log.</b> Every N line finishes before the first U line.</p></details>
+    <details><summary>.then(() => { log("C"); setTimeout(() => log("D"), 0) }) with an earlier setTimeout(B, 0). Order of B and D?</summary><p><b>B then D.</b> D is a timer added later, so it waits behind B.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c1">
+  <header><span class="n">Card 1</span><h2>Promises &amp; async/await</h2><button data-done="c1">Revised today</button></header>
+  <div class="idea">A promise is an empty slot that will get a value later. <code>.then</code> says what to do when it arrives. <code>await</code> waits here for it.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>new Promise(fn)</code> runs <code>fn</code> <b>now</b>. <code>resolve(v)</code> fills the slot, <code>reject(e)</code> marks it failed. The first call wins. Never called = pending forever.</li>
+      <li><code>.then(fn)</code> = when the slot has its value, run <code>fn</code> with it, then move on. <code>.catch(fn)</code> = the same for a failure. Both always wait for the current normal code to finish.</li>
+      <li>What a <code>.then</code> callback <b>returns</b> becomes the next <code>.then</code>'s input. Braces without <code>return</code> pass <code>undefined</code>.</li>
+      <li><code>await slot</code> = wait <b>here</b> until the slot has its value. Only this function waits; the file carries on. A rejection becomes a throw, so use try/catch.</li>
+      <li><code>async function</code> always returns a promise. Two awaits in a row run one after the other; <code>await Promise.all([a, b])</code> runs them together.</li>
+    </ol>
+<pre>function wait(ms) {
+  return new Promise(resolve => setTimeout(() => resolve("done"), ms));
+}
+async function steps() {
+  console.log("start");
+  await wait(1000);          // pauses steps, not the file
+  console.log("after 1 s");
+}
+steps();
+console.log("file end");
+// start · file end · after 1 s</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>Two await wait(500) in a row. Total time, and the fix?</summary><p><b>About 1000 ms.</b> The second timer starts only after the first finishes. Fix: <code>const [a, b] = await Promise.all([wait(500), wait(500)])</code>, about 500 ms.</p></details>
+    <details><summary>Promise.resolve(2).then(n => { n * 2 }).then(x => console.log(x)) prints?</summary><p><b>undefined.</b> The braces need an explicit <code>return</code>; the next .then receives whatever the previous callback returned.</p></details>
+    <details><summary>Promise.race vs Promise.any?</summary><p><b>race</b> = the first to settle, so a rejection can win. <b>any</b> = the first to fulfil; rejections are ignored unless all fail.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c2">
+  <header><span class="n">Card 2</span><h2>filter · map · reduce</h2><button data-done="c2">Revised today</button></header>
+  <div class="idea">Three questions. filter: keep this one? map: what does it become? reduce: fold everything into one value.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><b>filter</b> returns true/false per item (same items, fewer). <b>map</b> returns the new item (same count). <b>reduce</b> returns the next <code>acc</code>. None of them change the original; <code>forEach</code> returns undefined.</li>
+      <li>reduce's callback is <code>(acc, item)</code>, acc first. The seed is reduce's <b>second argument</b>. Always pass it.</li>
+      <li>Object accumulator: <code>acc[key] = (acc[key] || 0) + x</code>. The <code>|| 0</code> turns "no slot yet" into 0. Group-by: <code>if (!g[k]) g[k] = []; g[k].push(item);</code> on its own line.</li>
+      <li>"Which one is biggest?" is a comparison: reduce (compare the values, return the whole item) or sort a copy then <code>[0]</code>. Never filter.</li>
+      <li><b>Top-n recipe:</b> filter → reduce into <code>{key: total}</code> → <code>Object.entries</code> → <code>sort((a, b) => b[1] - a[1])</code> → <code>slice(0, n)</code> → <code>map(p => p[0])</code>.</li>
+    </ol>
+<pre>const totals = orders
+  .filter(o => o.status === "paid")
+  .reduce((acc, o) => {
+    acc[o.customer] = (acc[o.customer] || 0) + o.amount;
+    return acc;
+  }, {});
+
+Object.entries(totals)            // [["Aman", 2000], ["Ravi", 5000]]
+  .sort((a, b) => b[1] - a[1])    // biggest first
+  .slice(0, 2)
+  .map(pair => pair[0]);          // ["Ravi", "Aman"]</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>What does forEach return?</summary><p><b>undefined.</b> It is for side effects only.</p></details>
+    <details><summary>Why (acc[key] || 0) in a sum-by?</summary><p>The first time, <code>acc[key]</code> is undefined, and <code>undefined + n</code> is NaN. <code>|| 0</code> gives the starting value.</p></details>
+    <details><summary>[10, 1, 5].sort() gives?</summary><p><b>[1, 10, 5].</b> The default sort compares as strings. Use <code>sort((a, b) => a - b)</code> for numbers, on a copy.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c3">
+  <header><span class="n">Card 3</span><h2>call · apply · bind</h2><button data-done="c3">Revised today</button></header>
+  <div class="idea">All three let you choose <code>this</code> by hand. Call = commas. Apply = array. Bind = bind now, run later.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>fn.call(obj, a, b)</code> runs <b>now</b>, arguments separated by commas.</li>
+      <li><code>fn.apply(obj, [a, b])</code> runs <b>now</b>, arguments in one array.</li>
+      <li><code>fn.bind(obj)</code> runs <b>nothing</b>. It returns a new function with <code>this</code> welded on. Call that function later.</li>
+      <li>bind can pre-fill arguments: <code>intro.bind(me, "Hi")("Delhi")</code>. Call-time arguments are appended after the stored ones.</li>
+      <li>Bind at the handover: <code>setTimeout(user.greet.bind(user), 1000)</code>. A bound function cannot be re-bound; the first bind wins.</li>
+    </ol>
+<pre>function intro(greeting, city) {
+  return `${greeting}, I'm ${this.name} from ${city}`;
+}
+const me = { name: "Harsh" };
+
+intro.call(me, "Hi", "Noida");        // runs now
+intro.apply(me, ["Hi", "Noida"]);     // runs now
+const hi = intro.bind(me, "Hi");      // nothing runs yet
+hi("Delhi");                          // "Hi, I'm Harsh from Delhi"</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>Difference between call and apply?</summary><p>Only how the arguments are passed: commas vs an array. <b>Both run the function immediately.</b></p></details>
+    <details><summary>Does bind run the function?</summary><p><b>No.</b> It returns a new function.</p></details>
+    <details><summary>total(tax, discount) returns `${this.owner}: ${100 + tax - discount}`. cart.total.bind(guest, 10)(20) with guest.owner = "Guest"?</summary><p><b>"Guest: 90".</b> tax = 10 was stored by bind, discount = 20 came at call time.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c4">
+  <header><span class="n">Card 4</span><h2>Closures and the loop trap</h2><button data-done="c4">Revised today</button></header>
+  <div class="idea">An inner function keeps the outer function's variables alive after the outer has finished. A backpack it carries with it.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li>It is a closure when the inner function is <b>handed out</b> (returned, no brackets) and called <b>after</b> the outer function finished, and it still has the variables.</li>
+      <li>It remembers the <b>variable</b>, not a snapshot. If the variable changes later, the closure sees the new value.</li>
+      <li>Each call of the outer function packs a <b>new</b> backpack. Assigning (<code>const b = a</code>) only shares the same one.</li>
+      <li><code>fn</code> names a function; <code>fn()</code> runs it now. <code>return fn</code> hands it out. <code>return fn()</code> runs it while the outer is still running, which is just scope.</li>
+      <li><b>Loop trap:</b> <code>var i</code> is one shared variable, read after the loop ends. <code>let</code> makes a fresh one per round. Read the bounds every time.</li>
+    </ol>
+<pre>function makeCounter() {
+  let count = 0;                      // private backpack
+  return { inc: () => ++count, get: () => count };
+}
+const a = makeCounter(), b = makeCounter();
+a.inc(); a.inc(); b.inc();
+a.get(); b.get();                     // 2, 1 — separate backpacks
+
+for (var i = 1; i &lt;= 3; i++) setTimeout(() => console.log(i));  // 4 4 4
+for (let j = 1; j &lt;= 3; j++) setTimeout(() => console.log(j));  // 1 2 3</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>Two counters from makeCounter(). Do they share count?</summary><p><b>No.</b> Each call creates its own count.</p></details>
+    <details><summary>const a = makeCounter(); const b = a; a(); a(); b() prints?</summary><p><b>3.</b> Assignment shares the same function and the same backpack. Only another makeCounter() call makes a new one.</p></details>
+    <details><summary>for (var i = 0; i &lt; 3; i++) setTimeout(() => console.log(i)) prints?</summary><p><b>3 3 3.</b> One shared i, read after the loop ends. With let: 0 1 2.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c5">
+  <header><span class="n">Card 5</span><h2>Debounce &amp; throttle</h2><button data-done="c5">Revised today</button></header>
+  <div class="idea">Both stop a function running too often. A factory runs once and returns a wrapper; the wrapper decides on every event.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><b>Debounce</b> runs once <b>after</b> the burst ends. Every call cancels the pending timer and starts a new one. Search box.</li>
+      <li><b>Throttle</b> runs at most once per interval <b>during</b> the burst. Calls in the cooldown are <b>dropped</b>, not queued. Scroll, resize.</li>
+      <li>The factory runs once and creates the state (<code>timerId</code> or <code>open</code>). The wrapper runs on every event. Per-call decisions live in the wrapper.</li>
+      <li>Debounce: <code>fn</code> runs <b>inside the timer</b>. Throttle: <code>fn</code> runs <b>immediately</b>; the timer's only job is to reopen the gate.</li>
+      <li>Forward arguments with <code>(...args)</code> and <code>fn(...args)</code>. Attach the <b>returned</b> function to the event, not the original.</li>
+    </ol>
+<pre>function debounce(fn, delay) {
+  let timerId;
+  return (...args) => {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => fn(...args), delay);
+  };
+}
+function throttle(fn, limit) {
+  let open = true;
+  return (...args) => {
+    if (!open) return;                       // dropped
+    fn(...args); open = false;
+    setTimeout(() => { open = true; }, limit);
+  };
+}</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>10 letters typed quickly into a box debounced at 300 ms. How many calls?</summary><p><b>One</b>, 300 ms after the last keystroke.</p></details>
+    <details><summary>In throttle, what happens to calls during the cooldown?</summary><p><b>Dropped.</b> Not queued, arguments lost.</p></details>
+    <details><summary>Where does fn run in debounce vs throttle?</summary><p>Debounce: inside the timer, after the quiet period. Throttle: immediately; the timer only reopens the gate.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c6">
+  <header><span class="n">Card 6</span><h2>this</h2><button data-done="c6">Revised today</button></header>
+  <div class="idea"><code>this</code> is a hidden input to every regular function, filled in by whoever <b>calls</b> it. Arrows have none of their own.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li>Regular function: look at the <b>call</b>. <code>obj.m()</code> gives obj. Called bare gives undefined (strict) or window.</li>
+      <li>Passed to setTimeout, forEach or a listener: the <b>timer, array or element</b> calls it, not your object. setTimeout gives window (a Timeout object in Node); a listener gives the element.</li>
+      <li>Arrow: no own <code>this</code>. It borrows from the function it was <b>written inside</b>, permanently. Objects never give arrows a this.</li>
+      <li><code>this</code> never flows down into a nested regular function. Each call sets its own.</li>
+      <li>Fix a lost this: an arrow callback, or <code>.bind(this)</code>, or forEach's second argument. <code>this.x</code> is a property on whatever this is, never a local variable.</li>
+    </ol>
+<pre>const user = {
+  name: "Harsh",
+  hi() { return this.name; },
+  later() {
+    setTimeout(function () { console.log(this.name); }, 0); // undefined: the timer calls it bare
+    setTimeout(() => console.log(this.name), 0);            // "Harsh": arrow borrows later()'s this
+  }
+};
+user.hi();                 // "Harsh"   left of the dot is user
+const f = user.hi; f();    // undefined no owner
+f.call(user);              // "Harsh"   set by hand</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>const f = obj.greet; f(); What is this inside?</summary><p><b>Not obj.</b> f is called bare: undefined in strict mode, the global object otherwise.</p></details>
+    <details><summary>A regular function passed to setTimeout inside a method. What is this?</summary><p><b>Not the object.</b> The timer calls it with no owner: window in a browser, the Timeout object in Node.</p></details>
+    <details><summary>Two ways to keep the object's this inside a callback?</summary><p>An arrow function, or <code>.bind(this)</code> on the regular function.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c7">
+  <header><span class="n">Card 7</span><h2>Prototypes &amp; class</h2><button data-done="c7">Revised today</button></header>
+  <div class="idea">Every object has a hidden parent. A lookup asks the object, then the parent, then the grandparent, until found or null.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li>Methods are written once and live on <code>ClassName.prototype</code>; every instance shares them. Per-object data goes on <code>this</code> in the constructor.</li>
+      <li><code>new</code> does four things: makes an empty object, links it to the prototype, runs the constructor with <code>this</code> = that object, returns it.</li>
+      <li><code>extends</code> sets the parent. In the child constructor <code>super(...)</code> must come <b>before</b> <code>this</code>. <code>super.method()</code> calls the parent's version.</li>
+      <li><code>typeof Dog</code> is <code>"function"</code>. <code>d instanceof Animal</code> walks the chain; <code>hasOwnProperty</code> does not.</li>
+      <li>Classes sit in the TDZ, need <code>new</code>, run in strict mode. Extras: <code>#field</code> private, <code>static</code> on the class, <code>get</code> read like a property.</li>
+    </ol>
+<pre>class Animal {
+  constructor(name) { this.name = name; }            // own data
+  speak() { return `${this.name} makes a sound`; }   // on Animal.prototype
+}
+class Dog extends Animal {
+  constructor(name) { super(name); }                 // super before this
+  speak() { return super.speak() + ", woof"; }       // override + parent call
+}
+const d = new Dog("Rex");
+d.speak();                     // "Rex makes a sound, woof"
+d.hasOwnProperty("speak");     // false: found on the prototype</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>typeof a class?</summary><p><b>"function".</b> A class is a constructor function underneath.</p></details>
+    <details><summary>Where do class methods live?</summary><p>On <code>ClassName.prototype</code>, shared by every instance.</p></details>
+    <details><summary>In a subclass constructor, what must come before you use this?</summary><p><b>super(...)</b>.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c8">
+  <header><span class="n">Card 8</span><h2>Copies &amp; strings</h2><button data-done="c8">Revised today</button></header>
+  <div class="idea">Spread copies one level only. Strings never change in place: clean, split, work on the array, join.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>{ ...obj }</code> is shallow: anything nested is still <b>shared</b>. <code>structuredClone(obj)</code> is fully independent.</li>
+      <li>Every string method returns a <b>new</b> string. The recipe: clean → <code>split</code> → process the array → <code>join</code>.</li>
+      <li>What you split by decides what map sees: <code>split(" ")</code> gives words, <code>split("")</code> gives letters.</li>
+      <li>Sort a <b>copy</b>: <code>[...nums].sort((a, b) => b - a)</code>. sort, reverse, splice and push mutate; map, filter and reduce never do.</li>
+      <li>Dedupe: <code>[...new Set(arr)]</code>, first-seen order. Second largest: track largest and second, skip duplicates with <code>!==</code>.</li>
+    </ol>
+<pre>const titleCase = s =>
+  s.split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" ");
+titleCase("the quick fox");                        // "The Quick Fox"
+
+const countVowels = s =>
+  [...s.toLowerCase()].filter(ch => "aeiou".includes(ch)).length;
+
+const dedupe = arr => [...new Set(arr)];          // [3,1,3,2,1] → [3,1,2]
+
+const copy = { ...user };            // shallow: copy.address === user.address
+const deep = structuredClone(user);  // independent</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>const b = { ...a }; b.inner.x = 1; Does a.inner.x change?</summary><p><b>Yes.</b> inner is shared, because spread is shallow.</p></details>
+    <details><summary>Does name.toUpperCase() change name?</summary><p><b>No.</b> It returns a new string. Strings are immutable.</p></details>
+    <details><summary>Second largest distinct value of [5, 5, 3]?</summary><p><b>3.</b> Duplicates of the largest are skipped.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c9">
+  <header><span class="n">Card 9</span><h2>Arrays &amp; the collect pattern</h2><button data-done="c9">Revised today</button></header>
+  <div class="idea">Basket inside the function, loop the values, push what qualifies, return the basket after the loop.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>for...of</code> gives the <b>values</b>. <code>for...in</code> gives the keys as strings. Not for arrays.</li>
+      <li>The basket is declared <b>inside</b> the function, fresh per call. <code>return</code> comes <b>after</b> the loop, never inside it.</li>
+      <li>Mutating: push, pop, shift, unshift, splice, sort, reverse. Non-mutating: slice, map, filter, concat, spread.</li>
+      <li><code>find</code> → first match or undefined. <code>findIndex</code> → index or -1. <code>some</code> → any? <code>every</code> → all? <code>includes</code> → yes/no.</li>
+      <li><code>slice(start, end)</code> copies, end excluded. <code>splice(index, count)</code> removes in place.</li>
+    </ol>
+<pre>function cheapNames(products) {
+  const basket = [];                             // fresh per call
+  for (const p of products) {                    // values, not indexes
+    if (p.inStock &amp;&amp; p.price &lt; 500) basket.push(p.name);
+  }
+  return basket;                                 // after the loop
+}
+
+const a = [3, 1, 2];
+a.slice(0, 2);       // [3, 1]  a copy
+a.splice(1, 1);      // removes index 1: a is now [3, 2]
+a.find(x => x > 2);  // 3</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>What goes wrong if you return inside the loop of a collect function?</summary><p>It exits on the <b>first match</b>, so you return one item instead of all of them.</p></details>
+    <details><summary>for...of vs for...in on ["a", "b"]?</summary><p>of gives "a", "b". in gives "0", "1", index strings.</p></details>
+    <details><summary>Why declare the basket inside the function?</summary><p>So every call starts empty. Declared outside, results pile up across calls.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c10">
+  <header><span class="n">Card 10</span><h2>DOM</h2><button data-done="c10">Revised today</button></header>
+  <div class="idea">Every DOM task is three verbs: grab an element, change it, or listen for an event on it.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>querySelector("#id")</code> / <code>querySelectorAll(".cls")</code> take a CSS selector, symbols included. <code>getElementById("id")</code> takes the bare name. Never mix the two.</li>
+      <li><code>addEventListener("click", handle)</code> passes the function. <code>handle()</code> runs it now and registers undefined.</li>
+      <li><code>e.target</code> is the element actually clicked. <code>e.currentTarget</code> is the element whose listener is running. Events bubble up through the parents.</li>
+      <li><b>Delegation:</b> one listener on the parent plus <code>e.target.closest("li")</code> handles every child, including ones added later.</li>
+      <li>Make → fill → attach: <code>createElement</code>, <code>textContent</code>, <code>appendChild</code>. <code>querySelectorAll</code> returns a static NodeList, not an array.</li>
+    </ol>
+<pre>const list = document.querySelector("#list");
+
+const li = document.createElement("li");    // make
+li.textContent = "New task";                // fill
+list.appendChild(li);                       // attach
+
+list.addEventListener("click", (e) => {     // delegation
+  const item = e.target.closest("li");
+  if (!item) return;
+  item.classList.toggle("done");
+});</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>querySelector vs querySelectorAll?</summary><p>The first match (or null) vs a static NodeList of every match.</p></details>
+    <details><summary>Why does btn.addEventListener("click", handle()) break?</summary><p><code>handle()</code> runs immediately, and its return value (undefined) gets registered instead of the function.</p></details>
+    <details><summary>event.target vs event.currentTarget?</summary><p>target is the element actually clicked; currentTarget is the element whose listener is running.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c11">
+  <header><span class="n">Card 11</span><h2>Hoisting &amp; TDZ</h2><button data-done="c11">Revised today</button></header>
+  <div class="idea">Before running, JavaScript books a name for every declaration in the scope. What you get early depends on how it was declared.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>var</code> exists from the start and holds <b>undefined</b> until its line.</li>
+      <li><code>let</code> / <code>const</code> exist from the start but cannot be touched until their line (the TDZ): <b>ReferenceError</b>, and the script stops.</li>
+      <li>A function <b>declaration</b> is usable above its line, body included.</li>
+      <li>A function <b>expression</b> (<code>var f = function () {}</code>) follows var rules: calling it early is a TypeError, not a function.</li>
+      <li>Scope = where a name is visible. Hoisting = when it is usable. Two declarations with the same name: the last one wins.</li>
+    </ol>
+<pre>greet();                    // works: declaration hoisted with its body
+function greet() { console.log("hi"); }
+
+console.log(x);             // undefined: var exists, value not yet
+var x = 5;
+
+console.log(y);             // ReferenceError: TDZ, script stops here
+let y = 10;</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>console.log(a); var a = 3; prints?</summary><p><b>undefined.</b> var is hoisted and set to undefined; the assignment happens on its own line.</p></details>
+    <details><summary>console.log(b); let b = 3;</summary><p><b>ReferenceError.</b> b is hoisted but uninitialised (TDZ) until its line runs, and the script stops there.</p></details>
+    <details><summary>Why can you call a function declaration above its definition, but not const f = function () {}?</summary><p>Declarations are hoisted with their body. A function stored in a const follows const rules: TDZ, ReferenceError.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c12">
+  <header><span class="n">Card 12</span><h2>Coercion</h2><button data-done="c12">Revised today</button></header>
+  <div class="idea">JavaScript quietly converts a value to another type so an operation can work. <code>+</code> is the only operator with a second job.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><code>+</code> with a string on either side <b>joins text</b>. Every other operator (<code>- * / %</code>) converts to numbers.</li>
+      <li>Left to right: <code>"3" + 4 + 5</code> is "345". <code>3 + 4 + "5"</code> is "75" (7 first, then joined).</li>
+      <li><code>==</code> converts before comparing. <code>===</code> does not. Always use <code>===</code>.</li>
+      <li>Exactly eight falsy values: <code>false 0 -0 0n "" null undefined NaN</code>. Everything else is truthy, including <code>[]</code> and <code>{}</code>.</li>
+      <li>Form fields and textContent are strings: <code>Number(input.value) || 0</code> before maths. Say "coerce".</li>
+    </ol>
+<pre>"5" + 1          // "51"
+"5" - 1          // 4
+"10" + 5 - 5     // 100   ("105" first, then minus)
+1 == "1"         // true      1 === "1"   // false
+Boolean("0")     // true  (any non-empty string)
+Boolean([])      // true  (every object)
+Number("abc")    // NaN</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>"3" + 4 + 5?</summary><p><b>"345".</b> "3" + 4 is "34", then "34" + 5 is "345".</p></details>
+    <details><summary>3 + 4 + "5"?</summary><p><b>"75".</b> 3 + 4 is 7 first (both numbers), then 7 + "5" is "75".</p></details>
+    <details><summary>Is an empty array [] truthy or falsy?</summary><p><b>Truthy.</b> Every object, including an empty array or empty object, is truthy.</p></details>
+  </div>
+</section>
+
+<section class="card" id="c13">
+  <header><span class="n">Card 13</span><h2>Errors</h2><button data-done="c13">Revised today</button></header>
+  <div class="idea">An error is JavaScript saying "I can't continue". Uncaught, everything after that line dies. The name says what kind.</div>
+  <div class="cols">
+    <ol class="rules">
+      <li><b>ReferenceError:</b> the <b>name</b> cannot be accessed. Undeclared variable, or the TDZ.</li>
+      <li><b>TypeError:</b> the value exists but was used wrongly. <code>null.x</code>, calling undefined, spreading a plain object.</li>
+      <li><b>SyntaxError:</b> the file does not parse, so nothing in it runs. <b>RangeError:</b> stack blown, recursion with no base case.</li>
+      <li><code>try / catch / finally</code>: finally always runs. An Error keeps its text in <code>.message</code> and its kind in <code>.name</code>.</li>
+      <li>"Cannot read properties of null" means the bug is in the lookup that produced null. NaN means an operand was undefined. "[object Object]" means an object went where a string was expected.</li>
+    </ol>
+<pre>try {
+  JSON.parse("{bad json}");               // throws a SyntaxError at runtime
+} catch (err) {
+  console.log(err.name, err.message);    // "SyntaxError" "Unexpected token ..."
+} finally {
+  console.log("always runs");
+}
+
+function withdraw(balance, amount) {
+  if (amount > balance) throw new Error("Insufficient funds");
+  return balance - amount;
+}</pre>
+  </div>
+  <div class="qs"><b>Answer before opening</b>
+    <details><summary>null.length throws which error?</summary><p><b>TypeError.</b> null exists, but you cannot read properties from it.</p></details>
+    <details><summary>After an uncaught error, what still runs?</summary><p>Nothing after that line in the same script. Callbacks already scheduled (timers, events) can still run later.</p></details>
+    <details><summary>When does finally run?</summary><p><b>Always.</b> After try, or after catch if something threw, even if try contains a return.</p></details>
+  </div>
+</section>
+
+<p class="foot">Full chapters, mistake log and practice links: <a href="js-recall-deck.html">JS Recall Deck</a> · problems: <a href="js-drill-set.html">JS Drill Set</a> · <a href="index.html">all notes</a></p>
+
+<script>
+(function () {
+  var KEY = "jsCardsRevised";
+  var today = new Date().toISOString().slice(0, 10);
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; } }
+  function save(obj) { try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch (e) {} }
+  function paint() {
+    var done = load(), n = 0;
+    document.querySelectorAll("[data-done]").forEach(function (btn) {
+      var id = btn.getAttribute("data-done"), ok = done[id] === today;
+      btn.classList.toggle("done", ok);
+      btn.textContent = ok ? "Revised ✓" : "Revised today";
+      var chip = document.querySelector('[data-card="' + id + '"]');
+      if (chip) chip.classList.toggle("done", ok);
+      if (ok) n++;
+    });
+    document.getElementById("count").textContent = n + " / 14 revised today";
+  }
+  document.querySelectorAll("[data-done]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var done = load(), id = btn.getAttribute("data-done");
+      if (done[id] === today) delete done[id]; else done[id] = today;
+      save(done); paint();
+    });
+  });
+  paint();
+
+  // theme + text size (per-viewer conveniences)
+  var root = document.documentElement;
+  try { var t = localStorage.getItem("jsCardsTheme"); if (t) root.setAttribute("data-theme", t); } catch (e) {}
+  try { if (localStorage.getItem("jsCardsBig") === "1") document.body.classList.add("big"); } catch (e) {}
+  document.getElementById("theme").addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("jsCardsTheme", next); } catch (e) {}
+  });
+  document.getElementById("big").addEventListener("click", function () {
+    var on = document.body.classList.toggle("big");
+    try { localStorage.setItem("jsCardsBig", on ? "1" : "0"); } catch (e) {}
+  });
+
+  // arrow keys move between cards
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+  function current() {
+    var y = window.scrollY + 70, best = 0;
+    cards.forEach(function (c, i) { if (c.offsetTop <= y) best = i; });
+    return best;
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    var i = current() + (e.key === "ArrowRight" ? 1 : -1);
+    if (i < 0 || i >= cards.length) return;
+    cards[i].scrollIntoView({ behavior: "smooth", block: "start" });
+    e.preventDefault();
+  });
+})();
+</script>
+</body>
+</html>
