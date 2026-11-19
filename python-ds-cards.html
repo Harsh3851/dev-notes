@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python DS Cards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F2F4F6; --surface:#FFFFFF; --surface-2:#E6EAEE;
+    --ink:#0B1220; --ink-2:#2E3B4E; --ink-3:#5B6B80;
+    --line:#CBD3DB; --accent:#0A6B67; --accent-soft:#D8EBE9;
+    --code-bg:#0A1220; --code-ink:#F4F7FA;
+    --ok:#1E7A45;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --sans:"IBM Plex Sans",system-ui,sans-serif;
+    --display:"Archivo","IBM Plex Sans",sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0B1017; --surface:#151D27; --surface-2:#202B38;
+      --ink:#F1F4F8; --ink-2:#C9D2DD; --ink-3:#9AA8B8;
+      --line:#2C3946; --accent:#5FD3C6; --accent-soft:#143632;
+      --code-bg:#05090F; --code-ink:#F4F7FA;
+      --ok:#5CCB8A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0B1017; --surface:#151D27; --surface-2:#202B38;
+    --ink:#F1F4F8; --ink-2:#C9D2DD; --ink-3:#9AA8B8;
+    --line:#2C3946; --accent:#5FD3C6; --accent-soft:#143632;
+    --code-bg:#05090F; --code-ink:#F4F7FA;
+    --ok:#5CCB8A;
+  }
+  *{box-sizing:border-box}
+  html{scroll-snap-type:y proximity;scroll-padding-top:58px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5}
+  body.big{font-size:18px}
+  .bar{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .bar h1{font-family:var(--display);font-size:17px;margin:0 6px 0 0;letter-spacing:-.01em;white-space:nowrap}
+  .chips{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+  .chips a{font-family:var(--mono);font-size:11.5px;font-weight:600;text-decoration:none;color:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;line-height:1.5;position:relative}
+  .chips a:hover{border-color:var(--accent);color:var(--accent)}
+  .chips a.done::after{content:"";position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--ok)}
+  .tools{display:flex;gap:6px;align-items:center}
+  .tools button,.card button{font-family:var(--mono);font-size:12.5px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+  .tools button:hover,.card button:hover{border-color:var(--accent);color:var(--accent)}
+  .tools .count{font-family:var(--mono);font-size:12px;color:var(--ink-3);white-space:nowrap}
+  .intro{max-width:1040px;margin:0 auto;padding:26px 16px 10px}
+  .intro h2{font-family:var(--display);font-size:26px;margin:0 0 6px;letter-spacing:-.02em}
+  .intro p{margin:4px 0;color:var(--ink-2);max-width:70ch}
+  .intro .upd{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:10px}
+  .card{scroll-snap-align:start;min-height:100dvh;max-width:1040px;margin:0 auto;padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--line)}
+  .card header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .card header .n{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .card h2{font-family:var(--display);font-size:23px;margin:0;letter-spacing:-.02em}
+  .card header button{margin-left:auto}
+  .card header button.done{border-color:var(--ok);color:var(--ok)}
+  .idea{background:var(--accent-soft);border-left:4px solid var(--accent);padding:7px 12px;border-radius:0 8px 8px 0;font-size:1.03em;color:var(--ink)}
+  .cols{display:grid;grid-template-columns:0.95fr 1.05fr;gap:14px;align-items:start}
+  @media (max-width:860px){.cols{grid-template-columns:1fr}}
+  ol.rules{margin:0;padding-left:22px;color:var(--ink)}
+  ol.rules li{margin:4px 0;color:var(--ink)}
+  ol.rules b{color:var(--ink)}
+  code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:13.4px;line-height:1.55;padding:10px 12px;border-radius:9px;overflow-x:auto;margin:0}
+  body.big pre{font-size:14.8px}
+  .qs{border-top:1px solid var(--line);padding-top:6px}
+  .qs > b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:2px}
+  .qs .grid{display:flex;flex-direction:column;gap:6px}
+  .qs .q{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--surface)}
+  .qs .q pre{flex:0 0 58%;font-size:12.6px;line-height:1.45;padding:6px 10px;margin:0}
+  .qs .q details{flex:1;min-width:0}
+  body.big .qs .q pre{font-size:14px}
+  @media (max-width:860px){.qs .q{flex-direction:column}.qs .q pre{flex:none;width:100%}}
+  .qs summary{cursor:pointer;color:var(--ink);font-weight:600}
+  .qs details p{margin:6px 0 2px 0;color:var(--ink-2)}
+  .qs details p b{color:var(--ink)}
+  .qs details p code{font-size:.85em}
+  .foot{max-width:1040px;margin:0 auto;padding:20px 16px 60px;color:var(--ink-3);font-size:14px;border-top:1px solid var(--line)}
+  .foot a{color:var(--accent)}
+  .qs details pre.ans{background:var(--surface-2);color:var(--ink);font-size:12.6px;padding:6px 10px;margin:2px 0 6px}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1>Python DS Cards</h1>
+  <nav class="chips" id="chips">
+    <a href="#c0" data-card="c0">0 Four</a><a href="#c1" data-card="c1">1 List access</a><a href="#c2" data-card="c2">2 List methods</a><a href="#c3" data-card="c3">3 Slice step</a><a href="#c4" data-card="c4">4 Comprehension</a><a href="#c5" data-card="c5">5 List patterns</a><a href="#c6" data-card="c6">6 Tuple basics</a><a href="#c7" data-card="c7">7 Tuple pack</a><a href="#c8" data-card="c8">8 Set basics</a><a href="#c9" data-card="c9">9 Set maths</a><a href="#c10" data-card="c10">10 Dict access</a><a href="#c11" data-card="c11">11 Dict loops</a><a href="#c12" data-card="c12">12 Dict patterns</a>
+  </nav>
+  <div class="tools">
+    <span class="count" id="count"></span>
+    <button id="big" title="Bigger text">A+</button>
+    <button id="theme" title="Light / dark">Theme</button>
+  </div>
+</div>
+
+<div class="intro">
+  <h2>Lists, tuples, sets, dictionaries. One idea per card, one screen each.</h2>
+  <p>Built from the course's own notebooks (Complete Python Bootcamp, folder 3-Data Structures): the same examples, the same outputs. Five rules, one snippet, three predict-the-output questions per card. Answer the three questions <strong>before</strong> opening them, then press <strong>Revised today</strong>. Arrow keys move between cards.</p>
+  <p>Every answer on this page was produced by running the code, not written by hand. If your kernel disagrees, your code differs somewhere.</p>
+  <p class="upd">Last update 19-11-2026 · 13 cards · lists 1–5, tuples 6–7, sets 8–9, dicts 10–12</p>
+</div>
+
+
+<section class="card" id="c0">
+  <header><span class="n">Card 0</span><h2>The four containers at a glance</h2><button data-done="c0">Revised today</button></header>
+  <div class="idea">Pick by two questions: does order matter, and will it change later? Lists and dicts change; tuples do not; sets keep only unique things.</div>
+  <div class="cols">
+    <ol class="rules"><li><b>list</b> <code>[1, 2, 3]</code> ordered, changeable, duplicates allowed.</li><li><b>tuple</b> <code>(1, 2, 3)</code> ordered, <b>frozen</b> after creation. Can be a dict key.</li><li><b>set</b> <code>{1, 2, 3}</code> no order, no duplicates, fast <code>in</code> test. Empty one is <code>set()</code>, not <code>{}</code>.</li><li><b>dict</b> <code>{"k": v}</code> key to value. Keys unique and immutable (str, int, tuple). Empty one is <code>{}</code>.</li><li>All four take mixed types. Indexing and slicing work on list and tuple only.</li></ol>
+    <pre>lst = [1, &quot;Hello&quot;, 3.14, True]
+tpl = (1, &quot;Hello&quot;, 3.14, True)
+st  = {1, 2, 2, 3}
+dct = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 32}
+
+print(type(lst), type(tpl))
+print(type(st), type(dct))
+print(st)                 # duplicates vanish
+print(type({}), type(set()))</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>print(type([]))
+print(type(()))
+print(type({}))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">&lt;class &#x27;list&#x27;&gt;
+&lt;class &#x27;tuple&#x27;&gt;
+&lt;class &#x27;dict&#x27;&gt;</pre><p>Empty braces are a <b>dict</b>, never a set. An empty set needs <code>set()</code>.</p></details></div>
+      <div class="q"><pre>x = {1, 2, 3, 6, 5, 4, 5, 6}
+print(x)
+print(len(x))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{1, 2, 3, 4, 5, 6}
+6</pre><p>A set drops repeats at creation. The notebook builds this one with <code>set([1,2,3,6,5,4,5,6])</code> and gets the same six.</p></details></div>
+      <div class="q"><pre>t = (1, 2, 3)
+t[0] = 9
+print(t)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">TypeError: &#x27;tuple&#x27; object does not support item assignment</pre><p>Tuples are frozen. The notebook shows the same error with <code>numbers[1] = "Krish"</code>. A list in the same spot would simply change.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c1">
+  <header><span class="n">Card 1</span><h2>Lists: create, index, slice</h2><button data-done="c1">Revised today</button></header>
+  <div class="idea">A list is a row of boxes numbered from 0. Negative numbers count from the end, so -1 is always the last box.</div>
+  <div class="cols">
+    <ol class="rules"><li>Make one with brackets: <code>fruits = ["apple", "banana"]</code>. Mixed types are fine: <code>[1, "Hello", 3.14, True]</code>.</li><li><code>fruits[0]</code> first, <code>fruits[-1]</code> last. Out-of-range index raises <code>IndexError</code>.</li><li>Slice <code>[start:stop]</code>: start included, stop excluded. <code>fruits[1:3]</code> is boxes 1 and 2.</li><li>Leave a side empty for "to the end" or "from the start": <code>fruits[1:]</code>, <code>fruits[:3]</code>.</li><li>A slice always returns a <b>new list</b>, even <code>fruits[:]</code>.</li></ol>
+    <pre>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;kiwi&quot;, &quot;gauva&quot;]
+
+print(fruits[0])      # apple
+print(fruits[2])      # cherry
+print(fruits[-1])     # gauva
+
+print(fruits[1:])     # [&#x27;banana&#x27;, &#x27;cherry&#x27;, &#x27;kiwi&#x27;, &#x27;gauva&#x27;]
+print(fruits[1:3])    # [&#x27;banana&#x27;, &#x27;cherry&#x27;]</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;kiwi&quot;, &quot;gauva&quot;]
+print(fruits[4])
+print(fruits[-1])
+print(fruits[-2])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">gauva
+gauva
+kiwi</pre><p>Index 4 and index -1 are the same box in a 5-item list. -2 is one before it.</p></details></div>
+      <div class="q"><pre>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;kiwi&quot;, &quot;gauva&quot;]
+print(fruits[1:3])
+print(fruits[:2])
+print(fruits[3:])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[&#x27;banana&#x27;, &#x27;cherry&#x27;]
+[&#x27;apple&#x27;, &#x27;banana&#x27;]
+[&#x27;kiwi&#x27;, &#x27;gauva&#x27;]</pre><p>Stop is excluded every time. <code>[1:3]</code> gives two items, not three.</p></details></div>
+      <div class="q"><pre>names = [&quot;Krish&quot;, &quot;Jack&quot;, &quot;Jacob&quot;, 1, 2, 3, 4, 5]
+print(len(names))
+print(names[2], names[3])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">8
+Jacob 1</pre><p>Strings and numbers sit side by side in one list. <code>len</code> counts boxes, not types.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c2">
+  <header><span class="n">Card 2</span><h2>Lists: change in place</h2><button data-done="c2">Revised today</button></header>
+  <div class="idea">Every list method below changes the list where it stands and returns None, except pop, index and count. Never write <code>lst = lst.sort()</code>.</div>
+  <div class="cols">
+    <ol class="rules"><li><code>fruits[1] = "watermelon"</code> replaces one box. <code>fruits[1:] = "watermelon"</code> replaces the slice with the string's <b>characters</b>.</li><li><code>append(x)</code> adds at the end. <code>insert(i, x)</code> pushes the rest right.</li><li><code>remove(x)</code> deletes the <b>first</b> match only. <code>pop()</code> removes and <b>returns</b> the last item.</li><li><code>index(x)</code> position of the first match. <code>count(x)</code> how many.</li><li><code>sort()</code>, <code>reverse()</code>, <code>clear()</code> work in place and return None.</li></ol>
+    <pre>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;kiwi&quot;, &quot;gauva&quot;]
+fruits.append(&quot;orange&quot;)
+fruits.insert(1, &quot;watermelon&quot;)
+print(fruits)
+# [&#x27;apple&#x27;, &#x27;watermelon&#x27;, &#x27;banana&#x27;, &#x27;cherry&#x27;, &#x27;kiwi&#x27;, &#x27;gauva&#x27;, &#x27;orange&#x27;]
+
+fruits.remove(&quot;banana&quot;)       # first match gone
+last = fruits.pop()           # &#x27;orange&#x27; comes back
+print(last, fruits.index(&quot;cherry&quot;), fruits.count(&quot;kiwi&quot;))
+# orange 2 1
+
+fruits.sort(); fruits.reverse(); fruits.clear()
+print(fruits)                 # []</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+fruits[1:] = &quot;watermelon&quot;
+print(fruits)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[&#x27;apple&#x27;, &#x27;w&#x27;, &#x27;a&#x27;, &#x27;t&#x27;, &#x27;e&#x27;, &#x27;r&#x27;, &#x27;m&#x27;, &#x27;e&#x27;, &#x27;l&#x27;, &#x27;o&#x27;, &#x27;n&#x27;]</pre><p>Slice assignment expects a sequence, and a string is a sequence of characters. Straight from the notebook. To replace the slice with one item write <code>fruits[1:] = ["watermelon"]</code>.</p></details></div>
+      <div class="q"><pre>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+x = fruits.pop()
+y = fruits.sort()
+print(x)
+print(y)
+print(fruits)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">cherry
+None
+[&#x27;apple&#x27;, &#x27;banana&#x27;]</pre><p>pop returns the item it removed. sort returns None because it sorted the list in place.</p></details></div>
+      <div class="q"><pre>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;banana&quot;]
+fruits.remove(&quot;banana&quot;)
+print(fruits)
+print(fruits.count(&quot;banana&quot;))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[&#x27;apple&#x27;, &#x27;cherry&#x27;, &#x27;banana&#x27;]
+1</pre><p>remove takes out the first banana only. The second one stays, so count still finds one.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c3">
+  <header><span class="n">Card 3</span><h2>Slicing with a step, looping with index</h2><button data-done="c3">Revised today</button></header>
+  <div class="idea">A slice has three numbers, <code>[start:stop:step]</code>, exactly like range. A negative step walks backwards and flips the defaults.</div>
+  <div class="cols">
+    <ol class="rules"><li><code>numbers[2:5]</code> is [3, 4, 5]. <code>[:5]</code> first five. <code>[5:]</code> the rest.</li><li><code>[::2]</code> every second item from the start. <code>[::3]</code> every third.</li><li><code>[::-1]</code> the whole list reversed. <code>[::-2]</code> reversed, every second.</li><li><code>for number in numbers:</code> gives items. <code>for index, number in enumerate(numbers):</code> gives position and item.</li><li>enumerate starts at 0. <code>enumerate(numbers, 1)</code> starts at 1.</li></ol>
+    <pre>numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print(numbers[2:5])     # [3, 4, 5]
+print(numbers[:5])      # [1, 2, 3, 4, 5]
+print(numbers[5:])      # [6, 7, 8, 9, 10]
+print(numbers[::2])     # [1, 3, 5, 7, 9]
+print(numbers[::-1])    # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+for index, number in enumerate(numbers[:3]):
+    print(index, number)
+# 0 1
+# 1 2
+# 2 3</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print(numbers[::3])
+print(numbers[::-2])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[1, 4, 7, 10]
+[10, 8, 6, 4, 2]</pre><p>Step 3 takes index 0, 3, 6, 9. Step -2 starts from the last item and skips one each time.</p></details></div>
+      <div class="q"><pre>numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print(numbers[1:8:2])
+print(numbers[8:1:-2])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[2, 4, 6, 8]
+[9, 7, 5, 3]</pre><p>Start 1 stop 8 step 2: index 1, 3, 5, 7. Backwards from index 8 down to but not including 1: index 8, 6, 4, 2.</p></details></div>
+      <div class="q"><pre>names = [&quot;Krish&quot;, &quot;Jack&quot;, &quot;Jacob&quot;]
+for i, name in enumerate(names):
+    print(i, name)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">0 Krish
+1 Jack
+2 Jacob</pre><p>enumerate hands out pairs. Unpacking them into two names in the for line is the idiom.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c4">
+  <header><span class="n">Card 4</span><h2>List comprehension: three shapes</h2><button data-done="c4">Revised today</button></header>
+  <div class="idea">A comprehension is a for loop that builds a list in one line. Read it as: for each item, keep the expression.</div>
+  <div class="cols">
+    <ol class="rules"><li>Basic: <code>[expression for item in iterable]</code>. Same as a loop with append.</li><li>With a filter: <code>[expression for item in iterable if condition]</code>. The if comes <b>last</b>.</li><li>Nested: <code>[expression for a in iter1 for b in iter2]</code>. Outer loop first, inner loop second, same order as nested for lines.</li><li>Any function call works as the expression: <code>[len(word) for word in words]</code>.</li><li>Result is always a new list. The loop variable does not leak out.</li></ol>
+    <pre># loop version
+lst = []
+for x in range(10):
+    lst.append(x**2)
+
+# comprehension version, same result
+squares = [x**2 for x in range(10)]
+print(squares)      # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+evens = [n for n in range(10) if n % 2 == 0]
+print(evens)        # [0, 2, 4, 6, 8]
+
+words = [&quot;hello&quot;, &quot;world&quot;, &quot;python&quot;]
+print([len(w) for w in words])   # [5, 5, 6]</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>lst1 = [1, 2]
+lst2 = [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]
+pair = [[i, j] for i in lst1 for j in lst2]
+print(pair)
+print(len(pair))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[[1, &#x27;a&#x27;], [1, &#x27;b&#x27;], [1, &#x27;c&#x27;], [2, &#x27;a&#x27;], [2, &#x27;b&#x27;], [2, &#x27;c&#x27;]]
+6</pre><p>Outer loop over lst1, inner over lst2: every i meets every j. 2 times 3 pairs. The notebook does 4 by 4 and gets 16.</p></details></div>
+      <div class="q"><pre>words = [&quot;hello&quot;, &quot;world&quot;, &quot;python&quot;, &quot;list&quot;, &quot;comprehension&quot;]
+print([len(word) for word in words])
+print([w for w in words if len(w) &gt; 5])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[5, 5, 6, 4, 13]
+[&#x27;python&#x27;, &#x27;comprehension&#x27;]</pre><p>First line maps each word to its length. Second keeps only words longer than 5, unchanged.</p></details></div>
+      <div class="q"><pre>out = [x * 2 for x in range(5) if x != 2]
+print(out)
+print(x)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[0, 2, 6, 8]
+NameError: name &#x27;x&#x27; is not defined</pre><p>x lives only inside the comprehension. Index 2 is skipped by the filter, so 4 is missing from the result.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c5">
+  <header><span class="n">Card 5</span><h2>Lists in real code: four patterns</h2><button data-done="c5">Revised today</button></header>
+  <div class="idea">The notebook's four examples all reduce to the same handful of moves: membership with in, sum and len, max and min, and counting with a condition.</div>
+  <div class="cols">
+    <ol class="rules"><li><code>if "Pay bills" in to_do_list:</code> membership test, True or False.</li><li><code>sum(grades) / len(grades)</code> average. <code>max(grades)</code>, <code>min(grades)</code> extremes.</li><li><code>sum(1 for c in feedback if "great" in c.lower())</code> counts items that match. <code>.lower()</code> makes the match case-blind.</li><li><code>for task in to_do_list: print(f"-{task}")</code> f-strings put a value inside text.</li><li><code>f"{average:.2f}"</code> rounds to two decimals in the output only.</li></ol>
+    <pre>grades = [85, 92, 78, 90, 88]
+grades.append(95)
+average = sum(grades) / len(grades)
+print(f&quot;Average Grade: {average:.2f}&quot;)   # 88.00
+print(max(grades), min(grades))          # 95 78
+
+feedback = [&quot;Great service!&quot;, &quot;Very satisfied&quot;,
+            &quot;Could be better&quot;, &quot;Excellent experience&quot;]
+positive = sum(1 for c in feedback
+               if &quot;great&quot; in c.lower() or &quot;excellent&quot; in c.lower())
+print(positive)                          # 2</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>to_do = [&quot;Buy Groceries&quot;, &quot;Clean the house&quot;, &quot;Pay bills&quot;]
+to_do.append(&quot;Go For a Run&quot;)
+to_do.remove(&quot;Clean the house&quot;)
+print(&quot;Pay bills&quot; in to_do)
+print(len(to_do))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">True
+3</pre><p>One added, one removed, three remain. <code>in</code> on a list checks every item for equality.</p></details></div>
+      <div class="q"><pre>grades = [85, 92, 78]
+print(sum(grades) / len(grades))
+print(f&quot;{sum(grades) / len(grades):.2f}&quot;)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">85.0
+85.00</pre><p>Division always gives a float. The f-string format only changes how it is printed.</p></details></div>
+      <div class="q"><pre>inventory = [&quot;apples&quot;, &quot;oranges&quot;, &quot;grapes&quot;]
+item = &quot;bananas&quot;
+if item in inventory:
+    print(f&quot;{item} are in stock.&quot;)
+else:
+    print(f&quot;{item} are out of stock.&quot;)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">bananas are out of stock.</pre><p>The notebook removes bananas first, then tests. The f-string drops the variable's value into the sentence.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c6">
+  <header><span class="n">Card 6</span><h2>Tuples: create, access, combine</h2><button data-done="c6">Revised today</button></header>
+  <div class="idea">A tuple is a list you cannot edit. Indexing, slicing, + and * all work the same, and each one gives back a new tuple.</div>
+  <div class="cols">
+    <ol class="rules"><li>Make one with parentheses <code>(1, 2, 3)</code>, with <code>tuple([1, 2, 3])</code>, or bare commas <code>1, "Hello", 3.14</code>.</li><li>Empty: <code>()</code> or <code>tuple()</code>. Convert back with <code>list((1, 2, 3))</code>.</li><li>Index and slice exactly like a list: <code>numbers[2]</code>, <code>numbers[-1]</code>, <code>numbers[0:4]</code>, <code>numbers[::-1]</code>.</li><li><code>+</code> joins two tuples into a new one. <code>* 3</code> repeats.</li><li>Mixed types allowed: <code>(1, "Hello World", 3.14, True)</code>.</li></ol>
+    <pre>numbers = tuple([1, 2, 3, 4, 5, 6])
+print(numbers)              # (1, 2, 3, 4, 5, 6)
+print(list(numbers))        # [1, 2, 3, 4, 5, 6]
+
+print(numbers[2], numbers[-1])   # 3 6
+print(numbers[0:4])              # (1, 2, 3, 4)
+print(numbers[::-1])             # (6, 5, 4, 3, 2, 1)
+
+mixed = (1, &quot;Hello World&quot;, 3.14, True)
+print(numbers + mixed)
+# (1, 2, 3, 4, 5, 6, 1, &#x27;Hello World&#x27;, 3.14, True)
+print((1, 2) * 3)                # (1, 2, 1, 2, 1, 2)</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>numbers = (1, 2, 3, 4, 5, 6)
+print(numbers[0:4])
+print(numbers[::-1])
+print(type(numbers[0:4]))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">(1, 2, 3, 4)
+(6, 5, 4, 3, 2, 1)
+&lt;class &#x27;tuple&#x27;&gt;</pre><p>Slicing a tuple gives a tuple, never a list.</p></details></div>
+      <div class="q"><pre>a = (1, 2, 3)
+b = (4, 5)
+print(a + b)
+print(a * 2)
+print(len(a + b))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">(1, 2, 3, 4, 5)
+(1, 2, 3, 1, 2, 3)
+5</pre><p>Both operators build new tuples. The originals do not change.</p></details></div>
+      <div class="q"><pre>t = tuple([1, 2, 3])
+l = list((1, 2, 3))
+print(t, l)
+print(t == (1, 2, 3), l == [1, 2, 3])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">(1, 2, 3) [1, 2, 3]
+True True</pre><p>tuple() and list() convert either way. Equality compares contents, so each matches its own literal.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c7">
+  <header><span class="n">Card 7</span><h2>Tuples: frozen, two methods, packing and unpacking</h2><button data-done="c7">Revised today</button></header>
+  <div class="idea">You cannot assign into a tuple, so it has only count and index. What makes tuples useful is packing several values into one and unpacking them back into names.</div>
+  <div class="cols">
+    <ol class="rules"><li><code>numbers[1] = "Krish"</code> raises <code>TypeError</code>. Convert to a list, change, convert back.</li><li><code>numbers.count(1)</code> how many ones. <code>numbers.index(3)</code> position of the first 3.</li><li>Packing: <code>packed = 1, "Hello", 3.14</code> makes a tuple without parentheses.</li><li>Unpacking: <code>a, b, c = packed</code>. The count must match, or <code>ValueError</code>.</li><li>Star catches the middle: <code>first, *middle, last = numbers</code>. <b>middle is a list</b>, even from a tuple.</li></ol>
+    <pre>numbers = (1, 2, 3, 4, 5, 6)
+print(numbers.count(1), numbers.index(3))   # 1 2
+
+packed = 1, &quot;Hello&quot;, 3.14
+print(packed)                   # (1, &#x27;Hello&#x27;, 3.14)
+a, b, c = packed
+print(a, b, c)                  # 1 Hello 3.14
+
+first, *middle, last = numbers
+print(first, middle, last)      # 1 [2, 3, 4, 5] 6
+
+nested = ((1, 2, 3), (&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), (True, False))
+print(nested[1][2])             # c</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>numbers = (1, 2, 3, 4, 5, 6)
+first, *middle, last = numbers
+print(first)
+print(middle)
+print(last)
+print(type(middle))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">1
+[2, 3, 4, 5]
+6
+&lt;class &#x27;list&#x27;&gt;</pre><p>The starred name always collects into a list, whatever it unpacks from. Straight from the notebook.</p></details></div>
+      <div class="q"><pre>nested = ((1, 2, 3), (&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), (True, False))
+for sub in nested:
+    for item in sub:
+        print(item, end=&quot; &quot;)
+    print()</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">1 2 3 
+a b c 
+True False </pre><p>Inner loop prints items on one line with a space, the bare print after it ends the row. Same trick as the 5x5 star grid.</p></details></div>
+      <div class="q"><pre>t = (1, 2, 3)
+l = list(t)
+l[1] = &quot;Krish&quot;
+t = tuple(l)
+print(t)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">(1, &#x27;Krish&#x27;, 3)</pre><p>The only way to "change" a tuple is to build a new one. The name t now points at the new tuple.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c8">
+  <header><span class="n">Card 8</span><h2>Sets: unique, unordered, fast membership</h2><button data-done="c8">Revised today</button></header>
+  <div class="idea">A set keeps one copy of each value and forgets the order you gave it. Its job is membership tests and removing duplicates.</div>
+  <div class="cols">
+    <ol class="rules"><li>Make one with braces <code>{1, 2, 3}</code> or <code>set([1, 2, 2, 3])</code>. Empty must be <code>set()</code>.</li><li><code>add(x)</code> adds; adding something already there changes nothing.</li><li><code>remove(x)</code> raises <code>KeyError</code> if x is missing. <code>discard(x)</code> stays silent.</li><li><code>pop()</code> removes some element, you do not choose which. <code>clear()</code> empties it.</li><li><code>3 in my_set</code> is the fast path. That is what sets are for.</li></ol>
+    <pre>my_set = set([1, 2, 3, 6, 5, 4, 5, 6])
+print(my_set)             # {1, 2, 3, 4, 5, 6}
+
+my_set.add(7)
+my_set.add(7)             # second add does nothing
+print(my_set)             # {1, 2, 3, 4, 5, 6, 7}
+
+my_set.remove(3)
+my_set.discard(11)        # missing, no error
+print(my_set)             # {1, 2, 4, 5, 6, 7}
+
+print(3 in my_set, 10 in my_set)   # False False</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>s = {1, 2, 3}
+s.remove(10)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">KeyError: 10</pre><p>remove insists the element exists. The notebook hits exactly this error. discard(10) would do nothing.</p></details></div>
+      <div class="q"><pre>s = {1, 2, 3}
+s.add(2)
+s.add(4)
+s.discard(99)
+print(s)
+print(len(s))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{1, 2, 3, 4}
+4</pre><p>Adding 2 again is ignored. discard of a missing value is ignored. One real addition.</p></details></div>
+      <div class="q"><pre>lst = [1, 2, 2, 3, 4, 4, 5]
+print(set(lst))
+print(len(lst), len(set(lst)))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{1, 2, 3, 4, 5}
+7 5</pre><p>set(list) is the standard way to drop duplicates. Count both to see how many were removed.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c9">
+  <header><span class="n">Card 9</span><h2>Sets: union, intersection, difference</h2><button data-done="c9">Revised today</button></header>
+  <div class="idea">Four questions about two sets: everything in either, only what is in both, what A has that B lacks, and what is in exactly one of them.</div>
+  <div class="cols">
+    <ol class="rules"><li><code>set1.union(set2)</code> all of both. Also <code>set1 | set2</code>.</li><li><code>set1.intersection(set2)</code> common ones. Also <code>set1 &amp; set2</code>. <code>intersection_update</code> changes set1 in place.</li><li><code>set1.difference(set2)</code> in set1 only. Direction matters: <code>set2.difference(set1)</code> is a different answer.</li><li><code>set1.symmetric_difference(set2)</code> in one but not both.</li><li><code>a.issubset(b)</code> every element of a is in b. <code>a.issuperset(b)</code> the reverse.</li></ol>
+    <pre>set1 = {1, 2, 3, 4, 5, 6}
+set2 = {4, 5, 6, 7, 8, 9}
+
+print(set1.union(set2))         # {1, 2, 3, 4, 5, 6, 7, 8, 9}
+print(set1.intersection(set2))  # {4, 5, 6}
+print(set1.difference(set2))    # {1, 2, 3}
+print(set2.difference(set1))    # {7, 8, 9}
+print(set1.symmetric_difference(set2))   # {1, 2, 3, 7, 8, 9}
+
+a = {1, 2, 3, 4, 5}
+b = {3, 4, 5}
+print(a.issubset(b), a.issuperset(b))    # False True</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>set1 = {1, 2, 3, 4, 5, 6}
+set2 = {4, 5, 6, 7, 8, 9}
+set1.intersection_update(set2)
+print(set1)
+print(set2)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{4, 5, 6}
+{4, 5, 6, 7, 8, 9}</pre><p>The _update form rewrites set1 in place and returns None. set2 is untouched. intersection() without _update would leave set1 alone.</p></details></div>
+      <div class="q"><pre>set1 = {1, 2, 3, 4, 5, 6}
+set2 = {4, 5, 6, 7, 8, 9}
+print(sorted(set1.difference(set2)))
+print(sorted(set2.difference(set1)))
+print(sorted(set1.symmetric_difference(set2)))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">[1, 2, 3]
+[7, 8, 9]
+[1, 2, 3, 7, 8, 9]</pre><p>difference is one-directional. symmetric_difference is both differences joined. sorted() is used because a set prints in whatever order its table holds, so {7, 8, 9} can print as {8, 9, 7}.</p></details></div>
+      <div class="q"><pre>text = &quot;In this tutorial we are discussing about sets&quot;
+words = text.split()
+print(len(words), len(set(words)))
+print({3, 4, 5}.issubset({1, 2, 3, 4, 5}))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">8 8
+True</pre><p>No repeated word, so both counts are 8. The notebook prints the set itself, whose order is not fixed, so count instead.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c10">
+  <header><span class="n">Card 10</span><h2>Dictionaries: key to value</h2><button data-done="c10">Revised today</button></header>
+  <div class="idea">A dict is a lookup table. You ask by key, not by position. Square brackets demand the key exists, get() does not.</div>
+  <div class="cols">
+    <ol class="rules"><li>Make one: <code>student = {"name": "Krish", "age": 32, "grade": "A"}</code>. Empty: <code>{}</code> or <code>dict()</code>.</li><li>A repeated key keeps the <b>last</b> value: <code>{"name": "Krish", "name": 24}</code> is <code>{'name': 24}</code>.</li><li><code>student["grade"]</code> raises <code>KeyError</code> if missing. <code>student.get("grade")</code> returns <code>None</code> instead.</li><li><code>student.get("last_name", "Not Available")</code> returns the default when missing.</li><li><code>student["age"] = 33</code> updates. <code>student["address"] = "India"</code> adds. <code>del student["grade"]</code> removes.</li></ol>
+    <pre>student = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 32, &quot;grade&quot;: &quot;A&quot;}
+print(student[&quot;grade&quot;])                     # A
+print(student.get(&quot;grade&quot;))                 # A
+print(student.get(&quot;last_name&quot;))             # None
+print(student.get(&quot;last_name&quot;, &quot;Not Available&quot;))   # Not Available
+
+student[&quot;age&quot;] = 33            # update
+student[&quot;address&quot;] = &quot;India&quot;   # add
+del student[&quot;grade&quot;]           # remove
+print(student)
+# {&#x27;name&#x27;: &#x27;Krish&#x27;, &#x27;age&#x27;: 33, &#x27;address&#x27;: &#x27;India&#x27;}</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>student = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 32, &quot;name&quot;: 24}
+print(student)
+print(len(student))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{&#x27;name&#x27;: 24, &#x27;age&#x27;: 32}
+2</pre><p>Keys are unique. The second 'name' overwrites the first, so two entries remain.</p></details></div>
+      <div class="q"><pre>student = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 32}
+print(student.get(&quot;grade&quot;))
+print(student.get(&quot;grade&quot;, &quot;N/A&quot;))
+print(student[&quot;grade&quot;])</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">None
+N/A
+KeyError: &#x27;grade&#x27;</pre><p>get is the safe read. Square brackets on a missing key crash.</p></details></div>
+      <div class="q"><pre>student = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 32, &quot;grade&quot;: &quot;A&quot;}
+student[&quot;age&quot;] = 33
+student[&quot;address&quot;] = &quot;India&quot;
+del student[&quot;grade&quot;]
+print(student)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{&#x27;name&#x27;: &#x27;Krish&#x27;, &#x27;age&#x27;: 33, &#x27;address&#x27;: &#x27;India&#x27;}</pre><p>Assign to an existing key to update, to a new key to add. del removes the pair. Insertion order is kept.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c11">
+  <header><span class="n">Card 11</span><h2>Dictionaries: views, the copy trap, loops</h2><button data-done="c11">Revised today</button></header>
+  <div class="idea">keys, values and items are live views of the dict. Assigning a dict to a second name does not copy it, both names point at the same table.</div>
+  <div class="cols">
+    <ol class="rules"><li><code>student.keys()</code>, <code>.values()</code>, <code>.items()</code> give view objects: <code>dict_keys([...])</code>, <code>dict_values([...])</code>, <code>dict_items([(k, v), ...])</code>.</li><li><code>copy = student</code> is an alias. Change one, the other shows it.</li><li><code>copy = student.copy()</code> is a real (shallow) copy. Top-level changes stay separate.</li><li><code>for key in student:</code> walks keys. <code>for value in student.values():</code> walks values.</li><li><code>for key, value in student.items():</code> walks pairs. This is the loop you want most of the time.</li></ol>
+    <pre>student = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 33, &quot;address&quot;: &quot;India&quot;}
+print(student.keys())     # dict_keys([&#x27;name&#x27;, &#x27;age&#x27;, &#x27;address&#x27;])
+print(student.items())    # dict_items([(&#x27;name&#x27;, &#x27;Krish&#x27;), ...])
+
+alias = student           # same dict, second name
+alias[&quot;name&quot;] = &quot;Krish2&quot;
+print(student[&quot;name&quot;])    # Krish2
+
+real = student.copy()
+student[&quot;name&quot;] = &quot;Krish3&quot;
+print(real[&quot;name&quot;])       # Krish2
+
+for key, value in student.items():
+    print(f&quot;{key}:{value}&quot;)</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>student = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 33}
+student_copy = student
+student[&quot;name&quot;] = &quot;Krish2&quot;
+print(student_copy)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{&#x27;name&#x27;: &#x27;Krish2&#x27;, &#x27;age&#x27;: 33}</pre><p>No copy was made. Two names, one dict. The notebook calls this a shallow copy, but it is only an alias.</p></details></div>
+      <div class="q"><pre>student = {&quot;name&quot;: &quot;Krish2&quot;, &quot;age&quot;: 33}
+student_copy1 = student.copy()
+student[&quot;name&quot;] = &quot;KRish3&quot;
+print(student_copy1)
+print(student)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{&#x27;name&#x27;: &#x27;Krish2&#x27;, &#x27;age&#x27;: 33}
+{&#x27;name&#x27;: &#x27;KRish3&#x27;, &#x27;age&#x27;: 33}</pre><p>.copy() builds a separate dict. Later changes to student do not reach it.</p></details></div>
+      <div class="q"><pre>student = {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 33, &quot;address&quot;: &quot;India&quot;}
+for key, value in student.items():
+    print(f&quot;{key}:{value}&quot;)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">name:Krish
+age:33
+address:India</pre><p>items() yields (key, value) tuples, unpacked in the for line. Order is insertion order.</p></details></div>
+    </div>
+  </div>
+</section>
+<section class="card" id="c12">
+  <header><span class="n">Card 12</span><h2>Dictionaries: nested, comprehension, two patterns</h2><button data-done="c12">Revised today</button></header>
+  <div class="idea">A value can be another dict, so you chain keys. A dict comprehension builds a table in one line. Counting and merging are the two patterns you will write again and again.</div>
+  <div class="cols">
+    <ol class="rules"><li>Nested: <code>students["student2"]["name"]</code> reads the inner dict's value.</li><li>Loop nested: <code>for sid, info in students.items():</code> then <code>for k, v in info.items():</code>.</li><li>Comprehension: <code>{x: x**2 for x in range(5)}</code>. With a filter: <code>{x: x**2 for x in range(10) if x % 2 == 0}</code>.</li><li>Counting: <code>if number in frequency: frequency[number] += 1 else: frequency[number] = 1</code>.</li><li>Merging: <code>{**dict1, **dict2}</code>. On a shared key the <b>right</b> one wins.</li></ol>
+    <pre>students = {&quot;student1&quot;: {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 32},
+            &quot;student2&quot;: {&quot;name&quot;: &quot;Peter&quot;, &quot;age&quot;: 35}}
+print(students[&quot;student2&quot;][&quot;name&quot;])       # Peter
+
+squares = {x: x**2 for x in range(5)}
+print(squares)      # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
+numbers = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+frequency = {}
+for n in numbers:
+    if n in frequency:
+        frequency[n] += 1
+    else:
+        frequency[n] = 1
+print(frequency)    # {1: 1, 2: 2, 3: 3, 4: 4}</pre>
+  </div>
+  <div class="qs"><b>Predict, then open</b>
+    <div class="grid">
+      <div class="q"><pre>dict1 = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+dict2 = {&quot;b&quot;: 3, &quot;c&quot;: 4}
+merged = {**dict1, **dict2}
+print(merged)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{&#x27;a&#x27;: 1, &#x27;b&#x27;: 3, &#x27;c&#x27;: 4}</pre><p>Both have 'b'. dict2 is unpacked second, so its 3 overwrites dict1's 2.</p></details></div>
+      <div class="q"><pre>evens = {x: x**2 for x in range(10) if x % 2 == 0}
+print(evens)
+print(len(evens))</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">{0: 0, 2: 4, 4: 16, 6: 36, 8: 64}
+5</pre><p>Same shape as a list comprehension, with key: value before the for. The filter keeps 0, 2, 4, 6, 8.</p></details></div>
+      <div class="q"><pre>students = {&quot;student1&quot;: {&quot;name&quot;: &quot;Krish&quot;, &quot;age&quot;: 32},
+            &quot;student2&quot;: {&quot;name&quot;: &quot;Peter&quot;, &quot;age&quot;: 35}}
+for sid, info in students.items():
+    for key, value in info.items():
+        print(f&quot;{sid} {key}:{value}&quot;)</pre><details><summary>Answer</summary><p><b>Output</b></p><pre class="ans">student1 name:Krish
+student1 age:32
+student2 name:Peter
+student2 age:35</pre><p>Outer loop gives the id and the inner dict. Inner loop walks that dict's pairs.</p></details></div>
+    </div>
+  </div>
+</section>
+<div class="foot">
+  Source: the course notebooks 3.1-Lists, 3.1.1-ListExamples, 3.2-Tuples, 3.3-Sets, 3.4-Dictionaries in <a href="https://github.com/krishnaik06/Complete-Python-Bootcamp/tree/main/3-Data%20Structures">krishnaik06/Complete-Python-Bootcamp</a>. Your own assignment notebooks live in ~/Desktop/Python &amp; AIML/02-lists to 05-dicts. The <a href="js-cards.html">JS cards</a> work the same way.
+</div>
+
+<script>
+(function () {
+  var KEY = "pyDsCardsRevised";
+  var today = new Date().toISOString().slice(0, 10);
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; } }
+  function save(obj) { try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch (e) {} }
+  function paint() {
+    var done = load(), n = 0;
+    document.querySelectorAll("[data-done]").forEach(function (btn) {
+      var id = btn.getAttribute("data-done"), ok = done[id] === today;
+      btn.classList.toggle("done", ok);
+      btn.textContent = ok ? "Revised ✓" : "Revised today";
+      var chip = document.querySelector('[data-card="' + id + '"]');
+      if (chip) chip.classList.toggle("done", ok);
+      if (ok) n++;
+    });
+    document.getElementById("count").textContent = n + " / 13 revised today";
+  }
+  document.querySelectorAll("[data-done]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var done = load(), id = btn.getAttribute("data-done");
+      if (done[id] === today) delete done[id]; else done[id] = today;
+      save(done); paint();
+    });
+  });
+  paint();
+
+  // theme + text size (per-viewer conveniences)
+  var root = document.documentElement;
+  try { var t = localStorage.getItem("pyDsCardsTheme"); if (t) root.setAttribute("data-theme", t); } catch (e) {}
+  try { if (localStorage.getItem("pyDsCardsBig") === "1") document.body.classList.add("big"); } catch (e) {}
+  document.getElementById("theme").addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("pyDsCardsTheme", next); } catch (e) {}
+  });
+  document.getElementById("big").addEventListener("click", function () {
+    var on = document.body.classList.toggle("big");
+    try { localStorage.setItem("pyDsCardsBig", on ? "1" : "0"); } catch (e) {}
+  });
+
+  // arrow keys move between cards
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+  function current() {
+    var y = window.scrollY + 70, best = 0;
+    cards.forEach(function (c, i) { if (c.offsetTop <= y) best = i; });
+    return best;
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    var i = current() + (e.key === "ArrowRight" ? 1 : -1);
+    if (i < 0 || i >= cards.length) return;
+    cards[i].scrollIntoView({ behavior: "smooth", block: "start" });
+    e.preventDefault();
+  });
+})();
+</script>
+</body>
+</html>
